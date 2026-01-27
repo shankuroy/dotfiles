@@ -121,6 +121,9 @@ else
 [user]
   useConfigOnly = true
 
+[core]
+  excludesfile = ~/.gitignore_global
+
 EOF
   echo "INFO: created ${target_gitconfig}"
 fi
