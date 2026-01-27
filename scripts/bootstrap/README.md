@@ -73,7 +73,7 @@ This ensures Git uses the correct SSH key and Git identity.
 
 ### 6. Continue setup
 
-Once the repo is cloned, follow any additional setup instructions in this repository (shell config, editor config, OS setup, etc.).
+Once the repo is cloned, follow the instructions in the [bootstrap_homebrew_stow.md](./bootstrap_homebrew_stow.md) file.
 
 ## Teardown/cleanup
 
