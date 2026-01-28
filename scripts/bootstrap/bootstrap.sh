@@ -18,8 +18,7 @@
 #        personal work
 #
 # For each profile, this script will:
-#   - Generate an ED25519 SSH key (if missing)
-#   - Add it to the running SSH agent
+#   - Generate a passwordless ED25519 SSH key (if missing)
 #   - Create a profile-specific SSH host entry
 #   - Create a profile-specific Git config
 #   - Set up Git includeIf rules based on repo location
@@ -44,18 +43,6 @@ ssh_dir="${HOME}/.ssh"
 repo_base_git="~/repo"          # used in gitconfig (tilde required)
 repo_base_fs="${HOME}/repo"     # used for filesystem operations
 target_gitconfig="${HOME}/.gitconfig"
-
-# ----- ensure SSH agent is running -----
-
-echo "INFO: checking for running SSH agent"
-
-if [ -z "${SSH_AUTH_SOCK:-}" ]; then
-  echo "❌ ERROR: SSH agent is not running."
-  echo "   Start one first (e.g. 'eval \$(ssh-agent -s)') and re-run."
-  exit 1
-fi
-
-echo "INFO: SSH agent detected"
 
 # ----- setup ~/.ssh structure -----
 
@@ -95,17 +82,6 @@ Host github.com-${profile}
   IdentityFile ${profile_key}
 EOF
     echo "INFO: created SSH config ${profile_conf}"
-  fi
-done
-
-# ----- add keys to SSH agent -----
-
-for profile in $profiles; do
-  profile_key="${ssh_dir}/id_ed25519_${profile}"
-
-  if [ -f "${profile_key}" ]; then
-    ssh-add -l | grep -q "${profile_key}" || ssh-add "${profile_key}"
-    echo "INFO: ensured SSH agent has key for profile '${profile}'"
   fi
 done
 
