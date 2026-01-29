@@ -1,0 +1,12 @@
+# Brewfile-personal
+
+# formulae
+
+
+# casks
+
+
+# mas
+mas "Wipr", id: 1662217862
+mas "Xcode", id: 497799835
+

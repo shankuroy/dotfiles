@@ -1,0 +1,20 @@
+#Brewfile-core
+# settings and packages to include in all systems
+
+# Install casks to a separate folder
+cask_args appdir: "/Applications/Homebrew"
+
+# bootstrap packages
+brew "stow" # dotfiles/symlink manager
+brew "mas" # Mac App Store CLI
+
+# formulae
+brew "ripgrep" # faster grep
+
+# casks
+cask "ghostty" # terminal emulator
+
+# mas
+mas "2FAS - Two Factor Authentication", id: 6443941139 # 2FA manager
+mas "Bitwarden", id: 1352778147 # password manager
+
