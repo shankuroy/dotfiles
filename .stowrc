@@ -1,4 +1,4 @@
 --target=~
 --dotfiles
 --ignore='\.stowrc'
---ignore='scripts'
+

@@ -1,0 +1,12 @@
+# zshrc
+
+# import helper functions
+. "${HOME}/scripts/posix/preamble.sh"
+
+# pure prompt (https://github.com/sindresorhus/pure)
+if [ -x '/opt/homebrew/opt/pure' ]; then
+  fpath+=("/opt/homebrew/share/zsh/site-functions")
+  autoload -U promptinit; promptinit
+  prompt pure
+fi
+
