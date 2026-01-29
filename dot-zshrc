@@ -23,9 +23,17 @@ else
   psx::log "WARN" "missing ${homebrew_site_functions}"
 fi
 
+# initialize zsh features
+autoload -U promptinit && promptinit
+autoload -Uz compinit && compinit
+
 # set up pure prompt (https://github.com/sindresorhus/pure)
 if [ -x "${BREW_PREFIX}/opt/pure" ]; then
-  autoload -U promptinit; promptinit
   prompt pure
+fi
+
+# set up zoxide
+if [ -x "${BREW_PREFIX}/opt/zoxide" ]; then
+  eval "$(zoxide init zsh)"
 fi
 
