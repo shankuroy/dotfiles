@@ -1,0 +1,9 @@
+# Ignore all files by default
+*
+# To include paths, prepend with a `!`.
+# Include the following as a must-have:
+!.gitignore
+!README.md
+# then include everything below as an opt-in:
+!brew
+
