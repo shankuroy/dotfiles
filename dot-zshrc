@@ -1,20 +1,43 @@
 # zshrc
 
 require() {
-  { [ "$1" = cmd ]  && command -v "$2" >/dev/null 2>&1; } ||
-  { [ "$1" = file ] && [ -f "$2" ]; } ||
-  { [ "$1" = dir ]  && [ -d "$2" ]; } ||
-  { [ "$1" = exec ] && [ -x "$2" ]; } ||
-  printf '%s %s: %s\n' '[WARN][zshrc]: missing required' "$1" "$2" >&2
+  case $1 in
+    cmd)  command -v "$2" >/dev/null 2>&1 ;;
+    file) [[ -f $2 ]] ;;
+    dir)  [[ -d $2 ]] ;;
+    exec) [[ -x $2 ]] ;;
+    *)
+      printf '%s %s\n' '[ERROR][zshrc]: unknown require type:' "$1" >&2
+      return 1
+      ;;
+  esac || {
+    printf '%s %s: %s\n' '[WARN][zshrc]: missing required' "$1" "$2" >&2
+    return 1
+  }
 }
 
-require cmd brew && BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+# Deduplicate fpath entries automatically
+typeset -U fpath
 
-HOMEBREW_SITE_FUNCTIONS="$BREW_PREFIX/share/zsh/site-functions"
-require dir "$HOMEBREW_SITE_FUNCTIONS" && fpath+=("$HOMEBREW_SITE_FUNCTIONS")
+# Homebrew site functions
+require cmd brew \
+  && BREW_PREFIX="$(brew --prefix 2>/dev/null)" \
+  && () {
+    local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
+    require dir "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
+  }
 
-autoload -U promptinit compinit
-promptinit; compinit
+# Prompt
+autoload -U promptinit
+promptinit
+
+# Lazy-loaded completion system
+autoload -U compinit add-zsh-hook
+_compinit_once() {
+  compinit
+  unfunction _compinit_once
+}
+add-zsh-hook precmd _compinit_once
 
 # zoxide (https://github.com/ajeetdsouza/zoxide)
 require cmd zoxide && eval "$(zoxide init zsh)"
