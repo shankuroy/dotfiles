@@ -1,9 +1,17 @@
-# Ignore all files by default
+# ignore everything
 *
-# To include paths, prepend with a `!`.
-# Include the following as a must-have:
+
+# but descend into directories
+!*/
+
+# don't ignore .gitignore
 !.gitignore
 !README.md
-# then include everything below as an opt-in:
-!brew
+
+# include the following
+!/brew/**
+
+# always ignore these
+**/.DS_Store
+
 
