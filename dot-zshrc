@@ -32,7 +32,7 @@ if [ -x "${BREW_PREFIX}/opt/pure" ]; then
   prompt pure
 fi
 
-# set up zoxide
+# set up zoxide (https://github.com/ajeetdsouza/zoxide)
 if [ -x "${BREW_PREFIX}/opt/zoxide" ]; then
   eval "$(zoxide init zsh)"
 fi
