@@ -1,11 +1,30 @@
 # zshrc
 
 # import helper functions
-. "${HOME}/scripts/posix/preamble.sh"
+helper_functions="${HOME}/scripts/posix/preamble.sh"
+if [ -f "${helper_functions}" ]; then
+  . "${helper_functions}"
+else
+  echo "WARN: missing ${helper_functions}"
+fi
 
-# pure prompt (https://github.com/sindresorhus/pure)
-if [ -x '/opt/homebrew/opt/pure' ]; then
-  fpath+=("/opt/homebrew/share/zsh/site-functions")
+# check if homebrew exists
+if psx::command_exists "brew"; then
+  BREW_PREFIX="$(brew --prefix)"
+else
+  psx::log "WARN: missing homebrew"
+fi
+
+# import site functions
+homebrew_site_functions="${BREW_PREFIX}/share/zsh/site-functions"
+if [ -d "${homebrew_site_functions}" ]; then
+  fpath+=("${homebrew_site_functions}")
+else
+  psx::log "WARN" "missing ${homebrew_site_functions}"
+fi
+
+# set up pure prompt (https://github.com/sindresorhus/pure)
+if [ -x "${BREW_PREFIX}/opt/pure" ]; then
   autoload -U promptinit; promptinit
   prompt pure
 fi
