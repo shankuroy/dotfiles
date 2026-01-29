@@ -5,14 +5,14 @@ helper_functions="${HOME}/scripts/posix/preamble.sh"
 if [ -f "${helper_functions}" ]; then
   . "${helper_functions}"
 else
-  echo "WARN: missing ${helper_functions}"
+  echo "[WARN][zshrc] missing ${helper_functions}"
 fi
 
 # check if homebrew exists
 if psx::command_exists "brew"; then
   BREW_PREFIX="$(brew --prefix)"
 else
-  psx::log "WARN: missing homebrew"
+  psx::log "WARN" "[zshrc] missing homebrew"
 fi
 
 # import site functions
@@ -20,7 +20,7 @@ homebrew_site_functions="${BREW_PREFIX}/share/zsh/site-functions"
 if [ -d "${homebrew_site_functions}" ]; then
   fpath+=("${homebrew_site_functions}")
 else
-  psx::log "WARN" "missing ${homebrew_site_functions}"
+  psx::log "WARN" "[zshrc] missing ${homebrew_site_functions}"
 fi
 
 # initialize zsh features
@@ -30,10 +30,14 @@ autoload -Uz compinit && compinit
 # set up pure prompt (https://github.com/sindresorhus/pure)
 if [ -x "${BREW_PREFIX}/opt/pure" ]; then
   prompt pure
+else
+  psx::log "WARN" "[zshrc] missing pure prompt"
 fi
 
 # set up zoxide (https://github.com/ajeetdsouza/zoxide)
 if [ -x "${BREW_PREFIX}/opt/zoxide" ]; then
   eval "$(zoxide init zsh)"
+else
+  psx::log "WARN" "[zshrc] missing zoxide"
 fi
 
