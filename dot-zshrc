@@ -1,42 +1,24 @@
 # zshrc
 
-# required commands
-for c in "brew"; do
-  command -v "${c}" >/dev/null 2>&1 || echo "[WARN][zshrc]: missing required command: ${c}" >&2
-done
+require() {
+  { [ "$1" = cmd ]  && command -v "$2" >/dev/null 2>&1; } ||
+  { [ "$1" = file ] && [ -f "$2" ]; } ||
+  { [ "$1" = dir ]  && [ -d "$2" ]; } ||
+  { [ "$1" = exec ] && [ -x "$2" ]; } ||
+  printf '%s %s: %s\n' '[WARN][zshrc]: missing required' "$1" "$2" >&2
+}
 
-BREW_PREFIX="$(brew --prefix)"
+require cmd brew && BREW_PREFIX="$(brew --prefix 2>/dev/null)"
 
-# required files
-PREAMBLE_SCRIPT="${HOME}/scripts/posix/preamble.sh"
-for f in "${PREAMBLE_SCRIPT}"; do
-  [ -f "${f}" ] || echo "[WARN][zshrc]: missing required file: ${f}" >&2
-done
+HOMEBREW_SITE_FUNCTIONS="$BREW_PREFIX/share/zsh/site-functions"
+require dir "$HOMEBREW_SITE_FUNCTIONS" && fpath+=("$HOMEBREW_SITE_FUNCTIONS")
 
-# required directories
-HOMEBREW_SITE_FUNCTIONS="${BREW_PREFIX}/share/zsh/site-functions"
-for d in "${HOMEBREW_SITE_FUNCTIONS}"; do
-  [ -d "${d}" ] || echo "[WARN][zshrc]: missing required directory: ${d}" >&2
-done
+autoload -U promptinit compinit
+promptinit; compinit
 
-# required executables
-for x in "${BREW_PREFIX}/opt/pure" "${BREW_PREFIX}/opt/zoxide"; do
-  [ -x "${x}" ] || echo "[WARN][zshrc]: missing required executable: ${x}" >&2
-done
+# zoxide (https://github.com/ajeetdsouza/zoxide)
+require cmd zoxide && eval "$(zoxide init zsh)"
 
-# import preamble script
-. "${PREAMBLE_SCRIPT}"
-
-# import site functions
-fpath+=("${HOMEBREW_SITE_FUNCTIONS}")
-
-# initialize zsh features
-autoload -U promptinit && promptinit
-autoload -Uz compinit && compinit
-
-# set up zoxide (https://github.com/ajeetdsouza/zoxide)
-eval "$(zoxide init zsh)"
-
-# set up pure prompt (https://github.com/sindresorhus/pure)
-prompt pure
+# pure prompt (https://github.com/sindresorhus/pure)
+require exec "$BREW_PREFIX/opt/pure" && prompt pure
 
