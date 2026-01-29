@@ -161,6 +161,8 @@ for profile in $profiles; do
   echo ""
 done
 
+# ----- print repo cloning message
+
 echo ""
 echo "ℹ️  Clone repositories into the matching directory using the profile host:"
 for profile in $profiles; do
@@ -168,6 +170,8 @@ for profile in $profiles; do
   echo "    git clone git@github.com-${profile}:OWNER/REPO.git"
   echo ""
 done
+
+# ----- done! -----
 
 echo ""
 echo "⭐️ Bootstrap complete!"
