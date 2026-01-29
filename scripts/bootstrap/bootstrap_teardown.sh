@@ -32,9 +32,9 @@ echo ""
 
 # ----- variables -----
 
-ssh_dir="${HOME}/.ssh"
-repo_base_fs="${HOME}/repo"
-target_gitconfig="${HOME}/.gitconfig"
+ssh_path="${HOME}/.ssh"
+repo_path="${HOME}/repo"
+gitconfig_file="${HOME}/.gitconfig"
 
 # ----- confirmation -----
 
@@ -53,9 +53,9 @@ for profile in $profiles; do
   echo ""
   echo "INFO: cleaning SSH artifacts for profile '${profile}'"
 
-  priv_key="${ssh_dir}/id_ed25519_${profile}"
+  priv_key="${ssh_path}/id_ed25519_${profile}"
   pub_key="${priv_key}.pub"
-  conf_file="${ssh_dir}/config.d/${profile}.conf"
+  conf_file="${ssh_path}/config.d/${profile}.conf"
 
   # Remove from ssh-agent if loaded
   if command -v ssh-add >/dev/null 2>&1; then
@@ -80,16 +80,16 @@ done
 
 # ----- clean empty SSH config.d directory -----
 
-if [ -d "${ssh_dir}/config.d" ] && [ -z "$(ls -A "${ssh_dir}/config.d")" ]; then
-  rmdir "${ssh_dir}/config.d"
+if [ -d "${ssh_path}/config.d" ] && [ -z "$(ls -A "${ssh_path}/config.d")" ]; then
+  rmdir "${ssh_path}/config.d"
   echo ""
-  echo "INFO: removed empty ${ssh_dir}/config.d"
+  echo "INFO: removed empty ${ssh_path}/config.d"
 fi
 
 # ----- remove per-profile gitconfigs -----
 
 for profile in $profiles; do
-  profile_gitconfig="${target_gitconfig}-${profile}"
+  profile_gitconfig="${gitconfig_file}-${profile}"
 
   if [ -f "${profile_gitconfig}" ]; then
     rm -f "${profile_gitconfig}"
@@ -100,23 +100,23 @@ done
 # ----- repo directories (prompt per profile) -----
 
 echo ""
-echo "Optional: remove repo directories under ${repo_base_fs}"
+echo "Optional: remove repo directories under ${repo_path}"
 echo "These may contain cloned repositories."
 
 for profile in $profiles; do
-  repo_dir="${repo_base_fs}/${profile}"
+  profile_repo_path="${repo_path}/${profile}"
 
-  if [ -d "${repo_dir}" ]; then
-    printf "Remove %s ? [y/N]: " "${repo_dir}"
+  if [ -d "${repo_path}" ]; then
+    printf "Remove %s ? [y/N]: " "${repo_path}"
     read answer
 
     case "$answer" in
       y|Y)
-        rm -rf "${repo_dir}"
-        echo "  removed ${repo_dir}"
+        rm -rf "${repo_path}"
+        echo "  removed ${repo_path}"
         ;;
       *)
-        echo "  kept ${repo_dir}"
+        echo "  kept ${repo_path}"
         ;;
     esac
   fi
@@ -126,9 +126,9 @@ done
 
 echo ""
 echo "⚠️  NOTE:"
-echo "- ~/.gitconfig was NOT modified."
+echo "- ${gitconfig_file} was NOT modified."
 echo "- includeIf entries for removed profiles may still exist."
-echo "- You can safely delete them manually if desired."
+echo "- You can safely delete entries manually if desired."
 echo ""
 echo "🧹 Teardown complete."
 

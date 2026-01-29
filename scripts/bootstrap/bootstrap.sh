@@ -39,33 +39,33 @@ echo "      ${profiles}"
 
 # ----- variables -----
 
-ssh_dir="${HOME}/.ssh"
-repo_base_git="~/repo"          # used in gitconfig (tilde required)
-repo_base_fs="${HOME}/repo"     # used for filesystem operations
-target_gitconfig="${HOME}/.gitconfig"
+ssh_path="${HOME}/.ssh"
+repo_path="${HOME}/repo"
+gitconfig_file="${HOME}/.gitconfig"
+gitignore_global_file="${HOME}/.gitignore_global"
 
 # ----- setup ~/.ssh structure -----
 
-mkdir -p "${ssh_dir}/config.d"
+mkdir -p "${ssh_path}/config.d"
 
-if [ ! -f "${ssh_dir}/config" ]; then
-  cat << EOF > "${ssh_dir}/config"
+if [ ! -f "${ssh_path}/config" ]; then
+  cat << EOF > "${ssh_path}/config"
 Host *
   AddKeysToAgent yes
   IdentitiesOnly yes
 
 Include ~/.ssh/config.d/*.conf
 EOF
-  echo "INFO: created ${ssh_dir}/config"
+  echo "INFO: created ${ssh_path}/config"
 else
-  echo "INFO: ${ssh_dir}/config already exists"
+  echo "INFO: ${ssh_path}/config already exists"
 fi
 
 # ----- generate SSH keys and per-profile SSH config -----
 
 for profile in $profiles; do
-  profile_key="${ssh_dir}/id_ed25519_${profile}"
-  profile_conf="${ssh_dir}/config.d/${profile}.conf"
+  profile_key="${ssh_path}/id_ed25519_${profile}"
+  profile_conf="${ssh_path}/config.d/${profile}.conf"
 
   if [ -f "${profile_key}" ]; then
     echo "WARN: SSH key already exists for profile '${profile}'"
@@ -85,29 +85,10 @@ EOF
   fi
 done
 
-# ----- setup gitconfig -----
-
-if [ -f "${target_gitconfig}" ]; then
-  if [ ! -f "${target_gitconfig}.bak" ]; then
-    cp "${target_gitconfig}" "${target_gitconfig}.bak"
-    echo "INFO: backed up existing ~/.gitconfig to ~/.gitconfig.bak"
-  fi
-else
-  cat << EOF > "${target_gitconfig}"
-[user]
-  useConfigOnly = true
-
-[core]
-  excludesfile = ~/.gitignore_global
-
-EOF
-  echo "INFO: created ${target_gitconfig}"
-fi
-
 # ----- create repo directories -----
 
 for profile in $profiles; do
-  repo_dir="${repo_base_fs}/${profile}"
+  repo_dir="${repo_path}/${profile}"
 
   if [ -d "${repo_dir}" ]; then
     echo "INFO: repo directory exists: ${repo_dir}"
@@ -117,13 +98,34 @@ for profile in $profiles; do
   fi
 done
 
-# ----- add git includeIf rules -----
+# ----- setup gitconfig -----
+
+if [ -f "${gitconfig_file}" ]; then
+  mkdir -p "${gitconfig_file}.bak"
+  gitconfig_backup_file="${gitconfig_file}.bak/gitconfig.bak-$(date '+%F-%H-%M-%S')"
+  cp "${gitconfig_file}" "${gitconfig_backup_file}"
+  echo "INFO: backed up existing ${gitconfig_file} to ${gitconfig_backup_file}"
+else
+  cat << EOF > "${gitconfig_file}"
+[user]
+  useConfigOnly = true
+
+[core]
+  excludesfile = ${gitignore_global_file}
+
+EOF
+  echo "INFO: created ${gitconfig_file}"
+fi
+
+# ----- add gitconfig includeIf rules -----
 
 for profile in $profiles; do
-  if ! grep -q "gitdir:${repo_base_git}/${profile}/" "${target_gitconfig}"; then
-    cat << EOF >> "${target_gitconfig}"
-[includeIf "gitdir:${repo_base_git}/${profile}/"]
-    path = ~/.gitconfig-${profile}
+  git_dir="gitdir:${repo_path}/${profile}/" 
+
+  if ! grep -q "${git_dir}" "${gitconfig_file}"; then
+    cat << EOF >> "${gitconfig_file}"
+[includeIf "${git_dir}"]
+    path = ${gitconfig_file}-${profile}
 
 EOF
     echo "INFO: added git includeIf for profile '${profile}'"
@@ -133,14 +135,14 @@ done
 # ----- create per-profile gitconfig files -----
 
 for profile in $profiles; do
-  profile_gitconfig="${target_gitconfig}-${profile}"
+  profile_gitconfig="${gitconfig_file}-${profile}"
 
   if [ -f "${profile_gitconfig}" ]; then
-    echo "⚠️  WARN: ${profile_gitconfig} already exists (check/edit before use)"
+    echo "🔎 INFO: ${profile_gitconfig} already exists (check/edit before use)"
   else
     cat << EOF > "${profile_gitconfig}"
 [user]
-    name = CHANGEME (${profile})
+    name = CHANGEME (${profile_gitconfig})
     email = ID+USERNAME@users.noreply.github.com
 EOF
     echo "✅ INFO: created ${profile_gitconfig} (edit before use)"
@@ -155,18 +157,17 @@ echo "   https://github.com/settings/ssh/new"
 echo ""
 
 for profile in $profiles; do
-  cat "${ssh_dir}/id_ed25519_${profile}.pub"
+  cat "${ssh_path}/id_ed25519_${profile}.pub"
   echo ""
 done
 
 echo ""
 echo "ℹ️  Clone repositories into the matching directory using the profile host:"
 for profile in $profiles; do
-  echo "    cd ${repo_base_git}/${profile}"
+  echo "    cd ${repo_path}/${profile}"
   echo "    git clone git@github.com-${profile}:OWNER/REPO.git"
   echo ""
 done
-
 
 echo ""
 echo "⭐️ Bootstrap complete!"
