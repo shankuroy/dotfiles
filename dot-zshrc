@@ -1,43 +1,42 @@
 # zshrc
 
-# import helper functions
-helper_functions="${HOME}/scripts/posix/preamble.sh"
-if [ -f "${helper_functions}" ]; then
-  . "${helper_functions}"
-else
-  echo "[WARN][zshrc] missing ${helper_functions}"
-fi
+# required commands
+for c in "brew"; do
+  command -v "${c}" >/dev/null 2>&1 || echo "[WARN][zshrc]: missing required command: ${c}" >&2
+done
 
-# check if homebrew exists
-if psx::command_exists "brew"; then
-  BREW_PREFIX="$(brew --prefix)"
-else
-  psx::log "WARN" "[zshrc] missing homebrew"
-fi
+BREW_PREFIX="$(brew --prefix)"
+
+# required files
+PREAMBLE_SCRIPT="${HOME}/scripts/posix/preamble.sh"
+for f in "${PREAMBLE_SCRIPT}"; do
+  [ -f "${f}" ] || echo "[WARN][zshrc]: missing required file: ${f}" >&2
+done
+
+# required directories
+HOMEBREW_SITE_FUNCTIONS="${BREW_PREFIX}/share/zsh/site-functions"
+for d in "${HOMEBREW_SITE_FUNCTIONS}"; do
+  [ -d "${d}" ] || echo "[WARN][zshrc]: missing required directory: ${d}" >&2
+done
+
+# required executables
+for x in "${BREW_PREFIX}/opt/pure" "${BREW_PREFIX}/opt/zoxide"; do
+  [ -x "${x}" ] || echo "[WARN][zshrc]: missing required executable: ${x}" >&2
+done
+
+# import preamble script
+. "${PREAMBLE_SCRIPT}"
 
 # import site functions
-homebrew_site_functions="${BREW_PREFIX}/share/zsh/site-functions"
-if [ -d "${homebrew_site_functions}" ]; then
-  fpath+=("${homebrew_site_functions}")
-else
-  psx::log "WARN" "[zshrc] missing ${homebrew_site_functions}"
-fi
+fpath+=("${HOMEBREW_SITE_FUNCTIONS}")
 
 # initialize zsh features
 autoload -U promptinit && promptinit
 autoload -Uz compinit && compinit
 
-# set up pure prompt (https://github.com/sindresorhus/pure)
-if [ -x "${BREW_PREFIX}/opt/pure" ]; then
-  prompt pure
-else
-  psx::log "WARN" "[zshrc] missing pure prompt"
-fi
-
 # set up zoxide (https://github.com/ajeetdsouza/zoxide)
-if [ -x "${BREW_PREFIX}/opt/zoxide" ]; then
-  eval "$(zoxide init zsh)"
-else
-  psx::log "WARN" "[zshrc] missing zoxide"
-fi
+eval "$(zoxide init zsh)"
+
+# set up pure prompt (https://github.com/sindresorhus/pure)
+prompt pure
 
