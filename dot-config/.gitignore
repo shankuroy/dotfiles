@@ -9,6 +9,7 @@
 !README.md
 
 # include the following
+!/bat/**
 !/brew/**
 !/ghostty/**
 

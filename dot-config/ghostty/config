@@ -1,3 +1,6 @@
 font-size = 15
 macos-titlebar-style = tabs
-theme = TokyoNight Night
+
+# ghostty +list-themes
+theme = Catppuccin Mocha
+
