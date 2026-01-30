@@ -20,6 +20,7 @@ brew "zsh-syntax-highlighting" # (https://github.com/zsh-users/zsh-syntax-highli
 # casks
 cask "ghostty" # terminal emulator (https://github.com/ghostty-org/ghostty)
 cask "rectangle" # MacOS window management (https://github.com/rxhanson/Rectangle)
+cask "shottr" # screenshot tool (https://shottr.cc/)
 
 # mas
 mas "2FAS - Two Factor Authentication", id: 6443941139 # 2FA manager - Safari Browser extension (https://2fas.com/auth/browser-extension/)
