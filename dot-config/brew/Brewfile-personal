@@ -7,6 +7,6 @@
 
 
 # mas
-mas "Wipr", id: 1662217862
-mas "Xcode", id: 497799835
+mas "Wipr", id: 1662217862              # Safari ad-blocker
+mas "Xcode", id: 497799835              # mac/iOS IDE
 

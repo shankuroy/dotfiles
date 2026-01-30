@@ -5,24 +5,23 @@
 cask_args appdir: "/Applications/Homebrew"
 
 # bootstrap packages
-brew "stow" # dotfiles/symlink manager (https://www.gnu.org/software/stow/manual/)
-brew "mas" # Mac App Store CLI (https://github.com/mas-cli/mas)
+brew "stow"                             # dotfiles/symlink manager (https://www.gnu.org/software/stow/manual/)
+brew "mas"                              # Mac App Store CLI (https://github.com/mas-cli/mas)
 
 # formulae
-brew "bat" # cat(1) with syntax highlighting (https://github.com/sharkdp/bat)
-brew "eza" # ls(1) replacement (https://github.com/eza-community/eza)
-brew "neovim", args: ["HEAD"] # neovim text editor, nightly until 0.12 is stable (https://github.com/neovim/neovim)
-brew "pure" # zsh prompt (https://github.com/sindresorhus/pure)
-brew "ripgrep" # faster grep (https://github.com/BurntSushi/ripgrep)
-brew "zoxide" # smarter cd(1) (https://github.com/ajeetdsouza/zoxide)
-brew "zsh-syntax-highlighting" # (https://github.com/zsh-users/zsh-syntax-highlighting)
+brew "bat"                              # cat with colours (https://github.com/sharkdp/bat)
+brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
+brew "neovim", args: ["HEAD"]           # better vim (https://github.com/neovim/neovim); nightly until 0.12 is stable
+brew "pure"                             # clean zsh prompt (https://github.com/sindresorhus/pure)
+brew "ripgrep"                          # faster grep (https://github.com/BurntSushi/ripgrep)
+brew "zoxide"                           # smarter cd (https://github.com/ajeetdsouza/zoxide)
+brew "zsh-syntax-highlighting"          # zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
 
 # casks
-cask "ghostty" # terminal emulator (https://github.com/ghostty-org/ghostty)
-cask "rectangle" # MacOS window management (https://github.com/rxhanson/Rectangle)
-cask "shottr" # screenshot tool (https://shottr.cc/)
+cask "ghostty"                          # terminal emulator (https://github.com/ghostty-org/ghostty)
+cask "rectangle"                        # window management (https://github.com/rxhanson/Rectangle)
+cask "shottr"                           # screenshot tool (https://shottr.cc/)
 
-# mas
-mas "2FAS - Two Factor Authentication", id: 6443941139 # 2FA manager - Safari Browser extension (https://2fas.com/auth/browser-extension/)
-mas "Bitwarden", id: 1352778147 # password manager (https://bitwarden.com/)
-
+# mas (Mac App Store CLI)
+mas "2FAS - Two Factor Authentication", id: 6443941139      # Safari Browser extension for 2FAS (https://2fas.com/auth/browser-extension/)
+mas "Bitwarden", id: 1352778147                             # password manager (https://bitwarden.com/)
