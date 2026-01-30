@@ -5,22 +5,23 @@
 cask_args appdir: "/Applications/Homebrew"
 
 # bootstrap packages
-brew "stow" # dotfiles/symlink manager
-brew "mas" # Mac App Store CLI
+brew "stow" # dotfiles/symlink manager (https://www.gnu.org/software/stow/manual/)
+brew "mas" # Mac App Store CLI (https://github.com/mas-cli/mas)
 
 # formulae
-brew "bat" # cat(1) with syntax highlighting. https://github.com/sharkdp/bat
-brew "eza" # ls(1) replacement. https://github.com/eza-community/eza
-brew "neovim", args: ["HEAD"] # neovim text editor, nightly until 0.12 is stable
-brew "pure" # zsh prompt
-brew "ripgrep" # faster grep
-brew "zoxide" # smarter cd; jump to directories
-brew "zsh-syntax-highlighting" # <-- it's in the name, duh
+brew "bat" # cat(1) with syntax highlighting (https://github.com/sharkdp/bat)
+brew "eza" # ls(1) replacement (https://github.com/eza-community/eza)
+brew "neovim", args: ["HEAD"] # neovim text editor, nightly until 0.12 is stable (https://github.com/neovim/neovim)
+brew "pure" # zsh prompt (https://github.com/sindresorhus/pure)
+brew "ripgrep" # faster grep (https://github.com/BurntSushi/ripgrep)
+brew "zoxide" # smarter cd(1) (https://github.com/ajeetdsouza/zoxide)
+brew "zsh-syntax-highlighting" # (https://github.com/zsh-users/zsh-syntax-highlighting)
 
 # casks
-cask "ghostty" # terminal emulator
+cask "ghostty" # terminal emulator (https://github.com/ghostty-org/ghostty)
+cask "rectangle" # MacOS window management (https://github.com/rxhanson/Rectangle)
 
 # mas
-mas "2FAS - Two Factor Authentication", id: 6443941139 # 2FA manager
-mas "Bitwarden", id: 1352778147 # password manager
+mas "2FAS - Two Factor Authentication", id: 6443941139 # 2FA manager - Safari Browser extension (https://2fas.com/auth/browser-extension/)
+mas "Bitwarden", id: 1352778147 # password manager (https://bitwarden.com/)
 
