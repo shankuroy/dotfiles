@@ -47,6 +47,14 @@ require file "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
 ZSH_AUTOSUGGESTIONS_FILE="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 require file "${ZSH_AUTOSUGGESTIONS_FILE}" && . "${ZSH_AUTOSUGGESTIONS_FILE}"
 
+# zsh history
+setopt SHARE_HISTORY                 # shared history between terminals
+setopt HIST_IGNORE_ALL_DUPS          # no duplicates in the history
+export HISTFILE=${HOME}/.zsh_history # history file location
+export HISTSIZE=100000               # history items in memory
+export SAVEHIST="${HISTSIZE}"        # history items saved
+setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
+
 # editor
 export EDITOR="vim"
 require cmd nvim && alias vim=nvim && () {
