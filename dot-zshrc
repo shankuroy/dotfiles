@@ -44,8 +44,15 @@ ZSH_SYNTAX_HL_FILE="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-high
 require file "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
 
 # editor
-EDITOR="vim"
-require cmd nvim && alias vim=nvim
+export EDITOR="vim"
+require cmd nvim && alias vim=nvim && () {
+  nvim_clear_cache() {
+       for DIR in '.cache/nvim' '.local/state/nvim' '.local/share/nvim'; do
+         TO_DELETE="${HOME}/${DIR}"
+         echo -n "deleting ${TO_DELETE} ... " && rm -rf "${TO_DELETE}" && echo "DONE";
+       done
+  }
+}
 
 # zoxide (https://github.com/ajeetdsouza/zoxide)
 require cmd zoxide && eval "$(zoxide init zsh)"
