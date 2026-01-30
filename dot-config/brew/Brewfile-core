@@ -13,6 +13,7 @@ brew "bat" # cat(1) with syntax highlighting. https://github.com/sharkdp/bat
 brew "ripgrep" # faster grep
 brew "pure" # zsh prompt
 brew "zoxide" # smarter cd; jump to directories
+brew "zsh-syntax-highlighting" # <-- it's in the name, duh
 
 # casks
 cask "ghostty" # terminal emulator
