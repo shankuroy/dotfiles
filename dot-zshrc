@@ -43,6 +43,10 @@ add-zsh-hook precmd _compinit_once
 ZSH_SYNTAX_HL_FILE="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 require file "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
 
+# zsh auto-suggestions
+ZSH_AUTOSUGGESTIONS_FILE="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+require file "${ZSH_AUTOSUGGESTIONS_FILE}" && . "${ZSH_AUTOSUGGESTIONS_FILE}"
+
 # editor
 export EDITOR="vim"
 require cmd nvim && alias vim=nvim && () {
