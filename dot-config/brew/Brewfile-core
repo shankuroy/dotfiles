@@ -10,8 +10,9 @@ brew "mas" # Mac App Store CLI
 
 # formulae
 brew "bat" # cat(1) with syntax highlighting. https://github.com/sharkdp/bat
-brew "ripgrep" # faster grep
+brew "neovim", args: ["HEAD"] # neovim text editor, nightly until 0.12 is stable
 brew "pure" # zsh prompt
+brew "ripgrep" # faster grep
 brew "zoxide" # smarter cd; jump to directories
 brew "zsh-syntax-highlighting" # <-- it's in the name, duh
 

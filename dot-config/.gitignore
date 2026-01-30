@@ -12,6 +12,7 @@
 !/bat/**
 !/brew/**
 !/ghostty/**
+!/nvim/**
 
 # always ignore these
 **/.DS_Store
