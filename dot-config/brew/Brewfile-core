@@ -9,6 +9,7 @@ brew "stow" # dotfiles/symlink manager
 brew "mas" # Mac App Store CLI
 
 # formulae
+brew "bat" # cat(1) with syntax highlighting. https://github.com/sharkdp/bat
 brew "ripgrep" # faster grep
 brew "pure" # zsh prompt
 brew "zoxide" # smarter cd; jump to directories
