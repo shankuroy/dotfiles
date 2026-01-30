@@ -4,7 +4,7 @@
 
 
 # casks
-
+cask "vivaldi"                          # web browser (https://vivaldi.com/)
 
 # mas
 mas "Wipr", id: 1662217862              # Safari ad-blocker
