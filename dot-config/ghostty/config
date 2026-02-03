@@ -1,6 +1,6 @@
 font-size = 14
 macos-titlebar-style = tabs
-
+maximize = true
 # ghostty +list-themes
 theme = Catppuccin Mocha
 
