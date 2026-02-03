@@ -4,7 +4,7 @@
 
 
 # casks
-cask "vivaldi"                          # web browser (https://vivaldi.com/)
+
 
 # mas
 mas "SponsorBlock for Safari", id: 1573461917       # Safari extension: block sponsors in YouTube
