@@ -1,4 +1,4 @@
-# Bootstrap Homebrew
+# Bootstrap Homebrew & Stow
 
 Install the [Homebrew](https://brew.sh) package manager:
 
@@ -28,5 +28,16 @@ Navigate to the dotfiles repo folder and run:
 stow .
 ```
 
-Then verify the relevant dotfiles have been symlinked in the home folder.
+Verify the relevant dotfiles have been symlinked in the home directory. You should see something like this in the home directory:
+
+```
+.config -> repo/personal/dotfiles/dot-config
+.gitignore_global -> repo/personal/dotfiles/dot-gitignore_global
+.hushlogin -> repo/personal/dotfiles/dot-hushlogin
+.vimrc -> repo/personal/dotfiles/dot-vimrc
+.zshrc -> repo/personal/dotfiles/dot-zshrc
+scripts -> repo/personal/dotfiles/scripts
+```
+
+Follow the instructions in `~/.config/brew/README.md` on how to install everything.
 

@@ -12,3 +12,17 @@ alias brew_bundle_cleanup="${HOME}/.config/brew/brew_bundle_cleanup.sh personal"
 
 It is recommended to use the expanded path instead of `${HOME}`.
 
+## Mac App Store CLI (mas)
+
+You may get an error when installing apps via `mas`. This is most likely because you haven't downloaded the app through the App Store before from the configured App Store account.
+
+Get a list of required App Store apps:
+
+```sh
+grep -R mas
+```
+
+Look for the apps in the relevant profiles and download them from the App Store. Subsequent updates should then work as expected.
+
+This is a limitation of the App Store.
+
