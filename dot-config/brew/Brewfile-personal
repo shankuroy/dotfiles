@@ -9,4 +9,4 @@ cask "vivaldi"                          # web browser (https://vivaldi.com/)
 # mas
 mas "Wipr", id: 1662217862              # Safari ad-blocker
 mas "Xcode", id: 497799835              # mac/iOS IDE
-
+mas "Userscripts", id: 1463298887       # Safari custom user scripts
