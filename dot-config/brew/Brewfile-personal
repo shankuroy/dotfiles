@@ -7,6 +7,7 @@
 cask "vivaldi"                          # web browser (https://vivaldi.com/)
 
 # mas
-mas "Wipr", id: 1662217862              # Safari ad-blocker
-mas "Xcode", id: 497799835              # mac/iOS IDE
-mas "Userscripts", id: 1463298887       # Safari custom user scripts
+mas "SponsorBlock for Safari", id: 1573461917       # Safari extension: block sponsors in YouTube
+mas "Userscripts", id: 1463298887                   # Safari extension: custom user scripts
+mas "Wipr", id: 1662217862                          # Safari extension: ad-blocker
+mas "Xcode", id: 497799835                          # mac/iOS IDE
