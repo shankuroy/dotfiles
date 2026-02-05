@@ -113,6 +113,9 @@ else
 [core]
   excludesfile = ${gitignore_global_file}
 
+[include]
+  path = ${gitconfig_file}-all
+
 EOF
   echo "INFO: created ${gitconfig_file}"
 fi

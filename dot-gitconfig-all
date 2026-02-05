@@ -1,0 +1,5 @@
+# shared gitconfig
+
+[alias]
+  pp = pull --prune
+
