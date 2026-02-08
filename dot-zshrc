@@ -73,6 +73,15 @@ require cmd nvim && () {
 bindkey -e                           # emacs-style line editor
 bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
 
+# source custom scripts
+typeset -U path                      # ensure PATH only contains unique entries
+# append dirs with: path=($path /path/to/script)
+
+CUSTOM_SCRIPTS=(
+  "${HOME}/scripts/macos/macos_zsh.zsh"
+)
+for SCRIPT ($CUSTOM_SCRIPTS) require file "$SCRIPT" && . "$SCRIPT"
+
 # eza (https://github.com/eza-community/eza)
 LS='ls'
 require cmd eza && LS='eza'
