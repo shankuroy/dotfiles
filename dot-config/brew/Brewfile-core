@@ -15,6 +15,7 @@ brew "fzf"                              # command line fuzzy finder (https://git
 brew "neovim", args: ["HEAD"]           # better vim (https://github.com/neovim/neovim); nightly until 0.12 is stable
 brew "pure"                             # clean zsh prompt (https://github.com/sindresorhus/pure)
 brew "ripgrep"                          # faster grep (https://github.com/BurntSushi/ripgrep)
+brew "tmux"                             # terminal multiplexer (https://github.com/tmux/tmux/wiki)
 brew "zoxide"                           # smarter cd (https://github.com/ajeetdsouza/zoxide)
 brew "zsh-autosuggestions"              # zsh autosuggestions (https://github.com/zsh-users/zsh-autosuggestions)
 brew "zsh-syntax-highlighting"          # zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
