@@ -1,5 +1,7 @@
 # zshrc
 
+# zmodload zsh/zprof # uncomment this line to enable profiling
+
 # Capture start time for zsh_healthcheck
 zmodload zsh/datetime
 export ZSH_START_TIME=$EPOCHREALTIME
@@ -56,4 +58,6 @@ bindkey '\C-x\C-e' edit-command-line
 
 # Capture load time for zsh_healthcheck
 export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 ))
+
+# zprof # uncomment this line to enable profiling
 
