@@ -1,0 +1,45 @@
+# Run 'zsh_healthcheck' manually to verify your setup
+local missing=0
+
+# Define your critical tools here
+local critical_cmds=(nvim eza fzf zoxide git)
+local critical_files=(
+  "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+)
+
+print -P "%BChecking Zsh Setup...%b"
+
+# Check Commands
+for cmd in $critical_cmds; do
+  if (( $+commands[$cmd] )); then
+    print -P "%F{green}✔%f $cmd"
+  else
+    print -P "%F{red}✘ $cmd (Missing)%f"
+    ((missing++))
+  fi
+done
+
+# Check Files
+for file in $critical_files; do
+  if [[ -f $file ]]; then
+    print -P "%F{green}✔%f ${file:t}" # :t shows filename only
+  else
+    print -P "%F{red}✘ ${file:t} (Missing)%f"
+    ((missing++))
+  fi
+done
+
+[[ $missing -eq 0 ]] && print -P "\n%F{green}All systems operational.%f"
+
+# Calculate load time
+# Format the pre-calculated duration
+local elapsed=$(printf "%.2f" $ZSH_LOAD_DURATION)
+
+print -P "\n%B--- Performance ---%b"
+if (( elapsed < 50 )); then
+  print -P "%F{green}🚀 Startup Time:%f ${elapsed}ms"
+else
+  print -P "%F{yellow}⚖️ Startup Time:%f ${elapsed}ms"
+fi
+

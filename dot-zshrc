@@ -1,87 +1,59 @@
 # zshrc
 
-# Internal helper to warn if a target of a given type is missing.
-# Usage: _require { -c|--command | -f|--file | -d|--directory | -x|--executable } <target>
-_require() {
-  local trace="${funcfiletrace[1]##*/}" req_type
-  local usage_message="Usage: _require { -c|--command | -f|--file | -d|--directory | -x|--executable } <target>"
+# Capture start time for zsh_healthcheck
+zmodload zsh/datetime
+export ZSH_START_TIME=$EPOCHREALTIME
 
-  (( $# == 2 )) || { print -P "%F{red}[ERROR][$trace]:%f missing arguments. $usage_message" >&2; return 1 }
+# --- Environment & Paths ---
+# Detect Homebrew
+[[ -d /opt/homebrew ]] && export BREW_PREFIX="/opt/homebrew" || export BREW_PREFIX="/usr/local"
 
-  case $1 in
-    -c|--command)    req_type='command';    (( ${+commands[$2]} )) ;;
-    -f|--file)       req_type='file';       [[ -f $2 ]] ;;
-    -d|--directory)  req_type='directory';  [[ -d $2 ]] ;;
-    -x|--executable) req_type='executable'; [[ -x $2 ]] ;;
-    *) print -P "%F{red}[ERROR][$trace]:%f unknown flag: %B$1%b. $usage_message" >&2; return 1 ;;
-  esac || { print -P "%F{red}[WARN][$trace]:%f missing $req_type: %B$2%b" >&2; return 1 }
-}
+# Path setup (ensure unique entries)
+typeset -U path fpath
+# path=($HOME/bin $path)
 
-typeset -U fpath      # deduplicate fpath entries automatically
-typeset -U path       # ensure PATH only contains unique entries
-                      #   append dirs with: path=($path "/path/to/dir1" "/path/to/dir2")
+# Add custom functions & Brew site-functions to fpath
+fpath+=($HOME/.zsh/functions)
+[[ -d "$BREW_PREFIX/share/zsh/site-functions" ]] && fpath+=("$BREW_PREFIX/share/zsh/site-functions")
 
-# homebrew site functions
-_require -c brew && () {
-  export BREW_PREFIX="$(brew --prefix 2>/dev/null)"
-  local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
-  _require -d "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
-  }
+# --- Options & History ---
+setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE EXTENDED_GLOB
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
 
-# zsh history
-setopt SHARE_HISTORY                 # shared history between terminals
-setopt HIST_IGNORE_ALL_DUPS          # no duplicates in the history
-export HISTFILE=${HOME}/.zsh_history # history file location
-export HISTSIZE=100000               # history items in memory
-export SAVEHIST="${HISTSIZE}"        # history items saved
-setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
+# --- Editor ---
+(( $+commands[nvim] )) && export EDITOR="nvim" && alias vim="nvim"
 
-# editor
-_require -c nvim && () {
-  alias vim=nvim
-  export EDITOR="nvim"
-  nvim_clear_cache() {
-       for DIR in '.cache/nvim' '.local/state/nvim' '.local/share/nvim'; do
-         TO_DELETE="${HOME}/${DIR}"
-         echo -n "deleting ${TO_DELETE} ... " && rm -rf "${TO_DELETE}" && echo "DONE";
-       done
-  }
-}
-
-bindkey -e                           # emacs-style line editor
-autoload -U edit-command-line        # autoload external editor modules
-zle -N edit-command-line             # allow editing with external editor
-bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
-
-# source external scripts
-external_scripts=(
-  "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-  "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  "${HOME}/scripts/macos/macos_zsh.zsh"
-)
-for script ($external_scripts) _require -f "$script" && . "$script"
-
-# eza (https://github.com/eza-community/eza)
-LS='ls'
-_require -c eza && LS='eza'
-alias ls="${LS}"
-alias ll="${LS} -l"    # long
-alias la="${LS} -la"   # long, dotfiles
-
-# fzf (https://github.com/junegunn/fzf)
-_require -c fzf && source <(fzf --zsh)
-
-# zoxide (https://github.com/ajeetdsouza/zoxide)
-_require -c zoxide && eval "$(zoxide init zsh)"
-
-# zsh completions
-setopt extendedglob # required for the q syntax below
+# --- Completion System (Fast Cache) ---
 autoload -U compinit
-# load completions from cache if it was updated less than 24 hours ago
+# Rebuild cache only once every 24h (#qN.m-1)
 [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.m-1) ]] && compinit -C || compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case-insensitive completions
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
-# pure prompt (https://github.com/sindresorhus/pure)
+# --- Prompt ---
 autoload -U promptinit; promptinit
-_require -x "$BREW_PREFIX/opt/pure" && prompt pure
+prompt pure
+
+# --- Tools & Aliases ---
+(( $+commands[eza] )) && alias ls="eza" || alias ls="ls --color=auto"
+alias la="ls -la"
+
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+(( $+commands[fzf] )) && source <(fzf --zsh)
+
+# Autoloads (see ~/.zsh/functions)
+autoload -Uz zsh_healthcheck nvim_clear_cache
+
+# --- Bindings ---
+bindkey -e
+autoload -U edit-command-line; zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
+
+# --- External Scripts (Must be last) ---
+[[ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# Capture load time for zsh_healthcheck
+export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 ))
 
