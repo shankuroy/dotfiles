@@ -68,3 +68,20 @@ o.wrap = false            -- don't wrap lines
 
 -- colorscheme
 vim.cmd [[colorscheme catppuccin-mocha]]
+
+-- filetype modifications
+vim.filetype.add({
+  pattern = {
+    -- Handle GNU Stow "dot-" prefixing
+    ["dot%-(.*)"] = function(path, bufnr, match)
+      -- Use vim.filetype.match to find the actual filetype
+      -- for the "translated" filename (e.g., .zshrc)
+      local ft = vim.filetype.match({ filename = "." .. match })
+      return ft
+    end,
+
+    -- Handle Brewfiles (Brewfile, Brewfile-core, etc.)
+    -- This matches "Brewfile" followed by anything or nothing
+    ["Brewfile.*"] = "ruby",
+  },
+})
