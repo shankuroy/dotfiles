@@ -1,7 +1,7 @@
 # zshrc
 
 require() {
-  local type=$1 target=$2
+  local req_type=$1 target=$2
   
   # Map keywords to zsh binary tests
   local -A tests=(
@@ -12,15 +12,15 @@ require() {
   )
 
   # Validate and execute the test
-  if [[ -n $tests[$type] ]]; then
-    eval $tests[$type] && return 0
+  if [[ -n $tests[$req_type] ]]; then
+    eval $tests[$req_type] && return 0
   else
-    print -P "%F{red}[ERROR][zshrc]%f unknown require type: $type" >&2
+    print -P "%F{red}[ERROR][zshrc]%f unknown require type: $req_type" >&2
     return 1
   fi
 
   # If we reach here, the test failed
-  print -P "%F{yellow}[WARN][zshrc]%f missing required $type: %B$target%b" >&2
+  print -P "%F{yellow}[WARN][zshrc]%f missing required $req_type: %B$target%b" >&2
   return 1
 }
 
