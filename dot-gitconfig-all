@@ -1,5 +1,8 @@
 # shared gitconfig
 
+[user]
+  useConfigOnly = true
+
 [alias]
   pp = pull --prune
 

@@ -42,7 +42,7 @@ echo "      ${profiles}"
 ssh_path="${HOME}/.ssh"
 repo_path="${HOME}/repo"
 gitconfig_file="${HOME}/.gitconfig"
-gitignore_global_file="${HOME}/.gitignore_global"
+gitignore_global_file="${HOME}/.gitignore-global"
 
 # ----- setup ~/.ssh structure -----
 
@@ -107,9 +107,6 @@ if [ -f "${gitconfig_file}" ]; then
   echo "INFO: backed up existing ${gitconfig_file} to ${gitconfig_backup_file}"
 else
   cat << EOF > "${gitconfig_file}"
-[user]
-  useConfigOnly = true
-
 [core]
   excludesfile = ${gitignore_global_file}
 

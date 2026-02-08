@@ -1,4 +1,5 @@
 --target=~
 --dotfiles
 --ignore='\.stowrc'
+--ignore='\.DS_Store'
 
