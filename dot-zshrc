@@ -1,23 +1,32 @@
 # zshrc
 
 require() {
-  case $1 in
-    cmd)  command -v "$2" >/dev/null 2>&1 ;;
-    file) [[ -f $2 ]] ;;
-    dir)  [[ -d $2 ]] ;;
-    exec) [[ -x $2 ]] ;;
-    *)
-      printf '%s %s\n' '[ERROR][zshrc]: unknown require type:' "$1" >&2
-      return 1
-      ;;
-  esac || {
-    printf '%s %s: %s\n' '[WARN][zshrc]: missing required' "$1" "$2" >&2
+  local type=$1 target=$2
+  
+  # Map keywords to zsh binary tests
+  local -A tests=(
+    cmd  '(( ${+commands[$target]} ))'
+    file '[[ -f $target ]]'
+    dir  '[[ -d $target ]]'
+    exec '[[ -x $target ]]'
+  )
+
+  # Validate and execute the test
+  if [[ -n $tests[$type] ]]; then
+    eval $tests[$type] && return 0
+  else
+    print -P "%F{red}[ERROR][zshrc]%f unknown require type: $type" >&2
     return 1
-  }
+  fi
+
+  # If we reach here, the test failed
+  print -P "%F{yellow}[WARN][zshrc]%f missing required $type: %B$target%b" >&2
+  return 1
 }
 
-# deduplicate fpath entries automatically
-typeset -U fpath
+typeset -U fpath      # deduplicate fpath entries automatically
+typeset -U path       # ensure PATH only contains unique entries
+                      #   append dirs with: path=($path "/path/to/dir1" "/path/to/dir2")
 
 # homebrew site functions
 require cmd brew \
@@ -74,9 +83,6 @@ bindkey -e                           # emacs-style line editor
 bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
 
 # source custom scripts
-typeset -U path                      # ensure PATH only contains unique entries
-# append dirs with: path=($path /path/to/script)
-
 CUSTOM_SCRIPTS=(
   "${HOME}/scripts/macos/macos_zsh.zsh"
 )
