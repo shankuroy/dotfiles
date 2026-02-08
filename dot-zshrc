@@ -70,7 +70,7 @@ require cmd nvim && () {
 # eza (https://github.com/eza-community/eza)
 LS='ls'
 require cmd eza && LS='eza'
-alias ls="${LS} -GHh"  # colors, symlinks, human readable
+alias ls="${LS}"
 alias ll="${LS} -l"    # long
 alias la="${LS} -la"   # long, dotfiles
 
