@@ -57,7 +57,8 @@ setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
 
 # editor
 export EDITOR="vim"
-require cmd nvim && alias vim=nvim && () {
+require cmd nvim && () {
+  alias vim=nvim
   nvim_clear_cache() {
        for DIR in '.cache/nvim' '.local/state/nvim' '.local/share/nvim'; do
          TO_DELETE="${HOME}/${DIR}"
