@@ -1,33 +1,20 @@
 # zshrc
 
-# Internal helper to validate dependencies before sourcing or execution.
-# Usage: _require [ -c|--command | -f|--file | -d|--directory | -x|--executable ] <target>
+# Internal helper to warn if a target of a given type is missing.
+# Usage: _require { -c|--command | -f|--file | -d|--directory | -x|--executable } <target>
 _require() {
-  local opt=$1 target=$2
-  local req_name trace="${funcfiletrace[1]##*/}"
+  local trace="${funcfiletrace[1]##*/}" req_type
+  local usage_message="Usage: _require { -c|--command | -f|--file | -d|--directory | -x|--executable } <target>"
 
-  if (( $# != 2 )); then
-    print -P "%F{red}[ERROR][$trace]:%f Usage: _require [ -c|--command | -f|--file | -d|--directory | -x|--executable ] <target>" >&2
-    return 1
-  fi
+  (( $# == 2 )) || { print -P "%F{red}[ERROR][$trace]:%f missing arguments. $usage_message" >&2; return 1 }
 
-  case "$opt" in
-    -c|--command)    req_name="command"   ; (( ${+commands[$target]} )) ;;
-    -f|--file)       req_name="file"      ; [[ -f "$target" ]] ;;
-    -d|--directory)  req_name="directory" ; [[ -d "$target" ]] ;;
-    -x|--executable) req_name="executable"; [[ -x "$target" ]] ;;
-    *)
-      print -P "%F{red}[ERROR][$trace]:%f unknown flag: %U$opt%u" >&2
-      return 1
-      ;;
-  esac
-
-  if (( $? != 0 )); then
-    print -P "%F{red}[WARN][$trace]:%f missing $req_name: %B$target%b" >&2
-    return 1
-  fi
-
-  return 0
+  case $1 in
+    -c|--command)    req_type='command';    (( ${+commands[$2]} )) ;;
+    -f|--file)       req_type='file';       [[ -f $2 ]] ;;
+    -d|--directory)  req_type='directory';  [[ -d $2 ]] ;;
+    -x|--executable) req_type='executable'; [[ -x $2 ]] ;;
+    *) print -P "%F{red}[ERROR][$trace]:%f unknown flag: %B$1%b. $usage_message" >&2; return 1 ;;
+  esac || { print -P "%F{red}[WARN][$trace]:%f missing $req_type: %B$2%b" >&2; return 1 }
 }
 
 typeset -U fpath      # deduplicate fpath entries automatically
