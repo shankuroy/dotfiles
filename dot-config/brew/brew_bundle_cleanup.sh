@@ -76,8 +76,8 @@ echo "Brewfile generated successfully at ${OUTPUT_FILE}."
 echo "Syncing brew packages with ${OUTPUT_FILE}"
 
 brew update
-brew bundle install --file="${OUTPUT_FILE}"
-brew bundle cleanup --force --file="${OUTPUT_FILE}"
+brew bundle install --verbose --file="${OUTPUT_FILE}"
+brew bundle cleanup --verbose --force --file="${OUTPUT_FILE}"
 brew upgrade
 brew cleanup
 brew autoremove
