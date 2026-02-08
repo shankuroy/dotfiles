@@ -38,6 +38,7 @@ _compinit_once() {
   unfunction _compinit_once
 }
 add-zsh-hook precmd _compinit_once
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case-insensitive completions
 
 # zsh syntax highlighting
 ZSH_SYNTAX_HL_FILE="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
@@ -56,9 +57,12 @@ export SAVEHIST="${HISTSIZE}"        # history items saved
 setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
 
 # editor
+autoload -U edit-command-line        # autoload external editor modules
+zle -N edit-command-line             # allow editing with external editor
 export EDITOR="vim"
 require cmd nvim && () {
   alias vim=nvim
+  export EDITOR="nvim"
   nvim_clear_cache() {
        for DIR in '.cache/nvim' '.local/state/nvim' '.local/share/nvim'; do
          TO_DELETE="${HOME}/${DIR}"
@@ -66,6 +70,8 @@ require cmd nvim && () {
        done
   }
 }
+bindkey -e                           # emacs-style line editor
+bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
 
 # eza (https://github.com/eza-community/eza)
 LS='ls'
