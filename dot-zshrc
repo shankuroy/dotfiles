@@ -1,27 +1,33 @@
 # zshrc
 
-require() {
-  local req_type=$1 target=$2
-  
-  # Map keywords to zsh binary tests
-  local -A tests=(
-    cmd  '(( ${+commands[$target]} ))'
-    file '[[ -f $target ]]'
-    dir  '[[ -d $target ]]'
-    exec '[[ -x $target ]]'
-  )
+# Internal helper to validate dependencies before sourcing or execution.
+# Usage: _require [ -c|--command | -f|--file | -d|--directory | -x|--executable ] <target>
+_require() {
+  local opt=$1 target=$2
+  local req_name status
 
-  # Validate and execute the test
-  if [[ -n $tests[$req_type] ]]; then
-    eval $tests[$req_type] && return 0
-  else
-    print -P "%F{red}[ERROR][zshrc]%f unknown require type: $req_type" >&2
+  if (( $# != 2 )); then
+    print -P "%F{red}[ERROR][zshrc]:%f Usage: _require [ -c|--command | -f|--file | -d|--directory | -x|--executable ] <target>" >&2
     return 1
   fi
 
-  # If we reach here, the test failed
-  print -P "%F{yellow}[WARN][zshrc]%f missing required $req_type: %B$target%b" >&2
-  return 1
+  case "$opt" in
+    -c|--command)    req_name="command"   ; (( ${+commands[$target]} )) ;;
+    -f|--file)       req_name="file"      ; [[ -f "$target" ]] ;;
+    -d|--directory)  req_name="directory" ; [[ -d "$target" ]] ;;
+    -x|--executable) req_name="executable"; [[ -x "$target" ]] ;;
+    *)
+      print -P "%F{red}[ERROR][zshrc]:%f unknown flag: %U$opt%u" >&2
+      return 1
+      ;;
+  esac
+
+  if (( $? != 0 )); then
+    print -P "%F{red}[WARN][zshrc]:%f missing $req_name: %B$target%b" >&2
+    return 1
+  fi
+
+  return 0
 }
 
 typeset -U fpath      # deduplicate fpath entries automatically
@@ -29,11 +35,11 @@ typeset -U path       # ensure PATH only contains unique entries
                       #   append dirs with: path=($path "/path/to/dir1" "/path/to/dir2")
 
 # homebrew site functions
-require cmd brew \
+_require -c brew \
   && BREW_PREFIX="$(brew --prefix 2>/dev/null)" \
   && () {
     local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
-    require dir "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
+    _require -d "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
   }
 
 # prompt init
@@ -51,11 +57,11 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case-insensitive comple
 
 # zsh syntax highlighting
 ZSH_SYNTAX_HL_FILE="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-require file "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
+_require -f "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
 
 # zsh auto-suggestions
 ZSH_AUTOSUGGESTIONS_FILE="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-require file "${ZSH_AUTOSUGGESTIONS_FILE}" && . "${ZSH_AUTOSUGGESTIONS_FILE}"
+_require -f "${ZSH_AUTOSUGGESTIONS_FILE}" && . "${ZSH_AUTOSUGGESTIONS_FILE}"
 
 # zsh history
 setopt SHARE_HISTORY                 # shared history between terminals
@@ -69,7 +75,7 @@ setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
 autoload -U edit-command-line        # autoload external editor modules
 zle -N edit-command-line             # allow editing with external editor
 export EDITOR="vim"
-require cmd nvim && () {
+_require -c nvim && () {
   alias vim=nvim
   export EDITOR="nvim"
   nvim_clear_cache() {
@@ -86,21 +92,21 @@ bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
 CUSTOM_SCRIPTS=(
   "${HOME}/scripts/macos/macos_zsh.zsh"
 )
-for SCRIPT ($CUSTOM_SCRIPTS) require file "$SCRIPT" && . "$SCRIPT"
+for SCRIPT ($CUSTOM_SCRIPTS) _require -f "$SCRIPT" && . "$SCRIPT"
 
 # eza (https://github.com/eza-community/eza)
 LS='ls'
-require cmd eza && LS='eza'
+_require -c eza && LS='eza'
 alias ls="${LS}"
 alias ll="${LS} -l"    # long
 alias la="${LS} -la"   # long, dotfiles
 
 # fzf (https://github.com/junegunn/fzf)
-require cmd fzf && source <(fzf --zsh)
+_require -c fzf && source <(fzf --zsh)
 
 # zoxide (https://github.com/ajeetdsouza/zoxide)
-require cmd zoxide && eval "$(zoxide init zsh)"
+_require -c zoxide && eval "$(zoxide init zsh)"
 
 # pure prompt (https://github.com/sindresorhus/pure)
-require exec "$BREW_PREFIX/opt/pure" && prompt pure
+_require -x "$BREW_PREFIX/opt/pure" && prompt pure
 
