@@ -11,6 +11,7 @@ brew "mas"                              # Mac App Store CLI (https://github.com/
 # formulae
 brew "bat"                              # cat with colours (https://github.com/sharkdp/bat)
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
+brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
 brew "neovim", args: ["HEAD"]           # better vim (https://github.com/neovim/neovim); nightly until 0.12 is stable
 brew "pure"                             # clean zsh prompt (https://github.com/sindresorhus/pure)
 brew "ripgrep"                          # faster grep (https://github.com/BurntSushi/ripgrep)

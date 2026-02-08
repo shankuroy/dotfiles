@@ -74,6 +74,9 @@ alias ls="${LS} -GHh"  # colors, symlinks, human readable
 alias ll="${LS} -l"    # long
 alias la="${LS} -la"   # long, dotfiles
 
+# fzf (https://github.com/junegunn/fzf)
+require cmd fzf && source <(fzf --zsh)
+
 # zoxide (https://github.com/ajeetdsouza/zoxide)
 require cmd zoxide && eval "$(zoxide init zsh)"
 
