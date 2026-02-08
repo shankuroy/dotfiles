@@ -23,31 +23,10 @@ typeset -U path       # ensure PATH only contains unique entries
 
 # homebrew site functions
 _require -c brew && () {
-  BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+  export BREW_PREFIX="$(brew --prefix 2>/dev/null)"
   local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
   _require -d "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
   }
-
-# prompt init
-autoload -U promptinit
-promptinit
-
-# lazy-loaded completion system
-autoload -U compinit add-zsh-hook
-_compinit_once() {
-  compinit
-  unfunction _compinit_once
-}
-add-zsh-hook precmd _compinit_once
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case-insensitive completions
-
-# zsh syntax highlighting
-ZSH_SYNTAX_HL_FILE="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-_require -f "${ZSH_SYNTAX_HL_FILE}" && . "${ZSH_SYNTAX_HL_FILE}"
-
-# zsh auto-suggestions
-ZSH_AUTOSUGGESTIONS_FILE="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-_require -f "${ZSH_AUTOSUGGESTIONS_FILE}" && . "${ZSH_AUTOSUGGESTIONS_FILE}"
 
 # zsh history
 setopt SHARE_HISTORY                 # shared history between terminals
@@ -58,9 +37,6 @@ export SAVEHIST="${HISTSIZE}"        # history items saved
 setopt HIST_IGNORE_SPACE             # ignore commands starting with a space
 
 # editor
-autoload -U edit-command-line        # autoload external editor modules
-zle -N edit-command-line             # allow editing with external editor
-export EDITOR="vim"
 _require -c nvim && () {
   alias vim=nvim
   export EDITOR="nvim"
@@ -71,14 +47,19 @@ _require -c nvim && () {
        done
   }
 }
+
 bindkey -e                           # emacs-style line editor
+autoload -U edit-command-line        # autoload external editor modules
+zle -N edit-command-line             # allow editing with external editor
 bindkey '\C-x\C-e' edit-command-line # open command line in editor with ctrl-x-e
 
-# source custom scripts
-CUSTOM_SCRIPTS=(
+# source external scripts
+external_scripts=(
+  "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
   "${HOME}/scripts/macos/macos_zsh.zsh"
 )
-for SCRIPT ($CUSTOM_SCRIPTS) _require -f "$SCRIPT" && . "$SCRIPT"
+for script ($external_scripts) _require -f "$script" && . "$script"
 
 # eza (https://github.com/eza-community/eza)
 LS='ls'
@@ -93,6 +74,14 @@ _require -c fzf && source <(fzf --zsh)
 # zoxide (https://github.com/ajeetdsouza/zoxide)
 _require -c zoxide && eval "$(zoxide init zsh)"
 
+# zsh completions
+setopt extendedglob # required for the q syntax below
+autoload -U compinit
+# load completions from cache if it was updated less than 24 hours ago
+[[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.m-1) ]] && compinit -C || compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case-insensitive completions
+
 # pure prompt (https://github.com/sindresorhus/pure)
+autoload -U promptinit; promptinit
 _require -x "$BREW_PREFIX/opt/pure" && prompt pure
 
