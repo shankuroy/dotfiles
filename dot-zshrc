@@ -35,11 +35,10 @@ typeset -U path       # ensure PATH only contains unique entries
                       #   append dirs with: path=($path "/path/to/dir1" "/path/to/dir2")
 
 # homebrew site functions
-_require -c brew \
-  && BREW_PREFIX="$(brew --prefix 2>/dev/null)" \
-  && () {
-    local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
-    _require -d "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
+_require -c brew && () {
+  BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+  local brew_sitefuncs="$BREW_PREFIX/share/zsh/site-functions"
+  _require -d "$brew_sitefuncs" && fpath+=("$brew_sitefuncs")
   }
 
 # prompt init
