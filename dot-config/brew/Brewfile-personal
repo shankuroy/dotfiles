@@ -4,7 +4,8 @@
 
 
 # casks
-
+cask "affinity-designer"                            # Vector drawing, Adobe Illustrator alternative
+cask "affinity-photo"                               # Photo editing, Adobe Photoshop alternative
 
 # mas
 mas "SponsorBlock for Safari", id: 1573461917       # Safari extension: block sponsors in YouTube
