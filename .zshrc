@@ -1,10 +1,10 @@
 # zshrc
 
-# --- Profiling ---
+# --- profiling ---
 # zmodload zsh/zprof # uncomment this line to enable profiling
-zmodload zsh/datetime; export ZSH_START_TIME=$EPOCHREALTIME # Capture start time for zsh_healthcheck
+zmodload zsh/datetime; ZSH_START_TIME=$EPOCHREALTIME # capture start time for zsh_healthcheck
 
-# --- Environment & Paths ---
+# --- environment & paths ---
 ZDIR=$HOME/.zsh; ZCACHE=$ZDIR/cache; [[ -d $ZCACHE ]] || mkdir -p $ZCACHE
 [[ -d /opt/homebrew ]] && export BREW_PREFIX="/opt/homebrew" || export BREW_PREFIX="/usr/local"
 
@@ -12,14 +12,14 @@ typeset -U path fpath # ensure unique entries
 # path=($path $HOME/bin)
 fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
 
-# --- Options & History ---
+# --- options & history ---
 setopt EXTENDED_GLOB SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_VERIFY APPEND_HISTORY
 export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=10000 SAVEHIST=$HISTSIZE
 
-# --- Editor ---
+# --- editor ---
 (( $+commands[nvim] )) && export EDITOR="nvim" && alias vim="nvim" || export EDITOR="vim"
 
-# --- Cached Completions ---
+# --- cached completions ---
 autoload -U compinit; ZCOMPDUMP=$ZCACHE/.zcompdump
 [[ -n $ZCOMPDUMP(#qN.mh-12) ]] && compinit -C -d $ZCOMPDUMP || compinit -d $ZCOMPDUMP
 
@@ -27,7 +27,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive compl
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
-# --- Tools & Aliases ---
+# --- tools & aliases ---
 (( $+commands[eza] )) && alias ls="eza"; alias la="ls -la"
 
 (( $+commands[zoxide] )) && {
@@ -40,24 +40,24 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
   source $ZCACHE/fzf.zsh
 }
 
-# Autoload functions (from $ZDIR/functions)
+# autoload functions (from $ZDIR/functions)
 autoload -Uz zsh_healthcheck nvim_clear_cache
 
-# --- Prompt ---
+# --- prompt ---
 autoload -U promptinit; promptinit
 (( $+functions[prompt_pure_setup] || $fpath[(I)*/pure] )) && prompt pure || prompt default
 
-# --- Bindings ---
+# --- bindings ---
 bindkey -e; autoload -U edit-command-line; zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-# --- External Plugins ---
+# --- external plugins ---
 [[ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# Syntax highlighting must be the last loaded plugin
+# syntax highlighting must be the last loaded plugin
 [[ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-# --- Profiling ---
-export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # Capture load time for zsh_healthcheck
+# --- profiling ---
+export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for zsh_healthcheck
 # zprof # uncomment this line to enable profiling
 
