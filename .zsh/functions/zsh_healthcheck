@@ -2,20 +2,21 @@
 local missing=0
 
 # Define your critical tools here
-local critical_cmds=(nvim eza fzf zoxide git)
+local critical_cmds=(nvim eza fzf zoxide)
 local critical_files=(
   "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 )
 
-print -P "%BChecking Zsh Setup...%b"
+print -P "%B--- zsh healthcheck ---%b"
+print -P "%BChecking for required commands and files...%b"
 
 # Check Commands
 for cmd in $critical_cmds; do
   if (( $+commands[$cmd] )); then
-    print -P "%F{green}✔%f $cmd"
+    print -P "  %F{green}✔%f $cmd"
   else
-    print -P "%F{red}✘ $cmd (Missing)%f"
+    print -P "  %F{red}✘ $cmd (missing)%f"
     ((missing++))
   fi
 done
@@ -23,23 +24,23 @@ done
 # Check Files
 for file in $critical_files; do
   if [[ -f $file ]]; then
-    print -P "%F{green}✔%f ${file:t}" # :t shows filename only
+    print -P "  %F{green}✔%f ${file:t}" # :t shows filename only
   else
-    print -P "%F{red}✘ ${file:t} (Missing)%f"
+    print -P "  %F{red}✘ ${file:t} (missing)%f"
     ((missing++))
   fi
 done
 
-[[ $missing -eq 0 ]] && print -P "\n%F{green}All systems operational.%f"
+[[ $missing -eq 0 ]] && print -P "\n%F{green}✅ All required commands and files are available.%f"
 
 # Calculate load time
 # Format the pre-calculated duration
 local elapsed=$(printf "%.2f" $ZSH_LOAD_DURATION)
 
-print -P "\n%B--- Performance ---%b"
+print -P "\n%B--- performance ---%b"
 if (( elapsed < 50 )); then
-  print -P "%F{green}🚀 Startup Time:%f ${elapsed}ms"
+  print -P "%F{green}🚀 zsh load time:%f ${elapsed}ms"
 else
-  print -P "%F{yellow}⚖️ Startup Time:%f ${elapsed}ms"
+  print -P "%F{yellow}⚖️ zsh load time:%f ${elapsed}ms"
 fi
 
