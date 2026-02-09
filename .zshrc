@@ -16,8 +16,8 @@ fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
 setopt EXTENDED_GLOB SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_VERIFY APPEND_HISTORY
 export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=10000 SAVEHIST=$HISTSIZE
 
-# --- cached completions ---
-autoload -U compinit; ZCOMPDUMP=$ZCACHE/.zcompdump; [[ -n $ZCOMPDUMP(#qN.mh-12) ]] && compinit -C -d $ZCOMPDUMP || compinit -d $ZCOMPDUMP
+# --- cached completions --- (rebuild if >12 hours old)
+autoload -U compinit; z=$ZCACHE/.zcompdump; [[ -n $z(#qN.mh-12) ]] && compinit -C -d $z || compinit -d $z
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
@@ -27,9 +27,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 (( $+commands[eza] )) && alias ls="eza"; alias la="ls -la"
 (( $+commands[nvim] )) && export EDITOR="nvim" && alias vim="nvim" || export EDITOR="vim"
 
-# --- cached tools ---
-(( $+commands[fzf] )) && { [[ -n $ZCACHE/fzf.zsh(#qN.mh-12) ]] || fzf --zsh >| $ZCACHE/fzf.zsh; source $ZCACHE/fzf.zsh }
-(( $+commands[zoxide] )) && { [[ -n $ZCACHE/zoxide.zsh(#qN.mh-12) ]] || zoxide init zsh >| $ZCACHE/zoxide.zsh; source $ZCACHE/zoxide.zsh }
+# --- cached tools --- (rebuild if >12 hours old)
+(( $+commands[fzf] )) && { t=$ZCACHE/fzf.zsh; [[ -n $t(#qN.mh-12) ]] || fzf --zsh >| $t; source $t }
+(( $+commands[zoxide] )) && { t=$ZCACHE/zoxide.zsh; [[ -n $t(#qN.mh-12) ]] || zoxide init zsh >| $t; source $t }
 
 autoload -Uz $ZDIR/functions/*(.:t) # autoload all functions from $ZDIR/functions
 
