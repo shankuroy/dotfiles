@@ -152,12 +152,14 @@ done
 # ----- print public keys -----
 
 echo ""
-echo "✅ Add these public keys to the relevant accounts:"
-echo "   https://github.com/settings/ssh/new"
+echo "✅ Add these public SSH keys to the relevant accounts (https://github.com/settings/keys):"
 echo ""
 
 for profile in $profiles; do
-  cat "${ssh_path}/id_ed25519_${profile}.pub"
+  public_key_file="${ssh_path}/id_ed25519_${profile}.pub"
+  cat "${public_key_file}"
+  echo ""
+  echo "  ^ may have already been added with $(ssh-keygen -lf ${public_key_file} | cut -d' ' -f2)"
   echo ""
 done
 
