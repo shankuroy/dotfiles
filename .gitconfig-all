@@ -1,4 +1,6 @@
 # shared gitconfig
+# not designed to be used by itself
+# see scripts/bootstrap/bootstrap.sh
 
 [user]
   useConfigOnly = true
