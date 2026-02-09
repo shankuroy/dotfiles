@@ -28,7 +28,7 @@ zstyle ':completion:*' menu select                      # navigate completions w
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
 # --- Tools & Aliases ---
-(( $+commands[eza] )) && alias ls="eza --group-directories-first"; alias la="ls -la"
+(( $+commands[eza] )) && alias ls="eza"; alias la="ls -la"
 
 (( $+commands[zoxide] )) && {
   [[ -n $ZCACHE/zoxide.zsh(#qN.mh-12) ]] || zoxide init zsh >| $ZCACHE/zoxide.zsh
