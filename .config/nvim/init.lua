@@ -45,6 +45,8 @@ k('n', '<leader>fg', fzflua.live_grep, { desc = '[f]ind [g]rep' })
 -- -- git
 k('n', '<leader>gb', gitsigns.blame_line, { desc = '[g]it [b]lame line' })
 k('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = '[g]it [d]iff inline' })
+-- -- visual
+k('n', '<leader>tw', ':set wrap!<CR>', { desc = '[t]oggle [w]rap' })
 
 -- options
 o.autoindent = true       -- copy indent from current line to next
