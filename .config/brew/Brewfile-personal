@@ -4,11 +4,10 @@
 
 
 # casks
-cask "affinity-designer"                            # Vector drawing, Adobe Illustrator alternative
-cask "affinity-photo"                               # Photo editing, Adobe Photoshop alternative
+cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
 
 # mas
-mas "SponsorBlock for Safari", id: 1573461917       # Safari extension: block sponsors in YouTube
-mas "Userscripts", id: 1463298887                   # Safari extension: custom user scripts
-mas "Wipr", id: 1662217862                          # Safari extension: ad-blocker
-mas "Xcode", id: 497799835                          # mac/iOS IDE
+mas "SponsorBlock",     id: 1573461917  # Safari extension: YouTube sponsor blocker (https://apps.apple.com/au/app/sponsorblock-for-safari/id1573461917)
+mas "Userscripts",      id: 1463298887  # Safari extension: custom user scripts (https://apps.apple.com/au/app/userscripts/id1463298887)
+mas "Wipr 2",           id: 1662217862  # Safari extension: ad-blocker (https://apps.apple.com/au/app/wipr-2/id1662217862)
+mas "Xcode",            id: 497799835   # MacOS/iOS IDE (https://apps.apple.com/au/app/xcode/id497799835)

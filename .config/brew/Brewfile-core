@@ -31,5 +31,5 @@ cask "middleclick"                      # trackpad 3-finger tap to middle click 
 cask "monitorcontrol"                   # control brightness/sound on ext monitors (https://github.com/MonitorControl/MonitorControl)
 
 # mas (Mac App Store CLI)
-mas "2FAS - Two Factor Authentication", id: 6443941139      # Safari Browser extension for 2FAS (https://2fas.com/auth/browser-extension/)
-mas "Bitwarden", id: 1352778147                             # password manager (https://bitwarden.com/)
+mas "2FAS",             id: 6443941139  # Safari extension: 2FAS (https://apps.apple.com/au/app/2fas-auth-browser-extension/id6443941139)
+mas "Bitwarden",        id: 1352778147  # password manager (https://apps.apple.com/au/app/bitwarden/id1352778147)
