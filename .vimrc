@@ -5,5 +5,6 @@ set splitbelow splitright
 set ignorecase smartcase
 set virtualedit=block
 if has('termguicolors') | set termguicolors | endif
+set viminfo+=n~/.cache/vim/.viminfo
 colorscheme habamax
 syntax on
