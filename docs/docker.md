@@ -1,6 +1,6 @@
 # Docker
 
-# Install
+## Install
 
 Install with Colima rather than via Docker Desktop.
 
