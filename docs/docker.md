@@ -4,7 +4,7 @@
 
 Install with Colima rather than via Docker Desktop.
 
-Add these to your Brewfile:
+Add these to your Brewfile (or manually `brew install` them):
 
 ```ruby
 brew "colima"                           # container runtime (https://colima.run/)
