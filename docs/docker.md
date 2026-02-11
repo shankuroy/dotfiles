@@ -4,12 +4,18 @@
 
 Install with Colima rather than via Docker Desktop.
 
-Add these to your Brewfile (or manually `brew install` them):
+Add these to your Brewfile:
 
 ```ruby
 brew "colima"                           # container runtime (https://colima.run/)
 brew "docker"                           # container engine (https://docs.docker.com/engine/)
 brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
+```
+
+or manually install them:
+
+```sh
+brew install colima docker docker-compose
 ```
 
 Verify:
