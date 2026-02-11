@@ -38,22 +38,22 @@ Snacks.setup({
 
 -- keymaps
 -- -- clipboard
-k({'n', 'v'}, '<leader>P', '"+P', { desc = '[P]aste before from system clipboard' })
-k({'n', 'v'}, '<leader>p', '"+p', { desc = '[p]aste from system clipboard' })
-k({'n', 'v'}, '<leader>y', '"+y', { desc = '[y]ank to system clipboard' })
+k({'n', 'v'}, '<leader>P', '"+P',                                   { desc = '[P]aste before from system clipboard' })
+k({'n', 'v'}, '<leader>p', '"+p',                                   { desc = '[p]aste from system clipboard' })
+k({'n', 'v'}, '<leader>y', '"+y',                                   { desc = '[y]ank to system clipboard' })
 -- -- buffer
-k('n', '<leader>bb', '<C-^>', { desc = '[b]uffer [b]efore' })
-k('n', '<leader>bf', function() Snacks.picker.buffers() end, { desc = '[b]uffer [f]ind' })
+k('n', '<leader>bb',  '<C-^>',                                      { desc = '[b]uffer [b]efore' })
 -- -- fuzzy find
-k('n', '<leader>ff', function() Snacks.picker.files() end, { desc = '[f]ind [f]iles' })
-k('n', '<leader>fg', function() Snacks.picker.git_files() end, { desc = '[f]ind [g]it files' })
-k('n', '<leader>/', function() Snacks.picker.grep() end, { desc = '[/] grep files' })
+k('n', '<leader>fb',  function() Snacks.picker.buffers() end,       { desc = '[b]uffer [f]ind' })
+k('n', '<leader>ff',  function() Snacks.picker.files() end,         { desc = '[f]ind [f]iles' })
+k('n', '<leader>fg',  function() Snacks.picker.git_files() end,     { desc = '[f]ind [g]it files' })
+k('n', '<leader>f/',  function() Snacks.picker.grep() end,          { desc = '[/] grep files' })
 -- -- git
-k('n', '<leader>gb', gitsigns.blame_line, { desc = '[g]it [b]lame line' })
-k('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = '[g]it [d]iff inline' })
+k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = '[g]it [b]lame line' })
+k('n', '<leader>gd',  gitsigns.preview_hunk_inline,                 { desc = '[g]it [d]iff inline' })
 -- -- visual
-k('n', '<leader>tw', ':set wrap!<CR>', { desc = '[t]oggle [w]rap' })
-k('n', '<leader>e', function() Snacks.explorer() end, { desc = 'file [e]xplorer' })
+k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file [e]xplorer' })
+k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = '[t]oggle [w]rap' })
 
 -- options
 o.autoindent = true       -- copy indent from current line to next
