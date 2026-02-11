@@ -32,7 +32,6 @@ local Snacks = require("snacks")
 Snacks.setup({
   explorer = { enabled = true, replace_netrw = true },
   picker = { enabled = true },
-  scroll = { enabled = true },
 })
 
 
