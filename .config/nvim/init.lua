@@ -50,6 +50,7 @@ k('n', '<leader>f/',  function() Snacks.picker.grep() end,          { desc = '[/
 -- -- git
 k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = '[g]it [b]lame line' })
 k('n', '<leader>gd',  gitsigns.preview_hunk_inline,                 { desc = '[g]it [d]iff inline' })
+k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'lazy[g]it' })
 -- -- visual
 k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file [e]xplorer' })
 k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = '[t]oggle [w]rap' })

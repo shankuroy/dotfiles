@@ -4,6 +4,7 @@
 brew "colima"                           # container runtime (https://colima.run/)
 brew "docker"                           # container engine (https://docs.docker.com/engine/)
 brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
+brew "lazygit"                          # git TUI (https://github.com/jesseduffield/lazygit/)
 
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
