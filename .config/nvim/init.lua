@@ -8,7 +8,7 @@ g.mapleader = ' ' -- set leader key to space
 vim.pack.add({
   'https://github.com/ahmedkhalf/project.nvim',     -- auto-detect project root
   'https://github.com/catppuccin/nvim',             -- theme
-  'https://github.com/ibhagwan/fzf-lua',            -- fuzzy finder
+  'https://github.com/folke/snacks.nvim',           -- misc plugins
   'https://github.com/lewis6991/gitsigns.nvim',     -- git info
   'https://github.com/nvim-lualine/lualine.nvim',   -- nicer status line
   'https://github.com/nvim-mini/mini.nvim',         -- misc plugins
@@ -16,9 +16,6 @@ vim.pack.add({
 })
 
 -- plugin config
--- -- fzf-lua
-local fzflua = require('fzf-lua')
-fzflua.setup({'borderless'})
 -- -- gitsigns.nvim
 local gitsigns = require('gitsigns')
 -- -- lualine
@@ -27,8 +24,17 @@ require('lualine').setup()
 require('mini.ai').setup()
 require('mini.pairs').setup()
 require('mini.surround').setup()
+require('mini.trailspace').setup()
 -- -- project.nvim
 require('project_nvim').setup()
+-- -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
+local Snacks = require("snacks")
+Snacks.setup({
+  explorer = { enabled = true, replace_netrw = true },
+  picker = { enabled = true },
+  scroll = { enabled = true },
+})
+
 
 -- keymaps
 -- -- clipboard
@@ -37,16 +43,17 @@ k({'n', 'v'}, '<leader>p', '"+p', { desc = '[p]aste from system clipboard' })
 k({'n', 'v'}, '<leader>y', '"+y', { desc = '[y]ank to system clipboard' })
 -- -- buffer
 k('n', '<leader>bb', '<C-^>', { desc = '[b]uffer [b]efore' })
-k('n', '<leader>bf', fzflua.buffers, { desc = '[b]uffer [f]ind' })
+k('n', '<leader>bf', function() Snacks.picker.buffers() end, { desc = '[b]uffer [f]ind' })
 -- -- fuzzy find
-k('n' ,'<leader>fb', fzflua.builtin, { desc = '[f]ind [b]uiltins' })
-k('n', '<leader>ff', fzflua.files, { desc = '[f]ind [f]iles' })
-k('n', '<leader>fg', fzflua.live_grep, { desc = '[f]ind [g]rep' })
+k('n', '<leader>ff', function() Snacks.picker.files() end, { desc = '[f]ind [f]iles' })
+k('n', '<leader>fg', function() Snacks.picker.git_files() end, { desc = '[f]ind [g]it files' })
+k('n', '<leader>/', function() Snacks.picker.grep() end, { desc = '[/] grep files' })
 -- -- git
 k('n', '<leader>gb', gitsigns.blame_line, { desc = '[g]it [b]lame line' })
 k('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = '[g]it [d]iff inline' })
 -- -- visual
 k('n', '<leader>tw', ':set wrap!<CR>', { desc = '[t]oggle [w]rap' })
+k('n', '<leader>e', function() Snacks.explorer() end, { desc = 'file [e]xplorer' })
 
 -- options
 o.autoindent = true       -- copy indent from current line to next
