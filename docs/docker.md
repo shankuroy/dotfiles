@@ -14,15 +14,31 @@ brew "docker-compose"                   # multi-container plugin for Docker (htt
 
 or manually install them:
 
-```sh
+```bash
 brew install colima docker docker-compose
 ```
 
 Verify:
 
-```sh
+```bash
 colima version
+```
+
+Make colima autostart with brew services:
+
+```bash
+brew services start colima
+```
+
+Or if you don't want it to auto-start after logout:
+
+```bash
 colima start
+```
+
+Check colima is running:
+
+```bash
 colima status
 ```
 
@@ -36,7 +52,7 @@ You should now have a `~/.docker` dir. Configure the CLI plugins reference. Add 
 
 Verify:
 
-```sh
+```bash
 docker --version
 docker compose version
 ```
@@ -59,7 +75,7 @@ services:
 
 Run it with:
 
-```sh
+```bash
 docker compose up
 ```
 
