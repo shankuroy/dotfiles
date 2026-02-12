@@ -8,4 +8,5 @@
 [alias]
   pp = pull --prune
   unstage = restore --staged --
+  l = !lazygit
 
