@@ -9,7 +9,7 @@ ZDIR=$HOME/.zsh; ZCACHE=$ZDIR/cache; [[ -d $ZCACHE ]] || mkdir -p $ZCACHE
 [[ -d /opt/homebrew ]] && export BREW_PREFIX="/opt/homebrew"
 
 typeset -U path fpath # ensure unique entries
-# path=($path $HOME/bin)
+path=($HOME/scripts/bin(\N) $path)
 fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
 
 # --- options & history ---
