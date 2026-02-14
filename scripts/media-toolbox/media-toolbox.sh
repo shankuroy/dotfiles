@@ -136,9 +136,9 @@ if [ ! -f "$HASH_FILE" ] || [ "$(cat "$HASH_FILE")" != "$COMBINED_HASH" ]; then
 fi
 
 if [ "$REBUILD" = true ]; then
-    echo "🔄 Rebuilding Toolbox (Upstream update or script change detected)..."
-    $ENGINE build -q -t "$IMAGE" -f "$DOCKERFILE" "$CACHE_DIR" --label "media-toolbox=yes"
-    $ENGINE image prune -f --filter "label=media-toolbox=yes" >/dev/null 2>&1
+    echo "🔄 Rebuilding $IMAGE (upstream update or script change detected)..."
+    $ENGINE build -q -t "$IMAGE" -f "$DOCKERFILE" "$CACHE_DIR" --label "app=$IMAGE"
+    $ENGINE image prune -f --filter "label=app=$IMAGE" >/dev/null 2>&1
 fi
 
 # Execution logic
