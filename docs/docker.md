@@ -11,6 +11,7 @@ brew "colima"                           # container runtime (https://colima.run/
 brew "docker"                           # container engine (https://docs.docker.com/engine/)
 brew "docker-buildx"                    # BuildKit for Docker (https://github.com/docker/buildx)
 brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
+brew "lazydocker"                       # docker TUI (https://github.com/jesseduffield/lazydocker)
 ```
 
 or manually install them:
