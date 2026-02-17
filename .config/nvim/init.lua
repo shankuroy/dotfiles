@@ -56,7 +56,7 @@ k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'la
 k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file [e]xplorer' })
 k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = '[t]oggle [w]rap' })
 -- -- leap.nvim
-k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)'                      { desc = '[s]earch with leap.nvim' })
+k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',                     { desc = '[s]earch with leap.nvim' })
 
 
 -- options
