@@ -6,6 +6,7 @@ g.mapleader = ' ' -- set leader key to space
 
 -- plugins
 vim.pack.add({
+  'https://codeberg.org/andyg/leap.nvim',           -- general purpose motions
   'https://github.com/ahmedkhalf/project.nvim',     -- auto-detect project root
   'https://github.com/catppuccin/nvim',             -- theme
   'https://github.com/folke/snacks.nvim',           -- misc plugins
@@ -54,6 +55,9 @@ k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'la
 -- -- visual
 k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file [e]xplorer' })
 k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = '[t]oggle [w]rap' })
+-- -- leap.nvim
+k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)'                      { desc = '[s]earch with leap.nvim' })
+
 
 -- options
 o.autoindent = true       -- copy indent from current line to next
