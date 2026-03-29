@@ -38,8 +38,8 @@ else
     exit 1
 fi
 
-# Handle rebuild flag
-if [[ "$1" == "--rebuild" ]]; then
+# Handle rebuild flag (or rebuild if the image is missing)
+if [[ "$1" == "--rebuild" ]] || [[ -z $($ENGINE images -q "$IMAGE_NAME" 2>/dev/null) ]]; then
   echo "🚧 Rebuilding $IMAGE_NAME image with $ENGINE..."
   cat <<EOF | $ENGINE build -t $IMAGE_NAME -f - .
 FROM alpine:latest
@@ -60,13 +60,16 @@ EOF
   else
     echo "Build failed. Check the output above."
   fi
-  exit $BUILD_STATUS
+
+  if [[ "$1" == "--rebuild" ]]; then
+    exit $BUILD_STATUS
+  fi
 fi
 
 # Run container, passing through arguments
 $ENGINE run --rm -it \
   --cpus="$CPU_LIMIT" --memory="$MEM_LIMIT" \
   -u "$(id -u):$(id -g)" \
-  -v "$(pwd):/work" \
+  -v "$(pwd):/work:rw" \
   $IMAGE_NAME "$@"
 
