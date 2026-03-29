@@ -11,7 +11,9 @@
 # include the following
 !/bat/**
 !/brew/**
+!/eza/**
 !/ghostty/**
+!/lazygit/**
 !/nvim/**
 
 # always ignore these

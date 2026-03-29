@@ -8,7 +8,7 @@ g.mapleader = ' ' -- set leader key to space
 vim.pack.add({
   'https://codeberg.org/andyg/leap.nvim',           -- general purpose motions
   'https://github.com/ahmedkhalf/project.nvim',     -- auto-detect project root
-  'https://github.com/catppuccin/nvim',             -- theme
+  'https://github.com/folke/tokyonight.nvim',       -- theme
   'https://github.com/folke/snacks.nvim',           -- misc plugins
   'https://github.com/lewis6991/gitsigns.nvim',     -- git info
   'https://github.com/nvim-lualine/lualine.nvim',   -- nicer status line
@@ -80,5 +80,5 @@ o.virtualedit = 'block'   -- allow going past the end of the line in visual bloc
 o.wrap = false            -- don't wrap lines
 
 -- colorscheme
-vim.cmd [[colorscheme catppuccin-mocha]]
+vim.cmd [[colorscheme tokyonight-night]]
 

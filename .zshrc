@@ -7,6 +7,7 @@ zmodload zsh/datetime; ZSH_START_TIME=$EPOCHREALTIME # capture start time for zs
 # --- environment & paths ---
 ZDIR=$HOME/.zsh; ZCACHE=$ZDIR/cache; [[ -d $ZCACHE ]] || mkdir -p $ZCACHE
 [[ -d /opt/homebrew ]] && export BREW_PREFIX="/opt/homebrew"
+export XDG_CONFIG_HOME="$HOME/.config" EZA_CONFIG_DIR="$HOME/.config/eza"
 
 typeset -U path fpath # ensure unique entries
 path=($HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
