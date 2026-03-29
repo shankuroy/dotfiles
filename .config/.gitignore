@@ -13,6 +13,7 @@
 !/brew/**
 !/eza/**
 !/ghostty/**
+!/lazydocker/**
 !/lazygit/**
 !/nvim/**
 

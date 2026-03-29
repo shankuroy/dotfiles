@@ -42,6 +42,7 @@ autoload -U promptinit; promptinit
 bindkey -e; autoload -U edit-command-line; zle -N edit-command-line; bindkey '^x^e' edit-command-line
 
 # --- plugins ---
+p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p
 p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]] && source $p
 p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
 
