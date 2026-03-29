@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-print_usage() {
+# Show usage if no args or -h/--help
+if [ $# -eq 0 ] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
   cat <<EOF
 ===============================================================================
 MEDIA TOOLBOX (mt)
@@ -16,17 +17,13 @@ USAGE:
 
 ===============================================================================
 EOF
-}
+  exit 0
+fi
 
+# Configuration
 IMAGE_NAME="media-toolbox"
 CPU_LIMIT="4"
 MEM_LIMIT="8g"
-
-# Show usage if no args or -h/--help
-if [ $# -eq 0 ] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
-    print_usage
-    exit 0
-fi
 
 # Detect container engine
 if docker info >/dev/null 2>&1; then
@@ -47,8 +44,7 @@ LABEL app="$IMAGE_NAME"
 RUN apk add --no-cache \
     ca-certificates \
     dumb-init \
-    yt-dlp \
-    deno
+    yt-dlp
 WORKDIR /work
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 EOF
