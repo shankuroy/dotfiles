@@ -1,6 +1,7 @@
 # Brewfile-personal
 
 # formulae
+brew "b2-tools"                         # Backblaze B2 CLI (https://www.backblaze.com/docs/cloud-storage-command-line-interface)
 brew "colima"                           # container runtime (https://colima.run/)
 brew "docker"                           # container engine (https://docs.docker.com/engine/)
 brew "docker-buildx"                    # BuildKit for Docker (https://github.com/docker/buildx)
@@ -10,6 +11,7 @@ brew "lazygit"                          # git TUI (https://github.com/jesseduffi
 
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
+cask "devpod"                           # devcontainer.json envorinment manager (https://devpod.sh/)
 
 # mas
 mas "SponsorBlock",     id: 1573461917  # Safari extension: YouTube sponsor blocker (https://apps.apple.com/au/app/sponsorblock-for-safari/id1573461917)
