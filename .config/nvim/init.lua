@@ -47,6 +47,7 @@ k('n', '<leader>bb',  '<C-^>',                                      { desc = '[b
 k('n', '<leader>fb',  function() Snacks.picker.buffers() end,       { desc = '[f]ind [b]uffers' })
 k('n', '<leader>ff',  function() Snacks.picker.files() end,         { desc = '[f]ind [f]iles' })
 k('n', '<leader>fg',  function() Snacks.picker.git_files() end,     { desc = '[f]ind [g]it files' })
+k('n', '<leader>fk',  function() Snacks.picker.keymaps() end,       { desc = '[f]ind [k]eymaps' })
 k('n', '<leader>f/',  function() Snacks.picker.grep() end,          { desc = '[/] grep files' })
 -- -- git
 k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = '[g]it [b]lame line' })
