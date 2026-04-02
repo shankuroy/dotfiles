@@ -15,6 +15,7 @@ cask "affinity"                         # photo editing & vector drawing (https:
 cask "devpod"                           # devcontainer.json envorinment manager (https://devpod.sh/)
 
 # mas
+mas "GarageBand",       id: 682658836   # DAW (https://apps.apple.com/au/app/garageband/id682658836)
 mas "SponsorBlock",     id: 1573461917  # Safari extension: YouTube sponsor blocker (https://apps.apple.com/au/app/sponsorblock-for-safari/id1573461917)
 mas "Userscripts",      id: 1463298887  # Safari extension: custom user scripts (https://apps.apple.com/au/app/userscripts/id1463298887)
 mas "Wipr 2",           id: 1662217862  # Safari extension: ad-blocker (https://apps.apple.com/au/app/wipr-2/id1662217862)
