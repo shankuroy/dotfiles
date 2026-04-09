@@ -13,6 +13,7 @@ brew "lazygit"                          # git TUI (https://github.com/jesseduffi
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
 cask "devpod"                           # devcontainer.json envorinment manager (https://devpod.sh/)
+cask "reaper"                           # DAW (https://www.reaper.fm/)
 
 # mas
 mas "GarageBand",       id: 682658836   # DAW (https://apps.apple.com/au/app/garageband/id682658836)
