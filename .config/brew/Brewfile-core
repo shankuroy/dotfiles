@@ -9,6 +9,7 @@ brew "stow"                             # dotfiles/symlink manager (https://www.
 brew "mas"                              # Mac App Store CLI (https://github.com/mas-cli/mas)
 
 # formulae
+brew "Arthur-Ficial/tap/apfel"          # CLI access to Apple's on-device LLM (https://apfel.franzai.com/)
 brew "bat"                              # cat with colours (https://github.com/sharkdp/bat)
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
 brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
