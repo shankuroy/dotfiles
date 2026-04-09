@@ -20,12 +20,12 @@ if [ "$1" == "--refresh-skills" ]; then
     git pull
   fi
 
-  exit 0
+  exit $?
 fi
 
 if [ "$1" == "--list-skills" ]; then
   find "${DEMO_DIR}" -maxdepth 1 -mindepth 1 -perm -111 -exec sh -c '"$1" --help | head -1' _ {} \;
-  exit 0
+  exit $?
 fi
 
 # execute skills by setting $1 as the skill name
