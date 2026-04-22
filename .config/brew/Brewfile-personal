@@ -9,10 +9,13 @@ brew "docker-compose"                   # multi-container plugin for Docker (htt
 brew "git-delta"                        # git pager (https://dandavison.github.io/delta/)
 brew "lazydocker"                       # docker TUI (https://github.com/jesseduffield/lazydocker)
 brew "lazygit"                          # git TUI (https://github.com/jesseduffield/lazygit/)
+brew "lume"                             # macOS VM CLI and framework (https://cua.ai/docs/lume/guide/getting-started/introduction)
 
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
 cask "devpod"                           # devcontainer.json envorinment manager (https://devpod.sh/)
+cask "ilok-license-manager"             # iLok plugin license manager (https://www.ilok.com/#!license-manager)
+cask "localsend"                        # share files on local network (https://localsend.org/)
 cask "reaper"                           # DAW (https://www.reaper.fm/)
 
 # mas
