@@ -80,7 +80,7 @@ echo "Brewfile generated successfully at ${OUTPUT_FILE}."
 
 if [ "$SKIP_MAS" == 1 ]; then
   echo "Removing mas items from ${OUTPUT_FILE}..."
-  perl -i -ne 'print unless /^mas/'
+  perl -i -ne 'print unless /^mas/' "${OUTPUT_FILE}"
   echo "...mas items removed from ${OUTPUT_FILE}."
 fi
 
