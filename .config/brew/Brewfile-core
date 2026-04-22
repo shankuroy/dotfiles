@@ -26,7 +26,6 @@ cask "ghostty"                          # terminal emulator (https://github.com/
 cask "google-chrome"                    # web browser (https://www.google.com/intl/en_au/chrome/)
 cask "iina"                             # video player (https://github.com/iina/iina)
 cask "keka"                             # archive tool (https://www.keka.io/en/)
-cask "logi-options+"                    # Logitech mouse config (https://www.logitech.com/en-au/software/logi-options-plus.html)
 cask "raycast"                          # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                        # window management (https://github.com/rxhanson/Rectangle)
 cask "shottr"                           # screenshot tool (https://shottr.cc/)
