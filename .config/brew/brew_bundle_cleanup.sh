@@ -29,6 +29,11 @@ BASE_DIR="${HOME}/.config/brew"
 CORE_FILE="${BASE_DIR}/Brewfile-core"
 OUTPUT_FILE="${BASE_DIR}/Brewfile"
 
+if [ "$1" == "--skip-mas" ]; then
+  SKIP_MAS=1
+  shift
+fi
+
 # Require at least one profile
 if [ "$#" -eq 0 ]; then
     echo "Usage: $0 <profile> [profile ...]" >&2
@@ -72,6 +77,12 @@ fi
 } > "$OUTPUT_FILE"
 
 echo "Brewfile generated successfully at ${OUTPUT_FILE}."
+
+if [ "$SKIP_MAS" == 1 ]; then
+  echo "Removing mas items from ${OUTPUT_FILE}..."
+  sed -i '/^mas/d' "${OUTPUT_FILE}"
+  echo "...mas items removed from ${OUTPUT_FILE}."
+fi
 
 echo "Syncing brew packages with ${OUTPUT_FILE}"
 
