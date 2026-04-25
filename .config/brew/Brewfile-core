@@ -11,6 +11,7 @@ brew "mas"                              # Mac App Store CLI (https://github.com/
 # formulae
 brew "Arthur-Ficial/tap/apfel"          # CLI access to Apple's on-device LLM (https://apfel.franzai.com/)
 brew "bat"                              # cat with colours (https://github.com/sharkdp/bat)
+brew "container"                        # linux containers on macOS (https://github.com/apple/container)
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
 brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
 brew "neovim"                           # better vim (https://github.com/neovim/neovim)
@@ -31,6 +32,7 @@ cask "rectangle"                        # window management (https://github.com/
 cask "shottr"                           # screenshot tool (https://shottr.cc/)
 cask "middleclick"                      # trackpad 3-finger tap to middle click (https://github.com/artginzburg/MiddleClick)
 cask "monitorcontrol"                   # control brightness/sound on ext monitors (https://github.com/MonitorControl/MonitorControl)
+cask "visual-studio-code"               # IDE (https://code.visualstudio.com/)
 
 # mas (Mac App Store CLI)
 mas "2FAS",             id: 6443941139  # Safari extension: 2FAS (https://apps.apple.com/au/app/2fas-auth-browser-extension/id6443941139)

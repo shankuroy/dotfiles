@@ -1,6 +1,6 @@
-# Docker
+# Containers
 
-## Install
+## Docker containers on macOS with [Colima](https://colima.run/)
 
 Install with Colima rather than via Docker Desktop.
 
@@ -17,30 +17,14 @@ brew "lazydocker"                       # docker TUI (https://github.com/jessedu
 or manually install them:
 
 ```bash
-brew install colima docker docker-compose docker-buildx
+brew install colima docker docker-buildx docker-compose lazydocker
 ```
 
 Verify:
 
 ```bash
 colima version
-```
-
-Make colima autostart with brew services:
-
-```bash
 brew services start colima
-```
-
-Or if you don't want it to auto-start after logout:
-
-```bash
-colima start
-```
-
-Check colima is running:
-
-```bash
 colima status
 ```
 
@@ -48,12 +32,6 @@ To edit CPU/memory and other settings, edit `~/.colima/default/colima.yaml` and 
 
 ```bash
 brew services restart colima
-```
-
-or
-
-```
-colima restart
 ```
 
 You should now have a `~/.docker` dir. Configure the CLI plugins reference. Add this to `~/.docker/config.json`:
@@ -93,3 +71,11 @@ Run it with:
 docker compose up
 ```
 
+## Apple containers on macOS with [container](https://github.com/apple/container)
+
+```bash
+brew install container
+container system start
+container run --rm hello-world
+container image rm hello-world
+```

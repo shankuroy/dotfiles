@@ -1,0 +1,32 @@
+minimumLimaVersion: 2.1.1
+
+base:
+- /opt/homebrew/share/lima/templates/_images/ubuntu-lts.yaml
+
+cpus: 4
+memory: "8GiB"
+disk: "50GiB"
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: dev
+
+provision:
+- mode: system
+  script: |
+    #!/bin/bash
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y ca-certificates docker.io docker-buildx docker-compose-v2
+
+    systemctl enable docker
+    systemctl start docker
+
+    usermod -aG docker dev
+    # requires server restart
