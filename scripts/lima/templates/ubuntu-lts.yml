@@ -1,7 +1,7 @@
 minimumLimaVersion: 2.1.1
 
 base:
-- /opt/homebrew/share/lima/templates/_images/ubuntu-lts.yaml
+- template:_images/ubuntu-lts
 
 cpus: 4
 memory: "8GiB"
