@@ -17,16 +17,33 @@ user:
 provision:
 - mode: system
   script: |
-    #!/bin/bash
+    #!/usr/bin/env bash
 
     export DEBIAN_FRONTEND=noninteractive
 
     apt update
     apt upgrade -y
-    apt install -y ca-certificates docker.io docker-buildx docker-compose-v2
+    apt install -y ca-certificates \
+      docker.io docker-buildx docker-compose-v2 \
+      neovim tmux
 
     systemctl enable docker
     systemctl start docker
 
     usermod -aG docker dev
     # ^ requires server restart to refresh groups
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+
+    append() {
+      TARGET=$1
+      LINE=$2
+
+      grep -sqF "${LINE}" "${TARGET}" || echo "${LINE}" >> "${TARGET}"
+    }
+
+    append ~/.bashrc 'source ~/.bashrc-dev'
+    append ~/.bashrc-dev 'export TERM=xterm-256color'
+    append ~/.bashrc-dev 'alias vim=nvim'
+
