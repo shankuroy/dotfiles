@@ -12,7 +12,7 @@ containerd:
   user: false
 
 user:
-  name: ubuntu
+  name: docker
 
 provision:
 - mode: system
@@ -24,6 +24,11 @@ provision:
     apt update
     apt upgrade -y
     apt install -y neovim tmux
+
+    if ! command -v docker >/dev/null 2>&1; then
+      curl -fsSL https://get.docker.com | sh
+      usermod -aG docker {{.User}}
+    fi
 - mode: user
   script: |
     #!/usr/bin/env bash
