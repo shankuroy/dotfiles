@@ -12,7 +12,7 @@ containerd:
   user: false
 
 user:
-  name: administrator
+  name: docker
 
 provision:
 - mode: system
@@ -23,7 +23,7 @@ provision:
 
     if ! command -v docker >/dev/null 2>&1; then
       curl -fsSL https://get.docker.com | sh
-      usermod -aG docker administrator
+      usermod -aG docker {{.User}}
     fi
 
     apt update
@@ -33,13 +33,13 @@ provision:
   script: |
     #!/usr/bin/env bash
 
-    cat <<EOF > ~/.bashrc-administrator
+    cat <<EOF > ~/.bashrc-{{.User}}
     # GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
     export TERM=xterm-256color
     command -v nvim >/dev/null 2>&1 && alias vim=nvim
     touch ~/.bashrc-custom && source ~/.bashrc-custom
     EOF
 
-    INCLUDE_ADMIN='[[ -f ~/.bashrc-administrator ]] && source ~/.bashrc-administrator'
-    grep -sqF "${INCLUDE_ADMIN}" ~/.bashrc || echo "${INCLUDE_ADMIN}" >> ~/.bashrc
+    INCLUDE_USER='[[ -f ~/.bashrc-{{.User}} ]] && source ~/.bashrc-{{.User}}'
+    grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
 

@@ -41,6 +41,9 @@ time {
   info "cloning $NAME to $CLONE"
   time limactl clone "$NAME" "$CLONE" --start --mount-none
 
+  info "listing lima instances"
+  limactl list
+
   info "DONE!"
 
 }
