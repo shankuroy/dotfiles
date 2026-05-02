@@ -26,6 +26,7 @@ brew "zsh-syntax-highlighting"          # zsh syntax highlighting (https://githu
 cask "ghostty"                          # terminal emulator (https://github.com/ghostty-org/ghostty)
 cask "google-chrome"                    # web browser (https://www.google.com/intl/en_au/chrome/)
 cask "iina"                             # video player (https://github.com/iina/iina)
+cask "font-jetbrains-mono-nerd-font"    # monospace font with nerd font support (https://www.nerdfonts.com/font-downloads)
 cask "keka"                             # archive tool (https://www.keka.io/en/)
 cask "raycast"                          # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                        # window management (https://github.com/rxhanson/Rectangle)
