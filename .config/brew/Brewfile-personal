@@ -13,7 +13,6 @@ brew "lume"                             # macOS VM CLI and framework (https://cu
 
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
-cask "devpod"                           # devcontainer.json envorinment manager (https://devpod.sh/)
 cask "ilok-license-manager"             # iLok plugin license manager (https://www.ilok.com/#!license-manager)
 cask "localsend"                        # share files on local network (https://localsend.org/)
 cask "logi-options+"                    # Logitech mouse config (https://www.logitech.com/en-au/software/logi-options-plus.html)
