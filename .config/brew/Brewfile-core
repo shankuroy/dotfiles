@@ -14,6 +14,7 @@ brew "bat"                              # cat with colours (https://github.com/s
 brew "container"                        # linux containers on macOS (https://github.com/apple/container)
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
 brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
+brew "mole"                             # mac deep clean/optimise (https://github.com/tw93/Mole)
 brew "neovim"                           # better vim (https://github.com/neovim/neovim)
 brew "pure"                             # clean zsh prompt (https://github.com/sindresorhus/pure)
 brew "ripgrep"                          # faster grep (https://github.com/BurntSushi/ripgrep)
