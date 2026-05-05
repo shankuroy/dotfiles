@@ -1,0 +1,90 @@
+minimumLimaVersion: 2.1.1
+
+base:
+- template:_images/ubuntu-lts
+
+cpus: 4
+memory: "8GiB"
+disk: "20GiB"
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: ubuntu
+
+provision:
+- mode: system
+  script: |
+    #!/usr/bin/env bash
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt update
+    apt upgrade -y
+    apt install -y neovim tmux
+
+    if ! command -v k3s >/dev/null 2>&1; then
+      # Install K3s
+      curl -sfL https://get.k3s.io | sh -
+
+      # Wait for K3s to finish its initial startup and generate configs
+      while [ ! -f /etc/rancher/k3s/k3s.yaml ]; do
+          sleep 2
+      done
+
+      # Test a graceful service restart
+      echo "Testing graceful K3s restart..."
+      systemctl stop k3s
+      systemctl start k3s
+
+      # Set up the .kube directory for the Lima user (from our earlier script)
+      mkdir -p /home/{{.User}}.guest/.kube
+      cp /etc/rancher/k3s/k3s.yaml /home/{{.User}}.guest/.kube/config
+      chown -R {{.User}}:{{.User}} /home/{{.User}}.guest/.kube
+      chmod 600 /home/{{.User}}.guest/.kube/config
+
+    fi
+
+    if [[ ! -f /etc/systemd/system/lima-k3s-shutdown.service ]]; then
+      # Create the graceful shutdown hook
+      cat <<EOF > /etc/systemd/system/lima-k3s-shutdown.service
+    [Unit]
+    Description=Clean up K3s gracefully on VM shutdown
+    DefaultDependencies=no
+    # Ensure this runs exactly when the system is told to halt/reboot/shutdown
+    Before=shutdown.target halt.target reboot.target k3s.service
+
+    [Service]
+    Type=oneshot
+    # Run the official K3s teardown script
+    ExecStart=/usr/local/bin/k3s-killall.sh
+    # Give it up to 60 seconds to safely flush the database and kill containers
+    TimeoutSec=60
+
+    [Install]
+    WantedBy=halt.target reboot.target shutdown.target
+    EOF
+
+      # Enable the shutdown hook so it runs automatically
+      systemctl daemon-reload
+      systemctl enable lima-k3s-shutdown.service
+      systemctl start lima-k3s-shutdown.service
+    fi
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+
+    cat <<EOF > ~/.bashrc-{{.User}}
+    # GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
+    export TERM=xterm-256color
+    export EDITOR=vim
+    command -v nvim >/dev/null 2>&1 && alias vim=nvim
+    command -v k3s >/dev/null 2>&1 && alias kubectl='sudo k3s kubectl'
+    touch ~/.bashrc-custom && source ~/.bashrc-custom
+    EOF
+
+    INCLUDE_USER='[[ -f ~/.bashrc-{{.User}} ]] && source ~/.bashrc-{{.User}}'
+    grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
+
