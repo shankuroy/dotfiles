@@ -21,6 +21,7 @@ provision:
 
     export DEBIAN_FRONTEND=noninteractive
 
+    add-apt-repository ppa:neovim-ppa/unstable -y
     apt update
     apt upgrade -y
     apt install -y neovim tmux
