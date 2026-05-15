@@ -29,10 +29,24 @@ require('project_nvim').setup()
 -- -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
 local Snacks = require("snacks")
 Snacks.setup({
-  explorer = { enabled = true, replace_netrw = true },
-  picker = { enabled = true, sources = { explorer = { layout = { layout = { position = "right", }, }, }, }, }
+  explorer = {
+    enabled = true,
+    replace_netrw = true,
+  },
+  picker = {
+    enabled = true,
+    hidden = true,
+    sources = {
+      explorer = {
+        layout = {
+          layout = {
+            position = "right",
+          },
+        },
+      },
+    },
+  },
 })
-
 
 -- keymaps
 -- -- clipboard
