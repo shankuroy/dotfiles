@@ -22,8 +22,6 @@ local gitsigns = require('gitsigns')
 -- -- lualine
 require('lualine').setup()
 -- -- mini.nvim
-require('mini.ai').setup()
-require('mini.pairs').setup()
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 -- -- project.nvim
@@ -32,7 +30,7 @@ require('project_nvim').setup()
 local Snacks = require("snacks")
 Snacks.setup({
   explorer = { enabled = true, replace_netrw = true },
-  picker = { enabled = true },
+  picker = { enabled = true, sources = { explorer = { layout = { layout = { position = "right", }, }, }, }, }
 })
 
 
