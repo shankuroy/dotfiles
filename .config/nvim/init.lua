@@ -50,26 +50,26 @@ Snacks.setup({
 
 -- keymaps
 -- -- clipboard
-k({'n', 'v'}, '<leader>P', '"+P',                                   { desc = '[P]aste before from system clipboard' })
-k({'n', 'v'}, '<leader>p', '"+p',                                   { desc = '[p]aste from system clipboard' })
-k({'n', 'v'}, '<leader>y', '"+y',                                   { desc = '[y]ank to system clipboard' })
+k({'n', 'v'}, '<leader>p', '"+p',                                   { desc = 'paste from system clipboard' })
+k({'n', 'v'}, '<leader>P', '"+P',                                   { desc = 'paste before from system clipboard' })
+k({'n', 'v'}, '<leader>y', '"+y',                                   { desc = 'yank to system clipboard' })
 -- -- buffer
-k('n', '<leader>bb',  '<C-^>',                                      { desc = '[b]uffer [b]efore' })
+k('n', '<leader>bb',  '<C-^>',                                      { desc = 'switch to previous buffer' })
 -- -- fuzzy find
-k('n', '<leader>fb',  function() Snacks.picker.buffers() end,       { desc = '[f]ind [b]uffers' })
-k('n', '<leader>ff',  function() Snacks.picker.files() end,         { desc = '[f]ind [f]iles' })
-k('n', '<leader>fg',  function() Snacks.picker.git_files() end,     { desc = '[f]ind [g]it files' })
-k('n', '<leader>fk',  function() Snacks.picker.keymaps() end,       { desc = '[f]ind [k]eymaps' })
-k('n', '<leader>f/',  function() Snacks.picker.grep() end,          { desc = '[/] grep files' })
+k('n', '<leader>fb',  Snacks.picker.buffers,                        { desc = 'find buffers' })
+k('n', '<leader>ff',  Snacks.picker.files,                          { desc = 'find files' })
+k('n', '<leader>fg',  Snacks.picker.git_files,                      { desc = 'find git files' })
+k('n', '<leader>fk',  Snacks.picker.keymaps,                        { desc = 'find keymaps' })
+k('n', '<leader>f/',  Snacks.picker.grep,                           { desc = '/ grep files' })
 -- -- git
-k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = '[g]it [b]lame line' })
-k('n', '<leader>gd',  gitsigns.preview_hunk_inline,                 { desc = '[g]it [d]iff inline' })
-k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'lazy[g]it' })
+k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = 'git blame line' })
+k('n', '<leader>gd',  gitsigns.preview_hunk_inline,                 { desc = 'git diff inline' })
+k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'lazygit' })
 -- -- visual
-k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file [e]xplorer' })
-k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = '[t]oggle [w]rap' })
+k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file explorer' })
+k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = 'toggle line wrap' })
 -- -- leap.nvim
-k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',                     { desc = '[s]earch with leap.nvim' })
+k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',                     { desc = 'search with leap.nvim' })
 
 
 -- options
