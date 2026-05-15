@@ -1,32 +1,36 @@
 -- requires neovim version 0.12 or above
-local g, o, k = vim.g, vim.opt, vim.keymap.set
 
--- globals
-g.mapleader = ' ' -- set leader key to space
+-- leader key
+vim.g.mapleader = ' '
 
--- plugins
-vim.pack.add({
-  'https://codeberg.org/andyg/leap.nvim',           -- general purpose motions
-  'https://github.com/ahmedkhalf/project.nvim',     -- auto-detect project root
-  'https://github.com/folke/tokyonight.nvim',       -- theme
-  'https://github.com/folke/snacks.nvim',           -- misc plugins
-  'https://github.com/lewis6991/gitsigns.nvim',     -- git info
-  'https://github.com/nvim-lualine/lualine.nvim',   -- nicer status line
-  'https://github.com/nvim-mini/mini.nvim',         -- misc plugins
-  'https://github.com/nvim-tree/nvim-web-devicons', -- icons
-})
-
--- plugin config
--- -- gitsigns.nvim
+-- gitsigns: git info in the gutter
+vim.pack.add({'https://github.com/lewis6991/gitsigns.nvim'})
 local gitsigns = require('gitsigns')
--- -- lualine
+vim.keymap.set('n', '<leader>gb', gitsigns.blame_line,          { desc = 'git blame line' })
+vim.keymap.set('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = 'git diff inline' })
+
+-- leap: fast buffer navigation
+vim.pack.add({'https://codeberg.org/andyg/leap.nvim'})
+vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search with leap.nvim' })
+
+-- lualine: nicer status line
+vim.pack.add({
+  'https://github.com/nvim-lualine/lualine.nvim',
+  'https://github.com/nvim-tree/nvim-web-devicons'
+})
 require('lualine').setup()
--- -- mini.nvim
+
+-- mini: misc plugins
+vim.pack.add({'https://github.com/nvim-mini/mini.nvim'})
 require('mini.surround').setup()
 require('mini.trailspace').setup()
--- -- project.nvim
+
+-- project: auto-detect project root
+vim.pack.add({'https://github.com/ahmedkhalf/project.nvim'})
 require('project_nvim').setup()
--- -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
+
+-- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
+vim.pack.add({'https://github.com/folke/snacks.nvim'})
 local Snacks = require("snacks")
 Snacks.setup({
   explorer = {
@@ -48,50 +52,42 @@ Snacks.setup({
   },
 })
 
--- keymaps
--- -- clipboard
-k({'n', 'v'}, '<leader>p', '"+p',                                   { desc = 'paste from system clipboard' })
-k({'n', 'v'}, '<leader>P', '"+P',                                   { desc = 'paste before from system clipboard' })
-k({'n', 'v'}, '<leader>y', '"+y',                                   { desc = 'yank to system clipboard' })
--- -- buffer
-k('n', '<leader>bb',  '<C-^>',                                      { desc = 'switch to previous buffer' })
--- -- fuzzy find
-k('n', '<leader>fb',  Snacks.picker.buffers,                        { desc = 'find buffers' })
-k('n', '<leader>ff',  Snacks.picker.files,                          { desc = 'find files' })
-k('n', '<leader>fg',  Snacks.picker.git_files,                      { desc = 'find git files' })
-k('n', '<leader>fk',  Snacks.picker.keymaps,                        { desc = 'find keymaps' })
-k('n', '<leader>f/',  Snacks.picker.grep,                           { desc = '/ grep files' })
--- -- git
-k('n', '<leader>gb',  gitsigns.blame_line,                          { desc = 'git blame line' })
-k('n', '<leader>gd',  gitsigns.preview_hunk_inline,                 { desc = 'git diff inline' })
-k('n', '<leader>gg',  function() Snacks.lazygit() end,              { desc = 'lazygit' })
--- -- visual
-k('n', '<leader>e',   function() Snacks.explorer() end,             { desc = 'file explorer' })
-k('n', '<leader>tw',  ':set wrap!<CR>',                             { desc = 'toggle line wrap' })
--- -- leap.nvim
-k({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',                     { desc = 'search with leap.nvim' })
-
-
--- options
-o.autoindent = true       -- copy indent from current line to next
-o.breakindent = true      -- indent wrapped lines to match line start
-o.cursorline = true       -- highlight current line
-o.expandtab = true        -- use spaces instead of tabs
-o.ignorecase = true       -- ignore case while searching
-o.number = true           -- show line number
-o.relativenumber = true   -- show relative line numbers
-o.scrolloff = 8           -- start scrolling page this many lines vertically
-o.shiftwidth = 2          -- number of cols that make up one level of indentation
-o.sidescrolloff = 8       -- start scrolling page this many chars horizontally
-o.signcolumn = 'yes'      -- always show sign column
-o.smartcase = true        -- don't ignore case when search has uppercase
-o.softtabstop = -1        -- -1 means to use shiftwidth for the number of cols between two soft tab stops
-o.splitbelow = true       -- horizontal splits will be below
-o.splitright = true       -- vertical splits will be to the right
-o.termguicolors = true    -- enable 24-bit colors
-o.virtualedit = 'block'   -- allow going past the end of the line in visual block mode
-o.wrap = false            -- don't wrap lines
+vim.keymap.set('n', '<leader>fb', Snacks.picker.buffers,              { desc = 'find buffers' })
+vim.keymap.set('n', '<leader>ff', Snacks.picker.files,                { desc = 'find files' })
+vim.keymap.set('n', '<leader>fg', Snacks.picker.git_files,            { desc = 'find git files' })
+vim.keymap.set('n', '<leader>fk', Snacks.picker.keymaps,              { desc = 'find keymaps' })
+vim.keymap.set('n', '<leader>f/', Snacks.picker.grep,                 { desc = '/ grep files' })
+vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end,    { desc = 'lazygit' })
+vim.keymap.set('n', '<leader>e',  function() Snacks.explorer() end,   { desc = 'file explorer' })
 
 -- colorscheme
+vim.pack.add({'https://github.com/folke/tokyonight.nvim'})
 vim.cmd [[colorscheme tokyonight-night]]
+
+-- keymaps
+vim.keymap.set({'n', 'v'}, '<leader>p',  '"+p',                       { desc = 'paste from system clipboard' })
+vim.keymap.set({'n', 'v'}, '<leader>P',  '"+P',                       { desc = 'paste before from system clipboard' })
+vim.keymap.set({'n', 'v'}, '<leader>y',  '"+y',                       { desc = 'yank to system clipboard' })
+vim.keymap.set('n',        '<leader>bb', '<C-^>',                     { desc = 'switch to previous buffer' })
+vim.keymap.set('n',        '<leader>tw', ':set wrap!<CR>',            { desc = 'toggle line wrap' })
+
+-- options
+vim.opt.autoindent = true       -- copy indent from current line to next
+vim.opt.breakindent = true      -- indent wrapped lines to match line start
+vim.opt.cursorline = true       -- highlight current line
+vim.opt.expandtab = true        -- use spaces instead of tabs
+vim.opt.ignorecase = true       -- ignore case while searching
+vim.opt.number = true           -- show line number
+vim.opt.relativenumber = true   -- show relative line numbers
+vim.opt.scrolloff = 8           -- start scrolling page this many lines vertically
+vim.opt.shiftwidth = 2          -- number of cols that make up one level of indentation
+vim.opt.sidescrolloff = 8       -- start scrolling page this many chars horizontally
+vim.opt.signcolumn = 'yes'      -- always show sign column
+vim.opt.smartcase = true        -- don't ignore case when search has uppercase
+vim.opt.softtabstop = -1        -- -1 means to use shiftwidth for the number of cols between two soft tab stops
+vim.opt.splitbelow = true       -- horizontal splits will be below
+vim.opt.splitright = true       -- vertical splits will be to the right
+vim.opt.termguicolors = true    -- enable 24-bit colors
+vim.opt.virtualedit = 'block'   -- allow going past the end of the line in visual block mode
+vim.opt.wrap = false            -- don't wrap lines
 
