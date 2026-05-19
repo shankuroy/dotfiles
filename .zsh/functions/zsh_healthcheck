@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Run 'zsh_healthcheck' manually to verify your setup
 local missing=0
 

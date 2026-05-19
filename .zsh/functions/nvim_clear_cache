@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 print -n "Deleting Neovim cache and state..."
 rm -rf "${HOME}/.cache/nvim" "${HOME}/.local/state/nvim" "${HOME}/.local/share/nvim"
 print "DONE"
