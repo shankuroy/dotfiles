@@ -48,6 +48,7 @@ Snacks.setup({
   explorer = {
     enabled = true,
     replace_netrw = true,
+    trash = true,
   },
   picker = {
     enabled = true,
@@ -84,8 +85,10 @@ vim.cmd [[colorscheme tokyonight-night]]
 vim.keymap.set({'n', 'v'}, '<leader>p',  '"+p',                       { desc = 'paste from system clipboard' })
 vim.keymap.set({'n', 'v'}, '<leader>P',  '"+P',                       { desc = 'paste before from system clipboard' })
 vim.keymap.set({'n', 'v'}, '<leader>y',  '"+y',                       { desc = 'yank to system clipboard' })
-vim.keymap.set('n',        '<leader>bb', '<C-^>',                     { desc = 'switch to previous buffer' })
-vim.keymap.set('n',        '<leader>tw', ':set wrap!<CR>',            { desc = 'toggle line wrap' })
+vim.keymap.set({'n'},      '<leader>bb', '<C-^>',                     { desc = 'switch to previous buffer' })
+vim.keymap.set({'n'},      '<leader>tw', ':set wrap!<CR>',            { desc = 'toggle line wrap' })
+vim.keymap.set({'v'},      '>',          '>gv',                       { desc = 'continuous indent' })
+vim.keymap.set({'v'},      '<',          '<gv',                       { desc = 'continuous dedent' })
 
 
 --
