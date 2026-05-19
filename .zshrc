@@ -32,7 +32,7 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 (( $+commands[fzf] )) && { t=$ZCACHE/fzf.zsh; [[ -n $t(#qN.mh-12) ]] || fzf --zsh >| $t; source $t }
 (( $+commands[zoxide] )) && { t=$ZCACHE/zoxide.zsh; [[ -n $t(#qN.mh-12) ]] || zoxide init zsh >| $t; source $t }
 
-autoload -Uz $ZDIR/functions/*(.:t) # autoload all functions from $ZDIR/functions
+autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
 # --- prompt ---
 autoload -U promptinit; promptinit
