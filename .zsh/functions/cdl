@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 
 # navigate to symlink target or its enclosing directory
-cd -P "$1" 2>/dev/null || cd "$(dirname "$(realpath "$1")")"
+cd -P "$1" 2>/dev/null || cd "$(dirname $(realpath $1))"
 
