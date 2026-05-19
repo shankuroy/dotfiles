@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 echo " local: $(ipconfig getifaddr en0)"
 echo "public: $(dig +short myip.opendns.com @resolver1.opendns.com)"
