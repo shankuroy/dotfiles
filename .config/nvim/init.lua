@@ -3,16 +3,22 @@
 -- leader key
 vim.g.mapleader = ' '
 
+
+--
 -- gitsigns: git info in the gutter
 vim.pack.add({'https://github.com/lewis6991/gitsigns.nvim'})
 local gitsigns = require('gitsigns')
 vim.keymap.set('n', '<leader>gb', gitsigns.blame_line,          { desc = 'git blame line' })
 vim.keymap.set('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = 'git diff inline' })
 
+
+--
 -- leap: fast buffer navigation
 vim.pack.add({'https://codeberg.org/andyg/leap.nvim'})
 vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search with leap.nvim' })
 
+
+--
 -- lualine: nicer status line
 vim.pack.add({
   'https://github.com/nvim-lualine/lualine.nvim',
@@ -20,15 +26,21 @@ vim.pack.add({
 })
 require('lualine').setup()
 
+
+--
 -- mini: misc plugins
 vim.pack.add({'https://github.com/nvim-mini/mini.nvim'})
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 
+
+--
 -- project: auto-detect project root
 vim.pack.add({'https://github.com/ahmedkhalf/project.nvim'})
 require('project_nvim').setup()
 
+
+--
 -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
 vim.pack.add({'https://github.com/folke/snacks.nvim'})
 local Snacks = require("snacks")
@@ -60,10 +72,14 @@ vim.keymap.set('n', '<leader>f/', Snacks.picker.grep,                 { desc = '
 vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end,    { desc = 'lazygit' })
 vim.keymap.set('n', '<leader>e',  function() Snacks.explorer() end,   { desc = 'file explorer' })
 
+
+--
 -- colorscheme
 vim.pack.add({'https://github.com/folke/tokyonight.nvim'})
 vim.cmd [[colorscheme tokyonight-night]]
 
+
+--
 -- keymaps
 vim.keymap.set({'n', 'v'}, '<leader>p',  '"+p',                       { desc = 'paste from system clipboard' })
 vim.keymap.set({'n', 'v'}, '<leader>P',  '"+P',                       { desc = 'paste before from system clipboard' })
@@ -71,6 +87,8 @@ vim.keymap.set({'n', 'v'}, '<leader>y',  '"+y',                       { desc = '
 vim.keymap.set('n',        '<leader>bb', '<C-^>',                     { desc = 'switch to previous buffer' })
 vim.keymap.set('n',        '<leader>tw', ':set wrap!<CR>',            { desc = 'toggle line wrap' })
 
+
+--
 -- options
 vim.opt.autoindent = true       -- copy indent from current line to next
 vim.opt.breakindent = true      -- indent wrapped lines to match line start
