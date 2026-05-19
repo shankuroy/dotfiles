@@ -15,7 +15,7 @@ fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
 
 # --- options & history ---
 setopt EXTENDED_GLOB SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_VERIFY APPEND_HISTORY HIST_IGNORE_SPACE
-export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=10000 SAVEHIST=$HISTSIZE
+export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=100000 SAVEHIST=$HISTSIZE
 
 # --- cached completions --- (rebuild if >12 hours old)
 autoload -U compinit; z=$ZCACHE/.zcompdump; [[ -n $z(#qN.mh-12) ]] && compinit -C -d $z || compinit -d $z
