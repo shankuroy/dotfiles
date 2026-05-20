@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# cd to topmost macOS Finder directory
+cd "$(pwdf)"
+

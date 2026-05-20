@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# print path of the topmost macOS Finder window
+osascript 2>/dev/null -e 'tell application "Finder" to if (count windows) > 0 then return POSIX path of (target of window 1 as alias)'
+
