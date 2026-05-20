@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# print public IP address and copy it to the macOS system clipboard
+dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n' | tee >(pbcopy)
+

@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# print local IP address and copy it to the macOS system clipboard
+ipconfig getifaddr en0 | tr -d '\n' | tee >(pbcopy)
+
