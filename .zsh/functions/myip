@@ -1,4 +1,21 @@
 #!/usr/bin/env zsh
 
-echo " local: $(ipconfig getifaddr en0)"
-echo "public: $(dig +short myip.opendns.com @resolver1.opendns.com)"
+# Prints local and public IP address
+# optionally pass -l|--local or -p|--public to copy that IP to the macOS clipboard
+
+local local_ip="$(ipconfig getifaddr en0)"
+local public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+
+printf "local:\t$local_ip\npublic:\t$public_ip\n"
+
+case $1 in
+  -l|--local)
+    printf "$local_ip" | pbcopy
+    ;;
+  -p|--public)
+    printf "$public_ip" | pbcopy
+    ;;
+  *)
+    ;;
+esac
+
