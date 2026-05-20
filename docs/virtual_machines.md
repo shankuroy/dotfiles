@@ -40,4 +40,5 @@ limactl clone ubuntu-lts ubuntu-lts-clone   # clones a stopped vm
 
 ## macOS VMs on macOS with [Lume](https://cua.ai/docs/lume/guide/getting-started/introduction)
 
-TODO
+see [lume.md](./lume.md)
+
