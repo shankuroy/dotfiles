@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+# macOS quick-Look a given file
+
+# Ensure a file argument was passed
+[[ -z "$1" ]] && return 1
+
+# Launch the Quick Look window in the background
+qlmanage -p "$1" >/dev/null 2>&1 &
+
+# Force it to the front
+osascript -e '
+  tell application "System Events"
+    if exists application process "qlmanage" then
+      set frontmost of application process "qlmanage" to true
+    end if
+  end tell
+' >/dev/null 2>&1 &
+
