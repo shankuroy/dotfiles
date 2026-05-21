@@ -1,6 +1,6 @@
 # bash cheatsheet
 
-# comparisons using `[[ ]]`
+## comparisons using `[[ ]]`
 
 | Operator | Meaning                                  | Example                                     |
 | :------- | :--------------------------------------- | :------------------------------------------ |
@@ -28,7 +28,7 @@
 | == \*    | Pattern Matching (Globbing)              | `[[ "$FILE" == *.txt ]]`                    |
 | =~       | Regular Expression Match                 | `[[ "$EMAIL" =~ ^[a-z]+@[a-z]+\.[a-z]+$ ]]` |
 
-# simple argument parsing
+## simple argument parsing
 
 ```bash
 #!/usr/bin/env bash
@@ -78,3 +78,16 @@ echo "Verbose: $VERBOSE"
 echo "File: $FILE"
 echo "Positional arguments: $@"
 ```
+
+## checking for interactivity
+
+```bash
+[[ $- == *i* && -t 1 ]]
+```
+
+`$-` contains a set of single-letter shell options where `i` indicates the shell is running interactively.
+
+`-t 1` is true when the output is going directly to a terminal display rather than being redirected to a pipe or a file.
+
+So this check passes if the shell is running interactively and the output is not being piped/redirected.
+

@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
-# print local IP address and copy it to the macOS system clipboard
-ipconfig getifaddr en0 | tr -d '\n' | tee >(pbcopy)
+# prints the local IP address
+local local_ip="$(ipconfig getifaddr en0 | tr -d '\n')"
+echo "$local_ip"
+
+# if interactive session (not piped/redirected), copy local IP to macOS system clipboard
+[[ $- == *i* && -t 1 ]] && printf "$local_ip" | pbcopy
 

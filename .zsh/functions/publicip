@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
-# print public IP address and copy it to the macOS system clipboard
-dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n' | tee >(pbcopy)
+# prints the public IP address
+local public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n')"
+echo "$public_ip"
+
+# if interactive session (not piped/redirected), copy public IP to macOS system clipboard
+[[ $- == *i* && -t 1 ]] && printf "$public_ip" | pbcopy
 
