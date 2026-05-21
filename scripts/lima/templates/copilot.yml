@@ -1,0 +1,51 @@
+minimumLimaVersion: 2.1.1
+
+base:
+- template:_images/ubuntu-lts
+
+cpus: 4
+memory: "8GiB"
+disk: "20GiB"
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: copilot
+
+mounts:
+  - location: "~/repo"
+    writable: true
+
+provision:
+- mode: system
+  script: |
+    #!/usr/bin/env bash
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    add-apt-repository ppa:neovim-ppa/unstable -y
+    apt update
+    apt upgrade -y
+    apt install -y neovim tmux pipx
+
+    curl -fsSL https://gh.io/copilot-install | bash
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+
+    cat <<EOF > ~/.bashrc-{{.User}}
+    # GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
+    export TERM=xterm-256color
+    export EDITOR=vim
+    command -v nvim >/dev/null 2>&1 && alias vim=nvim
+    touch ~/.bashrc-custom && source ~/.bashrc-custom
+    EOF
+
+    INCLUDE_USER='[[ -f ~/.bashrc-{{.User}} ]] && source ~/.bashrc-{{.User}}'
+    grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
+
+    pipx ensurepath
+    pipx install graphifyy && graphify copilot install
+
