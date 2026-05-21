@@ -20,9 +20,9 @@ export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=100000 SAVEHIST=$HISTSIZE
 # --- cached completions --- (rebuild if >12 hours old)
 autoload -U compinit; z=$ZCACHE/.zcompdump; [[ -n $z(#qN.mh-12) ]] && compinit -C -d $z || compinit -d $z
 
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} l:|=* r:|=*' # case-insensitive substring matches
-zstyle ':completion:*' menu select                                    # navigate completions with tab or arrows
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"               # use colours in menu
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
+zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
 # --- tool overrides & aliases ---
 (( $+commands[eza] )) && alias ls="eza --icons"; alias la="ls -lao --no-permissions --git"
