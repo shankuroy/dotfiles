@@ -9,7 +9,8 @@ local search_query="$1"
 selected_jdk=$(
   ls -1d ~/Library/Java/JavaVirtualMachines/* /Library/Java/JavaVirtualMachines/* 2>/dev/null \
     | sort -rV \
-    | fzf --height=~-1 \
+    | fzf \
+        --height='~-1' \                # adaptive height up to terminal height minus 1
         --prompt="Select JDK > " \
         --query="$search_query"
 )
