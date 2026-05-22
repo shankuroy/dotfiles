@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+# Lists available Java SDKs and sets JAVA_HOME to the selection.
+
+local selected_jdk
+local search_query="$1"
+
+# List all JDK directories from both user and system paths, pipe to fzf
+selected_jdk=$(
+  ls -1d ~/Library/Java/JavaVirtualMachines/* /Library/Java/JavaVirtualMachines/* 2>/dev/null \
+    | sort -rV \
+    | fzf --height=~-1 \
+        --prompt="Select JDK > " \
+        --query="$search_query"
+)
+
+# If a selection was made (user didn't press Esc)
+if [[ -n "$selected_jdk" ]]; then
+  export JAVA_HOME="$selected_jdk/Contents/Home"
+  echo " JAVA_HOME set to: $JAVA_HOME"
+
+  # Verify the active version
+  java -version
+else
+  local current_java_home_message
+  if [[ -n "$JAVA_HOME" ]]; then
+    current_java_home_message="JAVA_HOME remains as: $JAVA_HOME"
+  else
+    current_java_home_message="JAVA_HOME is not set."
+  fi
+
+  echo "❌ Selection canceled. $current_java_home_message"
+fi
+
