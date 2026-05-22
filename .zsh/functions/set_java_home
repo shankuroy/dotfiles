@@ -7,26 +7,32 @@ local search_query="$1"
 
 # List all JDK directories from both user and system paths, pipe to fzf
 selected_jdk=$(
-  ls -1d ~/Library/Java/JavaVirtualMachines/* /Library/Java/JavaVirtualMachines/* 2>/dev/null \
-    | sort -rV \
-    | fzf --height='~-1' --prompt="Select JDK > " --query="$search_query"
+  /usr/libexec/java_home -V 2>&1 \      # verbose list of available JDKs
+    | grep '^\s' \                      # match line starting with whitespace
+    | awk '{print $NF}' \               # print the last space-separated field
+    | sort -rV \                        # reverse sort version numbers
+    | fzf \
+        --height='~-1' \                # adapt to input size up to terminal height minus 1
+        --prompt='Select JDK > ' \
+        --query="$search_query"         # pre-fill search query if provided
 )
 
 # If a selection was made (user didn't press Esc)
 if [[ -n "$selected_jdk" ]]; then
-  export JAVA_HOME="$selected_jdk/Contents/Home"
+  export JAVA_HOME="$selected_jdk"
   echo " JAVA_HOME set to: $JAVA_HOME"
 
   # Verify the active version
   java -version
 else
-  local current_java_home_message
+  printf '❌ Selection canceled. '
+
   if [[ -n "$JAVA_HOME" ]]; then
-    current_java_home_message="JAVA_HOME remains as: $JAVA_HOME"
+    printf "JAVA_HOME remains as: $JAVA_HOME"
   else
-    current_java_home_message="JAVA_HOME is not set."
+    printf 'JAVA_HOME is not set.'
   fi
 
-  echo "❌ Selection canceled. $current_java_home_message"
+  printf "\n"
 fi
 
