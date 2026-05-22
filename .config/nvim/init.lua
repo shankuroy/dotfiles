@@ -70,7 +70,6 @@ Snacks.setup({
     },
   },
 })
-Snacks.indent.enable()
 
 vim.keymap.set('n', '<leader>fb', Snacks.picker.buffers,              { desc = 'find buffers' })
 vim.keymap.set('n', '<leader>ff', Snacks.picker.files,                { desc = 'find files' })
