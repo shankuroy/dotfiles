@@ -50,6 +50,12 @@ Snacks.setup({
     replace_netrw = true,
     trash = true,
   },
+  gitbrowse = {
+    open = function(url)
+      local profile_stripped = url:gsub("github.com%-%w+", "github.com")
+      vim.ui.open(profile_stripped)
+    end
+  },
   picker = {
     enabled = true,
     hidden = true,
@@ -71,6 +77,7 @@ vim.keymap.set('n', '<leader>ff', Snacks.picker.files,                { desc = '
 vim.keymap.set('n', '<leader>fg', Snacks.picker.git_files,            { desc = 'find git files' })
 vim.keymap.set('n', '<leader>fk', Snacks.picker.keymaps,              { desc = 'find keymaps' })
 vim.keymap.set('n', '<leader>f/', Snacks.picker.grep,                 { desc = '/ grep files' })
+vim.keymap.set('n', '<leader>gx', function() Snacks.gitbrowse() end,  { desc = 'open line in browser' })
 vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end,    { desc = 'lazygit' })
 vim.keymap.set('n', '<leader>e',  function() Snacks.explorer() end,   { desc = 'file explorer' })
 
