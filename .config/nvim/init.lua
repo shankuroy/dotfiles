@@ -10,8 +10,8 @@ vim.pack.add({'https://github.com/lewis6991/gitsigns.nvim'})
 local gitsigns = require('gitsigns')
 vim.keymap.set('n', '<leader>gb', gitsigns.blame_line,          { desc = 'git blame line' })
 vim.keymap.set('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = 'git diff inline' })
-vim.keymap.set('n', ']h',         gitsigns.next_hunk,           { desc = 'git next hunk' })
-vim.keymap.set('n', '[h',         gitsigns.prev_hunk,           { desc = 'git prev hunk' })
+vim.keymap.set('n', ']c',         gitsigns.next_hunk,           { desc = 'git next hunk' })
+vim.keymap.set('n', '[c',         gitsigns.prev_hunk,           { desc = 'git prev hunk' })
 vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk,          { desc = 'git reset hunk' })
 
 --
