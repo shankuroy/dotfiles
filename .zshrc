@@ -12,6 +12,7 @@ export XDG_CONFIG_HOME="$HOME/.config" EZA_CONFIG_DIR="$HOME/.config/eza"
 typeset -U path fpath # ensure unique entries
 path=($HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
 fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
+autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
 # --- options & history ---
 setopt APPEND_HISTORY EXTENDED_GLOB HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS HIST_VERIFY NUMERIC_GLOB_SORT SHARE_HISTORY
@@ -31,8 +32,6 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 # --- cached tools --- (rebuild if >12 hours old)
 (( $+commands[fzf] )) && { t=$ZCACHE/fzf.zsh; [[ -n $t(#qN.mh-12) ]] || fzf --zsh >| $t; source $t }
 (( $+commands[zoxide] )) && { t=$ZCACHE/zoxide.zsh; [[ -n $t(#qN.mh-12) ]] || zoxide init zsh >| $t; source $t }
-
-autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
 # --- prompt ---
 autoload -U promptinit; promptinit
