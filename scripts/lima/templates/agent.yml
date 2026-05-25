@@ -1,0 +1,61 @@
+minimumLimaVersion: 2.1.1
+
+base:
+- template:_images/ubuntu-lts
+
+cpus: 4
+memory: "8GiB"
+disk: "20GiB"
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: agent
+
+mounts:
+  - location: "~/repo"
+    mountPoint: "/sync/repo"
+    writable: true
+
+provision:
+- mode: system
+  script: |
+    #!/usr/bin/env bash
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    add-apt-repository ppa:neovim-ppa/unstable -y
+    apt update
+    apt upgrade -y
+    apt install -y neovim tmux
+
+    if ! command -v docker >/dev/null 2>&1; then
+      curl -fsSL https://get.docker.com | sh
+      usermod -aG docker {{.User}}
+    fi
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+
+    cat <<EOF > ~/.bashrc-{{.User}}
+    # GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
+    export TERM=xterm-256color
+    export EDITOR=vim
+    command -v nvim >/dev/null 2>&1 && alias vim=nvim
+    alias la='ls -lah'
+    [[ -L ~/repo ]] || ln -s /sync/repo ~/repo
+    eval "\$(~/.local/bin/mise activate bash)"
+    touch ~/.bashrc-custom && source ~/.bashrc-custom
+    EOF
+
+    INCLUDE_USER='[[ -f ~/.bashrc-{{.User}} ]] && source ~/.bashrc-{{.User}}'
+    grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
+
+    command -v mise || curl https://mise.run | sh
+
+    command -v agy || curl -fsSL https://antigravity.google/cli/install.sh | bash
+    command -v claude || curl -fsSL https://claude.ai/install.sh | bash
+    command -v copilot || curl -fsSL https://gh.io/copilot-install | bash
+
