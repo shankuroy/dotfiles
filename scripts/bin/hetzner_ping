@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# pings Hetzner datacenter locations and prints the average latency with standard deviation
+
+ping_hetzner_datacenter() {
+  local datacenter=$1
+  local stats=$(ping -i .1 -c 10 -q "${datacenter}-speed.hetzner.com" 2>/dev/null | awk -F/ '/^round/{print $5"\t\t"$7}')
+  printf "%s\t\t%s\n" "$datacenter" "$stats"
+}
+
+export -f ping_hetzner_datacenter
+
+printf "server\t\tavg\t\tstddev\n"
+printf -- "-----\t\t---\t\t------\n"
+
+printf "%s\n" sin nbg1 fsn1 hel1 ash hil | xargs -n 1 -P 6 -I {} bash -c 'ping_hetzner_datacenter "$@"' _ {} | sort -n -k2
+
