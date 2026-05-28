@@ -1,0 +1,30 @@
+minimumLimaVersion: 2.1.1
+
+base:
+# Hetzner has 26.04 but I couldn't get that to work with lima so we'll go with 24.04
+- template:_images/ubuntu-24.04.yaml
+
+cpus: 2
+memory: "4GiB"
+disk: "20GiB"
+
+mounts:
+  - location: "~/repo"
+    mountPoint: "/sync/repo"
+    writable: true
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: ubuntu
+
+provision:
+- mode: user
+  file: ./ubuntu_setup.sh
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+    [[ -L ~/repo ]] || ln -s /sync/repo ~/repo
+
