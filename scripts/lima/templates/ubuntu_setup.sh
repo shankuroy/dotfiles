@@ -52,18 +52,18 @@ if id -nG $USER | grep -qqv "docker"; then
     sudo usermod -aG docker $USER
 fi
 
-echo "==> Setting up system-wide environment variables and aliases..."
-sudo tee /etc/profile.d/bashrc-global.sh <<'EOF'
+echo "==> Setting up bashrc..."
+cat <<EOF > ~/.bashrc-$USER
+# GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
 export TERM=xterm-256color
-export EDITOR=nvim
-
-# Map vim to nvim if available
-if command -v nvim >/dev/null 2>&1; then
-  alias vim=nvim
-fi
-
+export EDITOR=vim
+command -v nvim >/dev/null 2>&1 && alias vim=nvim
 alias la='ls -lah'
+touch ~/.bashrc-custom && source ~/.bashrc-custom
 EOF
+
+INCLUDE_USER="[[ -f ~/.bashrc-$USER ]] && source ~/.bashrc-$USER"
+grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
 
 echo "==> Bootstrap complete!"
 
