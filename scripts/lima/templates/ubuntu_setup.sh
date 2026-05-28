@@ -54,12 +54,12 @@ fi
 
 echo "==> Setting up bashrc..."
 cat <<EOF > ~/.bashrc-$USER
-# GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-custom
+# GENERATED FILE - DO NOT EDIT - EDIT INSTEAD: ~/.bashrc-session
 export TERM=xterm-256color
 export EDITOR=vim
 command -v nvim >/dev/null 2>&1 && alias vim=nvim
 alias la='ls -lah'
-touch ~/.bashrc-custom && source ~/.bashrc-custom
+touch ~/.bashrc-session && source ~/.bashrc-session
 EOF
 
 INCLUDE_USER="[[ -f ~/.bashrc-$USER ]] && source ~/.bashrc-$USER"
