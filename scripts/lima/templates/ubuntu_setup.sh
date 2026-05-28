@@ -9,24 +9,10 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "==> Preparing repositories and keys..."
 
-# Add Neovim PPA
-if ! grep -q "^deb .*neovim-ppa" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
-    sudo apt-get update -y
-    sudo apt-get install -y software-properties-common
-    sudo add-apt-repository ppa:neovim-ppa/unstable -y
-fi
-
-# Add Docker's Official GPG Key
 sudo install -m 0755 -d /etc/apt/keyrings
-if [ ! -f /etc/apt/keyrings/docker.asc ]; then
-    sudo apt-get install -y ca-certificates curl
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
-fi
-
-# Add Docker Repository
-if [ ! -f /etc/apt/sources.list.d/docker.sources ]; then
-    sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/ubuntu
 Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
@@ -34,14 +20,11 @@ Components: stable
 Architectures: $(dpkg --print-architecture)
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
-fi
-
-echo "==> Updating package lists and performing one-time upgrade..."
-sudo apt-get update -y
-sudo apt-get dist-upgrade -y
 
 echo "==> Installing packages..."
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt-get install -y \
+    ca-certificates \
     neovim \
     tmux \
     docker-ce \
@@ -49,6 +32,8 @@ sudo apt-get install -y \
     containerd.io \
     docker-buildx-plugin \
     docker-compose-plugin
+
+sudo apt-get update -y
 
 echo "==> Configuring user permissions..."
 if id -nG $USER | grep -qqv "docker"; then
@@ -67,6 +52,9 @@ EOF
 
 INCLUDE_USER="[[ -f ~/.bashrc-$USER ]] && source ~/.bashrc-$USER"
 grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
+
+echo "==> Basic server hardening..."
+# TODO
 
 echo "==> Bootstrap complete!"
 
