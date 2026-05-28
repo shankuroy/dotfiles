@@ -26,7 +26,7 @@ zstyle ':completion:*' menu select                      # navigate completions w
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
 # --- tool overrides & aliases ---
-(( $+commands[eza] )) && alias ls="eza --icons"; alias la="ls -lao --no-permissions --git"
+(( $+commands[eza] )) && alias ls="eza --icons"; alias la="ls -la --git"
 (( $+commands[nvim] )) && export EDITOR="nvim" && alias vim="nvim" || export EDITOR="vim"
 
 # --- cached tools --- (rebuild if >12 hours old)
