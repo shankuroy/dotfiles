@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/lima/templates/ubuntu_setup.sh | bash
+
 set -euo pipefail # Exit on error, unset variables, or pipe failures
 
 # Ensure non-interactive apt installations
