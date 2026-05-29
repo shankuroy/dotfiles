@@ -1,12 +1,5 @@
 #cloud-config
 
-system_info:
-  default_user:
-    groups: sudo
-    sudo: "ALL=(ALL) ALL"
-    lock_passwd: false
-    passwd: "$6$z/EZtIm7cSdBKBqM$YKIWlTU5Eeh3nVDWgMEYqvIG4tr82OGcLdfHcm.CWWoPHEfGGr6hBSlVjxUhJaeHltgTa0p1Vv55OAmmXsH8y." # hashed using: openssl passwd -6
-
 bootcmd:
   - install -m 0755 -d /etc/apt/keyrings
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -20,7 +13,9 @@ apt:
 runcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get update
   - DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
+  - DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban tmux
   - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - sudo usermod -aG docker ubuntu
 
 power_state:
   delay: now
