@@ -8,7 +8,6 @@ users:
     groups: docker
     sudo: "ALL=(ALL) NOPASSWD:ALL"
     append: true
-    ssh_import_id: [ gh:shankuroy ]
 
 bootcmd:
   - install -m 0755 -d /etc/apt/keyrings
