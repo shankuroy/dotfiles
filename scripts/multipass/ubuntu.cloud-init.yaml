@@ -16,8 +16,6 @@ write_files:
     content: |
       PasswordAuthentication no
       PermitRootLogin no
-      PermitEmptyPasswords no
-      PubkeyAuthentication yes
 
   - path: /etc/docker/daemon.json
     permissions: '0644'
