@@ -20,6 +20,12 @@ apt:
 
 runcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get update
-  - DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+  - DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
   - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+power_state:
+  delay: "now"
+  mode: "reboot"
+  message: "Rebooting after cloud-init provisioning and updates"
+  timeout: 30
 
