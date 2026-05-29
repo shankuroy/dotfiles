@@ -1,7 +1,6 @@
 minimumLimaVersion: 2.1.1
 
 base:
-# Hetzner has 26.04 but I couldn't get that to work with lima so we'll go with 24.04
 - template:_images/ubuntu-24.04.yaml
 
 cpus: 2
