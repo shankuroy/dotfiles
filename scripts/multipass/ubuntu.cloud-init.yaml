@@ -13,8 +13,7 @@ apt:
 runcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get update
   - DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban tmux
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin fail2ban
   - sudo usermod -aG docker ubuntu
 
 power_state:
