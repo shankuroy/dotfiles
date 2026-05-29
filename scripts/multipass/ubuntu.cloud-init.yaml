@@ -1,12 +1,11 @@
 #cloud-config
 
-groups:
-  - docker
-
-users:
-  - name: ubuntu
-    groups: docker
-    sudo: "ALL=(ALL) NOPASSWD:ALL"
+system_info:
+  default_user:
+    groups: sudo
+    sudo: "ALL=(ALL) ALL"
+    lock_passwd: false
+    passwd: "$6$z/EZtIm7cSdBKBqM$YKIWlTU5Eeh3nVDWgMEYqvIG4tr82OGcLdfHcm.CWWoPHEfGGr6hBSlVjxUhJaeHltgTa0p1Vv55OAmmXsH8y." # hashed using: openssl passwd -6
 
 bootcmd:
   - install -m 0755 -d /etc/apt/keyrings
@@ -24,8 +23,6 @@ runcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 power_state:
-  delay: "now"
-  mode: "reboot"
-  message: "Rebooting after cloud-init provisioning and updates"
-  timeout: 30
+  delay: now
+  mode: reboot
 
