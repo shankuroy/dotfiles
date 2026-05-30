@@ -1,14 +1,14 @@
 #cloud-config
 
+ssh_import_id: [ 'gh:shankuroy' ]
+
 write_files:
   - path: /etc/ssh/sshd_config.d/99-hardening.conf
-    permissions: '0644'
     content: |
       PasswordAuthentication no
       PermitRootLogin no
 
   - path: /etc/docker/daemon.json
-    permissions: '0644'
     content: |
       {
         "no-new-privileges": true,
@@ -21,7 +21,6 @@ write_files:
       }
 
   - path: /etc/apt/apt.conf.d/50unattended-upgrades
-    permissions: '0644'
     content: |
       Unattended-Upgrade::Allowed-Origins {
           "${distro_id}:${distro_codename}";
@@ -31,7 +30,6 @@ write_files:
       Unattended-Upgrade::Automatic-Reboot "false";
 
   - path: /etc/apt/apt.conf.d/20auto-upgrades
-    permissions: '0644'
     content: |
       APT::Periodic::Update-Package-Lists "1";
       APT::Periodic::Download-Upgradeable-Packages "1";
@@ -39,12 +37,12 @@ write_files:
 
 runcmd:
   - apt-get update
-  - apt-get install -y ca-certificates curl
+  - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl
   - install -m 0755 -d /etc/apt/keyrings
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
   - chmod a+r /etc/apt/keyrings/docker.asc
   - |
-    sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+    tee /etc/apt/sources.list.d/docker.sources <<EOF
     Types: deb
     URIs: https://download.docker.com/linux/ubuntu
     Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
@@ -54,9 +52,10 @@ runcmd:
     EOF
   - apt-get update
   - DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin unattended-upgrades
+  - DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 power_state:
   mode: reboot
   delay: now
+  message: 'Rebooting after cloud-init setup. Once rebooted, please run: sudo apt-get -y dist-upgrade && sudo systemctl reboot'
 
