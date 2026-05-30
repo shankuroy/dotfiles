@@ -2,6 +2,23 @@
 
 ssh_import_id: [ 'gh:shankuroy' ]
 
+apt:
+  sources:
+    docker:
+      source: deb https://download.docker.com/linux/ubuntu $RELEASE stable
+      keyserver: https://download.docker.com/linux/ubuntu/gpg
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
 write_files:
   - path: /etc/ssh/sshd_config.d/99-hardening.conf
     content: |
@@ -35,25 +52,6 @@ write_files:
       APT::Periodic::Download-Upgradeable-Packages "1";
       APT::Periodic::Unattended-Upgrade "1";
       APT::Periodic::AutocleanInterval "7";
-
-runcmd:
-  - apt-get update
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl
-  - install -m 0755 -d /etc/apt/keyrings
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-  - chmod a+r /etc/apt/keyrings/docker.asc
-  - |
-    tee /etc/apt/sources.list.d/docker.sources <<EOF
-    Types: deb
-    URIs: https://download.docker.com/linux/ubuntu
-    Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-    Components: stable
-    Architectures: $(dpkg --print-architecture)
-    Signed-By: /etc/apt/keyrings/docker.asc
-    EOF
-  - apt-get update
-  - DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 power_state:
   mode: reboot
