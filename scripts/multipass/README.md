@@ -20,7 +20,3 @@ multipass delete ubuntu
 multipass purge
 ```
 
-## TODO
-
-- server hardening
-
