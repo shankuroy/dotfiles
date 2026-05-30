@@ -1,4 +1,0 @@
-#!/usr/bin/env zsh
-
-TERM=xterm-256color multipass shell ubuntu
-

@@ -10,7 +10,7 @@ ZDIR=$HOME/.zsh; ZCACHE=$ZDIR/cache; [[ -d $ZCACHE ]] || mkdir -p $ZCACHE
 export XDG_CONFIG_HOME="$HOME/.config" EZA_CONFIG_DIR="$HOME/.config/eza"
 
 typeset -U path fpath # ensure unique entries
-path=($HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
+path=($HOME/.local/bin(\N) $HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
 fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
 autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
