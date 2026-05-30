@@ -1,5 +1,14 @@
 #cloud-config
 
+# Ubuntu server cloud-init with Docker, some very basic ssh hardening,
+# and unattended security upgrades that don't require a reboot.
+#
+# Intended for use with a cloud VPS firewall.
+#
+# multipass launch lts --cloud-init cloud-init-ubuntu-docker.yml --cpus 4 --memory 8G --disk 20G -vvvv --name ubuntu-docker
+# multipass shell ubuntu-docker
+# multipass delete ubuntu-docker && multipass purge
+
 ssh_import_id: [ 'gh:shankuroy' ]
 
 apt:
