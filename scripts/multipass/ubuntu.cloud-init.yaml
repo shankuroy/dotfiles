@@ -34,6 +34,7 @@ write_files:
       APT::Periodic::Update-Package-Lists "1";
       APT::Periodic::Download-Upgradeable-Packages "1";
       APT::Periodic::Unattended-Upgrade "1";
+      APT::Periodic::AutocleanInterval "7";
 
 runcmd:
   - apt-get update
@@ -51,11 +52,10 @@ runcmd:
     Signed-By: /etc/apt/keyrings/docker.asc
     EOF
   - apt-get update
-  - DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+  - DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
   - DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 power_state:
   mode: reboot
   delay: now
-  message: 'Rebooting after cloud-init setup. Once rebooted, please run: sudo apt-get -y dist-upgrade && sudo systemctl reboot'
 
