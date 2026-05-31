@@ -5,7 +5,7 @@
 #   - auto unattended security upgrades that don't require a reboot
 #   - Docker
 #
-# Copy this script to a fresh Ubuntu server and run it, or curl-bash it:
+# Copy this script to a fresh Ubuntu server and run it with your sudo user (not root), or curl-bash it:
 #   curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash
 #
 # Next steps:
@@ -18,7 +18,7 @@ function log_info {
   printf "${GREEN}[UBUNTU-SETUP]${DEFAULT} %s\n" "$@"
 }
 
-# ------------------------------------------------------------ ssh hardening --
+# ---------------------------------------------------------------------- ssh --
 FILE=/etc/ssh/sshd_config.d/99-hardening.conf
 log_info "saving basic ssh hardening to $FILE"
 
@@ -26,6 +26,9 @@ sudo tee $FILE <<'EOF'
 PasswordAuthentication no
 PermitRootLogin no
 EOF
+
+log_info "importing ssh keys"
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -
 
 # ------------------------------------------------------ unattended upgrades --
 FILE=/etc/apt/apt.conf.d/50unattended-upgrades
