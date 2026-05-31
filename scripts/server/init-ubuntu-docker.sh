@@ -20,6 +20,24 @@ function log_info {
 
 log_info "========== starting ubuntu server setup =========="
 
+# --------------------------------------------------------------------- bash --
+log_info "enabling support for ~/.bashrc-{admin,dev,custom} and ensuring interactive sessions start in tmux"
+
+INCLUDE_LINE='[[ -f ~/.bashrc-admin ]] && include ~/.bashrc-admin'
+grep -qxF "$INCLUDE_LINE" ~/.bashrc || echo "$INCLUDE_LINE" >> ~/.bashrc
+
+touch ~/.bashrc-{admin,dev,custom}
+tee ~/.bashrc-admin <<'EOF'
+# GENERATED FILE - DO NOT EDIT
+export EDITOR=vim
+alias la='ls -lah'
+[[ -f ~/.bashrc-dev ]] && include ~/.bashrc-dev
+[[ -f ~/.bashrc-custom ]] && include ~/.bashrc-custom
+
+# ensure interactive ssh sessions start in tmux
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new-session -A -s "$(hostname)"
+EOF
+
 # ---------------------------------------------------------------------- ssh --
 FILE=/etc/ssh/sshd_config.d/99-hardening.conf
 log_info "saving basic ssh hardening to $FILE"
@@ -34,10 +52,6 @@ curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/
 
 log_info "verifying ssh config"
 sudo sshd -t
-
-log_info "ensuring interactive ssh sessions open in tmux"
-TMUX_LINE='[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new-session -A -s "$(hostname)"'
-grep -qxF "$TMUX_LINE" ~/.bashrc || echo "$TMUX_LINE" >> ~/.bashrc
 
 # ------------------------------------------------------ unattended upgrades --
 FILE=/etc/apt/apt.conf.d/50unattended-upgrades
