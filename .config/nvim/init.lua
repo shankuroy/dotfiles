@@ -97,6 +97,13 @@ vim.keymap.set({'n'},      '<leader>tw', ':set wrap!<CR>',            { desc = '
 vim.keymap.set({'v'},      '>',          '>gv',                       { desc = 'continuous indent' })
 vim.keymap.set({'v'},      '<',          '<gv',                       { desc = 'continuous dedent' })
 
+vim.keymap.set('n', '<leader>tc', function()
+  if vim.wo.colorcolumn == '' then
+    vim.wo.colorcolumn = '80,120'
+  else
+    vim.wo.colorcolumn = ''
+  end
+end, { desc = 'toggle colorcolumn' })
 
 --
 -- options
