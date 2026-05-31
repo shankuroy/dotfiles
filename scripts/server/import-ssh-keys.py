@@ -7,12 +7,13 @@ ensures correct file permissions and ignores keys that are already present.
 
 Usage:
     - Run locally:
-      python3 update_keys.py [username]
+      python3 import-ssh-keys.py [username]
 
-    - Run via curl pipeline:
-      curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 - [username]
+    - Run via curl pipeline (with default username 'shankuroy'):
+      curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -
 
-    * If [username] is omitted, it defaults to 'shankuroy'.
+    - Run via curl pipeline (with custom username 'custom'):
+      curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 - custom
 """
 
 import sys
