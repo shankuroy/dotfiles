@@ -23,7 +23,7 @@ log_info "========== starting ubuntu server setup =========="
 # --------------------------------------------------------------------- bash --
 log_info "enabling support for ~/.bashrc-{admin,dev,custom} and ensuring interactive sessions start in tmux"
 
-INCLUDE_LINE='[[ -f ~/.bashrc-admin ]] && include ~/.bashrc-admin'
+INCLUDE_LINE='[[ -f ~/.bashrc-admin ]] && source ~/.bashrc-admin'
 grep -qxF "$INCLUDE_LINE" ~/.bashrc || echo "$INCLUDE_LINE" >> ~/.bashrc
 
 touch ~/.bashrc-{admin,dev,custom}
@@ -31,8 +31,8 @@ tee ~/.bashrc-admin <<'EOF'
 # GENERATED FILE - DO NOT EDIT
 export EDITOR=vim
 alias la='ls -lah'
-[[ -f ~/.bashrc-dev ]] && include ~/.bashrc-dev
-[[ -f ~/.bashrc-custom ]] && include ~/.bashrc-custom
+[[ -f ~/.bashrc-dev ]]    && source ~/.bashrc-dev
+[[ -f ~/.bashrc-custom ]] && source ~/.bashrc-custom
 
 # ensure interactive ssh sessions start in tmux
 [[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new-session -A -s "$(hostname)"
