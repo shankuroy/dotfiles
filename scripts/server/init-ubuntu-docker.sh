@@ -30,6 +30,9 @@ EOF
 log_info "importing ssh keys"
 curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -
 
+log_info "verifying ssh config"
+sudo sshd -t
+
 # ------------------------------------------------------ unattended upgrades --
 FILE=/etc/apt/apt.conf.d/50unattended-upgrades
 log_info "saving unattended upgrades config to $FILE"
