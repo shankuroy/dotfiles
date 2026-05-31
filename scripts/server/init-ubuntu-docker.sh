@@ -18,6 +18,8 @@ function log_info {
   printf "${GREEN}[UBUNTU-SETUP]${DEFAULT} %s\n" "$@"
 }
 
+log_info "========== starting ubuntu server setup =========="
+
 # ---------------------------------------------------------------------- ssh --
 FILE=/etc/ssh/sshd_config.d/99-hardening.conf
 log_info "saving basic ssh hardening to $FILE"
@@ -32,6 +34,10 @@ curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/
 
 log_info "verifying ssh config"
 sudo sshd -t
+
+log_info "ensuring interactive ssh sessions open in tmux"
+TMUX_LINE='[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new-session -A -s "$(hostname)"'
+grep -qxF "$TMUX_LINE" ~/.bashrc || echo "$TMUX_LINE" >> ~/.bashrc
 
 # ------------------------------------------------------ unattended upgrades --
 FILE=/etc/apt/apt.conf.d/50unattended-upgrades
@@ -100,6 +106,6 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # -------------------------------------------------------------------- finish --
-log_info "server init complete! (check above for any errors)"
-log_info "please restart the server with sudo reboot"
+log_info "========== ubuntu server setup complete =========="
+log_info "please check the output above for errors, then restart the server with sudo reboot"
 
