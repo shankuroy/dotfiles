@@ -4,6 +4,7 @@
 #   - basic ssh hardening
 #   - auto unattended security upgrades that don't require a reboot
 #   - Docker
+#   - interactive ssh drops you into tmux
 #
 # Copy this script to a fresh Ubuntu server and run it with your sudo user (not root), or curl-bash it:
 #   curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash
