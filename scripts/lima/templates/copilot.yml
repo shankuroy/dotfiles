@@ -29,8 +29,6 @@ provision:
     apt update
     apt upgrade -y
     apt install -y neovim tmux pipx
-
-    curl -fsSL https://gh.io/copilot-install | bash
 - mode: user
   script: |
     #!/usr/bin/env bash
@@ -46,6 +44,8 @@ provision:
     INCLUDE_USER='[[ -f ~/.bashrc-{{.User}} ]] && source ~/.bashrc-{{.User}}'
     grep -sqF "${INCLUDE_USER}" ~/.bashrc || echo "${INCLUDE_USER}" >> ~/.bashrc
 
+    command -v copilot || curl -fsSL https://gh.io/copilot-install | bash
+
     pipx ensurepath
-    pipx install graphifyy && graphify copilot install
+    command -v graphify || pipx install graphifyy && graphify copilot install
 
