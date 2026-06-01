@@ -5,9 +5,10 @@
 On the server:
 
 ```bash
+sudo apt-get dist-upgrade -y
 curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -;
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-dev.sh | bash;
 curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash;
-curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker-dev.sh | bash;
 ```
 
 On your local computer:
