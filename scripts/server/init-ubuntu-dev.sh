@@ -24,7 +24,7 @@ touch ~/.bashrc-dev
 tee ~/.bashrc-dev <<'EOF'
 # GENERATED FILE - DO NOT EDIT
 
-command -v starship >/dev/null 2>&1 || curl -sS https://starship.rs/install.sh | sh -s -- -y
+command -v starship >/dev/null 2>&1 || sudo apt-get install -y starship
 eval "$(starship init bash)"
 
 [[ -f ~/.local/bin/mise ]] || curl https://mise.run | sh
