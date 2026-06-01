@@ -36,7 +36,7 @@ alias la='ls -lah'
 [[ -f ~/.bashrc-custom ]] && source ~/.bashrc-custom
 
 # ensure interactive ssh sessions start in tmux
-[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new-session -A -s "$(hostname)"
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname)"
 EOF
 
 # ----------------------------------------------------------------------- ssh --
