@@ -5,31 +5,24 @@
 On the server:
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
-curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/import-ssh-keys.py | python3 -;
-curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-dev.sh | bash;
-curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash;
+sudo reboot
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-dev.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash
+sudo reboot
 ```
 
 On your local computer:
 
 ```bash
 SERVER_HOST=server-hostname;
-scp -i ~/.ssh/id_ed25519_personal ~/.tmux.conf ubuntu@$SERVER_HOST:~/.tmux.conf;
-scp -i ~/.ssh/id_ed25519_personal ~/.vimrc     ubuntu@$SERVER_HOST:~/.vimrc;
-```
-
-Then back on the server, reboot:
-
-```bash
-sudo reboot
-```
-
-Then log back in remotely:
-
-```bash
+scp -i ~/.ssh/id_ed25519_personal ~/.tmux.conf ~/.vimrc ubuntu@$SERVER_HOST:~
 TERM=xterm-256color ssh -i ~/.ssh/id_ed25519_personal -t ubuntu@$SERVER_HOST
 ```
 
