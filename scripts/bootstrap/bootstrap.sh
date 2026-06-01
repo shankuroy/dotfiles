@@ -53,6 +53,7 @@ if [ ! -f "${ssh_path}/config" ]; then
 Host *
   AddKeysToAgent yes
   IdentitiesOnly yes
+  SetEnv TERM=xterm-256color
 
 Include ~/.ssh/config.d/*.conf
 EOF
