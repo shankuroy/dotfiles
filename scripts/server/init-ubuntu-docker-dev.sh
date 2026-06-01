@@ -18,20 +18,23 @@ log_info "========== starting ubuntu dev server setup =========="
 
 
 # ---------------------------------------------------------------------- bash --
-log_info "updating ~/.bashrc-dev"
+log_info "writing ~/.bashrc-dev"
 
 touch ~/.bashrc-dev
 tee ~/.bashrc-dev <<'EOF'
 # GENERATED FILE - DO NOT EDIT
+
 command -v starship >/dev/null 2>&1 || sudo apt-get install -y starship
 eval "$(starship init bash)"
 
-command -v mise >/dev/null 2>&1 || curl https://mise.run | sh
+[[ -f ~/.local/bin/mise ]] || curl https://mise.run | sh
 eval "$(~/.local/bin/mise activate bash)"
+
 EOF
 
+source ~/.bashrc-dev
+mise doctor
 
 # -------------------------------------------------------------------- finish --
 log_info "========== ubuntu server dev setup complete =========="
-log_info "reload config with: source ~/.bashrc-dev"
 

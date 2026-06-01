@@ -12,6 +12,10 @@ curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/
 curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker.sh | bash
 ```
 
+```bash
+curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker-dev.sh | bash
+```
+
 On your local computer:
 
 ```bash
