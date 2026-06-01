@@ -1,10 +1,11 @@
 minimumLimaVersion: 2.1.1
 
-base:
-- template:_images/ubuntu-24.04.yaml
+images:
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release-20260520/ubuntu-26.04-server-cloudimg-arm64.img
+    arch: aarch64
 
-cpus: 2
-memory: "4GiB"
+cpus: 4
+memory: "8GiB"
 disk: "20GiB"
 
 mounts:
@@ -20,8 +21,6 @@ user:
   name: ubuntu
 
 provision:
-- mode: user
-  file: ./ubuntu_setup.sh
 - mode: user
   script: |
     #!/usr/bin/env bash

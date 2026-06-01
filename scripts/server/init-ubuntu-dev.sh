@@ -5,7 +5,7 @@
 #   - starship
 #
 # Copy this script to a fresh Ubuntu server and run it with your sudo user (not root), or curl-bash it:
-#   curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-docker-dev.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/shankuroy/dotfiles/refs/heads/main/scripts/server/init-ubuntu-dev.sh | bash
 
 # ----------------------------------------------------- functions & variables --
 GREEN='\033[32m'
@@ -14,7 +14,7 @@ function log_info {
   printf "${GREEN}[UBUNTU-SETUP-DEV]${DEFAULT} %s\n" "$@"
 }
 
-log_info "========== starting ubuntu dev server setup =========="
+log_info "========== starting ubuntu server dev setup =========="
 
 
 # ---------------------------------------------------------------------- bash --
@@ -37,4 +37,5 @@ mise doctor
 
 # -------------------------------------------------------------------- finish --
 log_info "========== ubuntu server dev setup complete =========="
+log_info "reload changes with: source ~/.bashrc-dev"
 
