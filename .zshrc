@@ -1,17 +1,12 @@
-# zshrc
+# zshrc -- loads after ~/.zprofile
 
 # --- profiling ---
 # zmodload zsh/zprof # uncomment this line to enable profiling
 zmodload zsh/datetime; ZSH_START_TIME=$EPOCHREALTIME # capture start time for zsh_healthcheck
 
-# --- environment & paths ---
-ZDIR=$HOME/.zsh; ZCACHE=$ZDIR/cache; [[ -d $ZCACHE ]] || mkdir -p $ZCACHE
-[[ -d /opt/homebrew ]] && export BREW_PREFIX="/opt/homebrew"
-export XDG_CONFIG_HOME="$HOME/.config" EZA_CONFIG_DIR="$HOME/.config/eza"
-
-typeset -U path fpath # ensure unique entries
+typeset -U path fpath # ensure unique path/fpath entries
 path=($HOME/.local/bin(\N) $HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
-fpath+=($BREW_PREFIX/share/zsh/site-functions(\N) $ZDIR/functions(\N))
+fpath+=($ZDIR/functions(\N) $BREW_PREFIX/share/zsh/site-functions(\N))
 autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
 # --- options & history ---
