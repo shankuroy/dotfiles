@@ -16,7 +16,6 @@ cask "affinity"                         # photo editing & vector drawing (https:
 cask "ilok-license-manager"             # iLok plugin license manager (https://www.ilok.com/#!license-manager)
 cask "localsend"                        # share files on local network (https://localsend.org/)
 cask "logi-options+"                    # Logitech mouse config (https://www.logitech.com/en-au/software/logi-options-plus.html)
-cask "multipass"                        # Ubuntu VMs (https://documentation.ubuntu.com/multipass/stable/)
 cask "reaper"                           # DAW (https://www.reaper.fm/)
 
 # mas
