@@ -39,5 +39,5 @@ Verify the relevant dotfiles have been symlinked in the home directory. You shou
 scripts -> repo/personal/dotfiles/scripts
 ```
 
-Follow the instructions in [../../.config/brew/README.md] on how to install everything.
+Follow the instructions in [brew/README.md](../../.config/brew/README.md) on how to install everything.
 
