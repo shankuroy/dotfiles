@@ -16,6 +16,12 @@ if [ "$(uname)" != "Darwin" ]; then
   exit 1
 fi
 
+# Accessibility > Pointer Control > Trackpad Options > Use trackpad for dragging
+defaults write 'com.apple.AppleMultitouchTrackpad' 'Dragging' -bool 'true'
+
+# Accessibility > Pointer Control > Trackpad Options > Dragging style
+defaults write 'com.apple.AppleMultitouchTrackpad' 'DragLock' -bool 'false'
+
 # Appearance > Appearance
 defaults write 'Apple Global Domain' 'AppleInterfaceStyle' -string 'Dark'
 
