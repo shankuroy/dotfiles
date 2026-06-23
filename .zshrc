@@ -11,7 +11,9 @@ autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functio
 
 # --- options & history ---
 setopt APPEND_HISTORY EXTENDED_GLOB HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS HIST_VERIFY NUMERIC_GLOB_SORT SHARE_HISTORY
-export HISTFILE=$ZCACHE/.zsh_history HISTSIZE=100000 SAVEHIST=$HISTSIZE
+export HISTFILE=$ZCACHE/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
 
 # --- cached completions --- (rebuild if >12 hours old)
 autoload -U compinit; z=$ZCACHE/.zcompdump; [[ -n $z(#qN.mh-12) ]] && compinit -C -d $z || compinit -d $z
@@ -29,7 +31,10 @@ autoload -U promptinit; promptinit
 (( $+functions[prompt_pure_setup] || $fpath[(I)*/pure] )) && prompt pure || prompt default
 
 # --- bindings ---
-bindkey -e; autoload -U edit-command-line; zle -N edit-command-line; bindkey '^x^e' edit-command-line
+bindkey -e
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
 
 # --- plugins ---
 p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p

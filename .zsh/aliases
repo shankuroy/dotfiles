@@ -14,5 +14,5 @@ else
   export EDITOR='vim'
 fi
 
-alias tmuxx="tmux new -A -s $(hostname)"
+alias tmuxx="tmux new -As $(hostname)"
 

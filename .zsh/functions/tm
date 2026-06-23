@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-
-# attach to existing session or create new session named after the hostname
-tmux new -As "$(hostname)"
-
