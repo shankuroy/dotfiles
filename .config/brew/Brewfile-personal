@@ -8,6 +8,7 @@ brew "docker-buildx"                    # BuildKit for Docker (https://github.co
 brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
 brew "lazydocker"                       # docker TUI (https://github.com/jesseduffield/lazydocker)
 brew "lume"                             # macOS VM CLI and framework (https://cua.ai/docs/lume/guide/getting-started/introduction)
+brew "mas"                              # Mac App Store CLI (https://github.com/mas-cli/mas)
 
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
