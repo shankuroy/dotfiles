@@ -22,9 +22,23 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive compl
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
-# --- cached tools --- (rebuild if >12 hours old)
-(( $+commands[fzf] )) && { t=$ZCACHE/fzf.zsh; [[ -n $t(#qN.mh-12) ]] || fzf --zsh >| $t; source $t }
-(( $+commands[zoxide] )) && { t=$ZCACHE/zoxide.zsh; [[ -n $t(#qN.mh-12) ]] || zoxide init zsh >| $t; source $t }
+# --- cached tools ---
+cache_tool() {
+    local cmd="$1"
+    local init_script="$2"
+    local cached_script="$ZCACHE/$cmd.zsh"
+
+    (( $+commands[$cmd] )) || return 0
+
+    # If cache is >12h old or missing, regenerate and compile it
+    [[ -n $cached_script(#qN.mh-12) ]] || { eval "$init_script" >| "$cached_script" && zcompile "$cached_script" }
+
+    source "$cached_script"
+}
+
+cache_tool "fzf"    "fzf --zsh"
+cache_tool "zoxide" "zoxide init zsh"
+cache_tool "mise"   "mise activate zsh"
 
 # --- prompt ---
 autoload -U promptinit; promptinit
