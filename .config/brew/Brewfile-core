@@ -15,6 +15,7 @@ brew "container"                        # linux containers on macOS (https://git
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
 brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
 brew "git-delta"                        # git pager (https://dandavison.github.io/delta/)
+brew "lazygit"                          # git TUI (https://github.com/jesseduffield/lazygit/)
 brew "mole"                             # mac deep clean/optimise (https://github.com/tw93/Mole)
 brew "neovim"                           # better vim (https://github.com/neovim/neovim)
 brew "pure"                             # clean zsh prompt (https://github.com/sindresorhus/pure)

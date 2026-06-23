@@ -6,9 +6,7 @@ brew "colima"                           # container runtime (https://colima.run/
 brew "docker"                           # container engine (https://docs.docker.com/engine/)
 brew "docker-buildx"                    # BuildKit for Docker (https://github.com/docker/buildx)
 brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
-brew "git-delta"                        # git pager (https://dandavison.github.io/delta/)
 brew "lazydocker"                       # docker TUI (https://github.com/jesseduffield/lazydocker)
-brew "lazygit"                          # git TUI (https://github.com/jesseduffield/lazygit/)
 brew "lume"                             # macOS VM CLI and framework (https://cua.ai/docs/lume/guide/getting-started/introduction)
 
 # casks
