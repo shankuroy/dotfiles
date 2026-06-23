@@ -1,0 +1,4 @@
+#Brewfile-work
+
+cask "slack"                            # team communication (https://slack.com/)
+
