@@ -1,41 +1,37 @@
 #!/usr/bin/env sh
 
-# ------------------------------------------------------------------------------
-# Bootstrap SSH keys and Git configuration for a new machine.
-#
-# This script sets up profile-based SSH keys and Git configs, making it easy
-# to work with multiple GitHub (or other Git) identities on the same machine.
-#
-# Profiles can be provided in three ways (in priority order):
-#
-#   1. Command-line arguments:
-#        ./bootstrap.sh personal work
-#
-#   2. The PROFILES environment variable:
-#        PROFILES="personal work" ./bootstrap.sh
-#
-#   3. Defaults:
-#        personal work
-#
-# For each profile, this script will:
-#   - Generate a passwordless ED25519 SSH key (if missing)
-#   - Create a profile-specific SSH host entry
-#   - Create a profile-specific Git config
-#   - Set up Git includeIf rules based on repo location
-#
-# Re-running this script is safe; existing files are not overwritten.
-# ------------------------------------------------------------------------------
+usage() {
+  cat <<EOF
+Create SSH keys and Git configuration for a new machine.
+
+This script sets up profile-based SSH keys and Git configs, making it easy
+to work with multiple GitHub (or other Git) identities on the same machine.
+
+Profiles are to be provided as one space-separated argument per profile, e.g.:
+  $0 personal work
+
+For each profile, this script will:
+  - Generate a passwordless ED25519 SSH key (if missing)
+  - Create a profile-specific SSH host entry
+  - Create a profile-specific Git config
+  - Set up Git includeIf rules based on repo location
+
+Re-running this script is safe. Existing files are not overwritten.
+
+Usage: $0 <profile_name> [profile_name]...
+EOF
+}
 
 # ----- parse arguments -----
 
 if [ "$#" -gt 0 ]; then
   profiles="$*"
 else
-  profiles=${PROFILES:-"personal work"}
+  usage $0
+  exit 1
 fi
 
-echo "INFO: setting up SSH and git config for the following profiles:"
-echo "      ${profiles}"
+echo "INFO: setting up SSH and git config for the following profiles: ${profiles}"
 
 # ----- variables -----
 
@@ -121,7 +117,7 @@ fi
 # ----- add gitconfig includeIf rules -----
 
 for profile in $profiles; do
-  git_dir="gitdir:${repo_path}/${profile}/" 
+  git_dir="gitdir:${repo_path}/${profile}/"
 
   if ! grep -q "${git_dir}" "${gitconfig_file}"; then
     cat << EOF >> "${gitconfig_file}"
