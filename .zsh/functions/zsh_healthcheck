@@ -4,7 +4,7 @@
 local missing=0
 
 # Define your critical tools here
-local critical_cmds=(nvim eza fzf zoxide)
+local critical_cmds=(nvim eza fzf zoxide delta)
 local critical_files=(
   "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -29,9 +29,9 @@ done
 # Check Files
 for file in $critical_files; do
   if [[ -f $file ]]; then
-    print -P "  %F{green}✔%f ${file:t}" # :t shows filename only
+    print -P "  %F{green}✔%f ${file}"
   else
-    print -P "  %F{red}✘ ${file:t} (missing)%f"
+    print -P "  %F{red}✘ ${file} (missing)%f"
     ((missing++))
   fi
 done
