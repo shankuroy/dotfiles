@@ -78,7 +78,7 @@ Some symlinks need to be created (e.g. themes that reference plugins installed v
 rebuild_symlinks
 ```
 
-That function lives at [./.zsh/functions].
+That function lives in [.zsh/functions](./.zsh/functions).
 
 After that completes, restart the terminal session and run `zsh_healthcheck` to see if everything is set up correctly.
 
