@@ -5,8 +5,20 @@ vim.g.mapleader = ' '
 
 
 --
+-- plugins
+vim.pack.add({
+  'https://codeberg.org/andyg/leap.nvim',
+  'https://github.com/ahmedkhalf/project.nvim',
+  'https://github.com/folke/snacks.nvim',
+  'https://github.com/folke/tokyonight.nvim',
+  'https://github.com/lewis6991/gitsigns.nvim',
+  'https://github.com/nvim-lualine/lualine.nvim',
+  'https://github.com/nvim-mini/mini.nvim',
+  'https://github.com/nvim-tree/nvim-web-devicons',
+})
+
+--
 -- gitsigns: git info in the gutter
-vim.pack.add({'https://github.com/lewis6991/gitsigns.nvim'})
 local gitsigns = require('gitsigns')
 vim.keymap.set('n', '<leader>gb', gitsigns.blame_line,          { desc = 'git blame line' })
 vim.keymap.set('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = 'git diff inline' })
@@ -16,35 +28,27 @@ vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk,          { desc = 'git re
 
 --
 -- leap: fast buffer navigation
-vim.pack.add({'https://codeberg.org/andyg/leap.nvim'})
 vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search with leap.nvim' })
 
 
 --
 -- lualine: nicer status line
-vim.pack.add({
-  'https://github.com/nvim-lualine/lualine.nvim',
-  'https://github.com/nvim-tree/nvim-web-devicons'
-})
 require('lualine').setup()
 
 
 --
 -- mini: misc plugins
-vim.pack.add({'https://github.com/nvim-mini/mini.nvim'})
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 
 
 --
 -- project: auto-detect project root
-vim.pack.add({'https://github.com/ahmedkhalf/project.nvim'})
 require('project_nvim').setup()
 
 
 --
 -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
-vim.pack.add({'https://github.com/folke/snacks.nvim'})
 local Snacks = require("snacks")
 Snacks.setup({
   explorer = {
@@ -83,7 +87,6 @@ vim.keymap.set('n', '<leader>gx', function() Snacks.gitbrowse() end,      { desc
 
 --
 -- colorscheme
-vim.pack.add({'https://github.com/folke/tokyonight.nvim'})
 vim.cmd [[colorscheme tokyonight-night]]
 
 
