@@ -4,19 +4,35 @@
 
 local num_errors=0
 
-local eza_theme_yml=~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/eza/tokyonight_night.yml
+_rebuild_symlink() {
+  local src="$1"
+  local dest="$2"
 
-if [[ -f "$eza_theme_yml" ]]; then
-  mkdir -p ~/.config/eza
-  ln -sf "$eza_theme_yml" ~/.config/eza/theme.yml
-else
-  echo "ERROR: missing file: $eza_theme_yml" >&2
-  (( num_errors++ ))
-fi
+  if [[ -f "$src" ]]; then
+    mkdir -p "${dest:h}"
+    ln -sf "$src" "$dest"
+    echo "INFO: created symlink: $dest -> $src"
+  else
+    echo "ERROR: missing file: $src" >&2
+    (( num_errors++ ))
+  fi
+}
 
 
+# --- bat theme ---
+_rebuild_symlink \
+  ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme \
+  ~/.config/bat/themes/tokyonight_night.tmTheme
+
+
+# --- eza theme ---
+_rebuild_symlink \
+  ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/eza/tokyonight_night.yml \
+  ~/.config/eza/theme.yml
+
+
+# ---
 if (( num_errors > 0 )); then
-  echo "Symlinks recreated with $num_errors error(s)." >&2
   return 1
 fi
 
