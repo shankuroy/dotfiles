@@ -22,7 +22,7 @@ _rebuild_symlink() {
 # --- bat theme ---
 _rebuild_symlink \
   ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme \
-  ~/.config/bat/themes/tokyonight_night.tmTheme
+  ~/.config/bat/themes/custom.tmTheme
 
 
 # --- eza theme ---

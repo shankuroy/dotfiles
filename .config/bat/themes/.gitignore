@@ -1,1 +1,2 @@
-tokyonight_night.tmTheme
+# rebuild with ~/.zsh/functions/rebuild_symlinks
+custom.tmTheme

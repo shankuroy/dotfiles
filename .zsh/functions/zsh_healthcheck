@@ -10,7 +10,7 @@ local critical_files=(
   "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
   # to be installed via neovim plugin: https://github.com/folke/tokyonight.nvim
-  "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_night.gitconfig"
+  "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_moon.gitconfig"
   "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/eza/tokyonight_night.yml"
   "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"
   "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme"

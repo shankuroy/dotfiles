@@ -1,2 +1,3 @@
+# bat cache --build
 # bat --list-themes
---theme="tokyonight_night"
+--theme="custom"
