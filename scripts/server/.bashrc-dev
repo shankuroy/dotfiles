@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# .bashrc-dev
+#
+# add this to your main .bashrc:
+# [[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev
+
+alias la='ls -lah'
+export EDITOR=vim
+
+# starship prompt (https://starship.rs/)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+else
+  echo "installing starship prompt"
+  sudo apt-get update
+  sudo apt-get install -y starship
+fi
+
+# mise dev environments (https://mise.jdx.dev/getting-started.html)
+if [[ -f ~/.local/bin/mise ]]; then
+  eval "$(~/.local/bin/mise activate bash)"
+else
+  curl https://mise.run | sh
+fi
+
+# claude code (https://code.claude.com/docs)
+if ! command -v claude >/dev/null 2>&1; then
+  echo "installing claude code (verbose mode)"
+  curl -fsSL https://claude.ai/install.sh | bash -xv
+fi
+
+# ensure interactive ssh sessions start in tmux
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname)"
+
