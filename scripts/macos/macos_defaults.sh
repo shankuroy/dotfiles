@@ -2,6 +2,7 @@
 
 # Set MacOS preferences using `defaults`
 # https://macos-defaults.com
+# https://github.com/yannbertrand/macos-defaults
 #
 # Note this will restart the following apps:
 # Dock, Finder
@@ -14,6 +15,9 @@
 if [ "$(uname)" != "Darwin" ]; then
   exit 1
 fi
+
+# Appearance > Appearance
+defaults write 'Apple Global Domain' 'AppleInterfaceStyle' -string 'Dark'
 
 # Dock
 # Autohide the Dock when the mouse is out
@@ -52,6 +56,11 @@ defaults write com.apple.finder 'FXEnableExtensionChangeWarning' -bool 'false'
 
 # Set home directory as default for saving new documents (instead of iCloud)
 defaults write NSGlobalDomain 'NSDocumentSaveNewDocumentsToCloud' -bool 'false'
+
+# Trackpad > Point & Click > Tracking speed
+defaults write 'Apple Global Domain' 'com.apple.trackpad.scaling' -float '2.5'
+# Trackpad > Point & Click > Tap to click
+defaults write 'com.apple.AppleMultitouchTrackpad' 'Clicking' -bool 'true'
 
 # Restart services for the above changes to take effect
 killall Dock
