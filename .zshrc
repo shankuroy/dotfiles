@@ -20,10 +20,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive compl
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
-# --- tool overrides & aliases ---
-(( $+commands[eza] )) && alias ls="eza --icons"; alias la="ls -la --git"
-(( $+commands[nvim] )) && export EDITOR="nvim" && alias vim="nvim" || export EDITOR="vim"
-
 # --- cached tools --- (rebuild if >12 hours old)
 (( $+commands[fzf] )) && { t=$ZCACHE/fzf.zsh; [[ -n $t(#qN.mh-12) ]] || fzf --zsh >| $t; source $t }
 (( $+commands[zoxide] )) && { t=$ZCACHE/zoxide.zsh; [[ -n $t(#qN.mh-12) ]] || zoxide init zsh >| $t; source $t }
@@ -39,6 +35,9 @@ bindkey -e; autoload -U edit-command-line; zle -N edit-command-line; bindkey '^x
 p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p
 p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]] && source $p
 p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
+
+# --- aliases ---
+[[ -f ~/.zsh/aliases ]] && source ~/.zsh/aliases
 
 # --- profiling ---
 export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for zsh_healthcheck

@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+if (( $+commands[eza] )); then
+  alias ls='eza --icons'
+  alias la='eza -la --icons --git'
+else
+  alias la='ls -lah'
+fi
+
+if (( $+commands[nvim] )); then
+  export EDITOR='nvim'
+  alias vim='nvim'
+else
+  export EDITOR='vim'
+fi
+
+alias tmuxx="tmux new -A -s $(hostname)"
+
