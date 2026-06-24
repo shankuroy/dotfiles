@@ -15,7 +15,7 @@
   pager = delta
 
 [include]
-  path = ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_moon.gitconfig
+  path = ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_night.gitconfig
 
 [interactive]
   diffFilter = delta --color-only
