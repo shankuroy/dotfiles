@@ -15,30 +15,45 @@ export HISTFILE=$ZCACHE/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
 
-# --- cached completions --- (rebuild if >12 hours old)
-autoload -U compinit; z=$ZCACHE/.zcompdump; [[ -n $z(#qN.mh-12) ]] && compinit -C -d $z || compinit -d $z
+# --- cached completions ---
+autoload -U compinit
+local zcd=$ZCACHE/.zcompdump
+
+for dir in "${fpath[@]}"; do
+  if [[ $dir -nt $zcd ]]; then
+    rm -f "$zcd" "$zcd.zwc" 2>/dev/null
+    break
+  fi
+done
+
+if [[ -f $zcd ]]; then
+  compinit -C -d $zcd
+else
+  compinit -d $zcd
+  zcompile $zcd
+fi
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
 # --- cached tools ---
-cache_tool() {
-    local cmd="$1"
-    local init_script="$2"
-    local cached_script="$ZCACHE/$cmd.zsh"
-
-    (( $+commands[$cmd] )) || return 0
-
-    # If cache is >12h old or missing, regenerate and compile it
-    [[ -n $cached_script(#qN.mh-12) ]] || { eval "$init_script" >| "$cached_script" && zcompile "$cached_script" }
-
-    source "$cached_script"
+_zcache() {
+  # given a binary name $1, e.g. `zoxide`,
+  # cache its init command $2, e.g. `zoxide init zsh`,
+  # regenerating the cache if the binary is newer than it, i.e. it has been updated.
+  # Usage: _zcache <binary_name> "<command_to_cache>"
+  (( $+commands[$1] )) || return 0
+  local t=$ZCACHE/$1.zsh m=$(command -v $1)
+  [[ -n $t(#qN) && $t -nt $m ]] || { eval "$2" >| $t; zcompile $t }
+    source $t
 }
 
-cache_tool "fzf"    "fzf --zsh"
-cache_tool "zoxide" "zoxide init zsh"
-cache_tool "mise"   "mise activate zsh"
+_zcache fzf    "fzf --zsh"
+_zcache zoxide "zoxide init zsh"
+_zcache mise   "mise activate zsh"
+
+unfunction _zcache
 
 # --- prompt ---
 autoload -U promptinit; promptinit
