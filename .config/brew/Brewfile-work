@@ -1,4 +1,6 @@
 #Brewfile-work
 
+brew "mise"                             # dev env manager (https://mise.jdx.dev/)
+
 cask "slack"                            # team communication (https://slack.com/)
 
