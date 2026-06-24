@@ -19,12 +19,15 @@ export SAVEHIST=$HISTSIZE
 autoload -U compinit
 local zcd=$ZCACHE/.zcompdump
 
-for dir in "${fpath[@]}"; do
-  if [[ $dir -nt $zcd ]]; then
-    rm -f "$zcd" "$zcd.zwc" 2>/dev/null
-    break
-  fi
-done
+if [[ -f $zcd ]]; then
+  for dir in "${fpath[@]}"; do
+    if [[ $dir -nt $zcd ]]; then
+      echo "[~/.zshrc][DEBUG] dir is newer than zcompdump: $dir"
+      rm -f "$zcd" "$zcd.zwc" 2>/dev/null
+      break
+    fi
+  done
+fi
 
 if [[ -f $zcd ]]; then
   compinit -C -d $zcd
