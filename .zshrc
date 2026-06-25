@@ -8,7 +8,7 @@ ZSH_START_TIME=$EPOCHREALTIME # capture start time for ~/.zsh/functions/zsh_heal
 # --- env vars ---
 export ZDIR=$HOME/.zsh
 export ZCACHE=$ZDIR/cache
-mkdir -p $ZCACHE
+[[ -d $ZCACHE ]] || mkdir -p $ZCACHE
 
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
@@ -20,25 +20,25 @@ export MANPAGER='less -R --use-color -Dd+r -Du+b' # use colours in man pager
 
 # --- paths ---
 typeset -U path fpath # ensure unique path/fpath entries
-path=($HOME/.local/bin(\N) $HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
-fpath+=($ZDIR/functions(\N) $BREW_PREFIX/share/zsh/site-functions(\N))
+path=($HOME/.local/bin(N) $HOME/scripts/bin(N) $BREW_PREFIX/bin(N) $path)
+fpath+=($ZDIR/functions(N) $BREW_PREFIX/share/zsh/site-functions(N))
 autoload -Uz $ZDIR/functions/*(N.:t) # autoload all functions from $ZDIR/functions
 
 # --- options & history ---
 setopt APPEND_HISTORY EXTENDED_GLOB HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS HIST_VERIFY NUMERIC_GLOB_SORT SHARE_HISTORY
-export HISTFILE=$ZCACHE/.zsh_history
-export HISTSIZE=100000
-export SAVEHIST=$HISTSIZE
+HISTFILE=$ZCACHE/.zsh_history
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
 
 # --- cached tools ---
 _zcache() {
   # Cache the output of an init command, keyed to the binary's mtime.
   # Regenerates if the cache is missing or the binary has been updated.
   # Usage: _zcache <binary> "<init command>"
-  (( $+commands[$1] )) || return 0
-  local cmd_cache=$ZCACHE/$1.zsh cmd_mtime=$(command -v $1)
-  [[ -n $cmd_cache(#qN) && $cmd_cache -nt $cmd_mtime ]] || { eval "$2" >| $cmd_cache; zcompile $cmd_cache }
-  source $cmd_cache
+  (( $+commands[$1] )) || return
+  local cache=$ZCACHE/$1.zsh bin=$commands[$1]
+  [[ $cache -nt $bin ]] || { eval "$2" >| $cache; zcompile $cache }
+  source $cache
 }
 
 _zcache fzf    "fzf --zsh"
@@ -48,14 +48,15 @@ _zcache mise   "mise activate zsh"
 unfunction _zcache
 
 # --- cached completions ---
-autoload -U compinit
+autoload -Uz compinit
 zcd=$ZCACHE/.zcompdump
 
-for dir in $HOME/.zsh/functions /opt/homebrew/share/zsh/site-functions; do
+for dir in $ZDIR/functions $BREW_PREFIX/share/zsh/site-functions; do
   [[ $dir -nt $zcd ]] && { rm -f "$zcd"; break; }
 done
 
 [[ -f $zcd ]] && compinit -C -d $zcd || compinit -d $zcd
+[[ -f $zcd.zwc && $zcd.zwc -nt $zcd ]] || zcompile $zcd
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
@@ -90,9 +91,11 @@ zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
 # --- plugins ---
-p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p
-p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]] && source $p
-p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
+source ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh
+source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# syntax highlighting must be sourced last
+source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # --- profiling ---
 export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for ~/.zsh/functions/zsh_healthcheck
