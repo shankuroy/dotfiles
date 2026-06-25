@@ -5,23 +5,35 @@ local missing=0
 
 # Define your critical tools here
 local critical_cmds=(nvim eza fzf zoxide delta)
+local critical_dirs=(
+  # installed via neovim plugin: https://github.com/folke/tokyonight.nvim
+  "${XDG_DATA_HOME}/nvim/site/pack/core/opt/tokyonight.nvim/extras"
+)
 local critical_files=(
-  # to be installed via homebrew (see ~/.config/brew)
+  # installed via homebrew (see ~/.config/brew)
   "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  # to be installed via neovim plugin: https://github.com/folke/tokyonight.nvim
-  "${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"
 )
 
 print -P "%B--- zsh healthcheck ---%b"
-print -P "%BChecking for required commands and files...%b"
+print -P "%BChecking for required commands, dirs, and files...%b"
 
 # Check Commands
 for cmd in $critical_cmds; do
   if (( $+commands[$cmd] )); then
     print -P "  %F{green}✔%f $cmd"
   else
-    print -P "  %F{red}✘ $cmd (missing)%f"
+    print -P "  %F{red}✘ $cmd (missing command)%f"
+    ((missing++))
+  fi
+done
+
+# Check Dirs
+for dir in $critical_dirs; do
+  if [[ -d $dir ]]; then
+    print -P "  %F{green}✔%f ${dir}"
+  else
+    print -P "  %F{red}✘ ${dir} (missing dir)%f"
     ((missing++))
   fi
 done
@@ -31,7 +43,7 @@ for file in $critical_files; do
   if [[ -f $file ]]; then
     print -P "  %F{green}✔%f ${file}"
   else
-    print -P "  %F{red}✘ ${file} (missing)%f"
+    print -P "  %F{red}✘ ${file} (missing file)%f"
     ((missing++))
   fi
 done
