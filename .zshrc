@@ -5,7 +5,7 @@
 zmodload zsh/datetime
 ZSH_START_TIME=$EPOCHREALTIME # capture start time for ~/.zsh/functions/zsh_healthcheck
 
-# --- exports ---
+# --- env vars ---
 export ZDIR=$HOME/.zsh
 export ZCACHE=$ZDIR/cache
 mkdir -p $ZCACHE
@@ -49,7 +49,7 @@ unfunction _zcache
 
 # --- cached completions ---
 autoload -U compinit
-local zcd=$ZCACHE/.zcompdump
+zcd=$ZCACHE/.zcompdump
 
 for dir in $HOME/.zsh/functions /opt/homebrew/share/zsh/site-functions; do
   [[ $dir -nt $zcd ]] && { rm -f "$zcd"; break; }
@@ -77,7 +77,7 @@ else
   export EDITOR='vim'
 fi
 
-alias tmuxx="tmux new -As $(hostname)" # attach to existing or create new session
+alias tmuxx='tmux new -As $(hostname)' # attach to existing or create new session
 
 # --- prompt ---
 autoload -U promptinit; promptinit
