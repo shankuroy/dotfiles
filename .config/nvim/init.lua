@@ -8,7 +8,7 @@ vim.g.mapleader = ' '
 -- plugins
 vim.pack.add({
   'https://codeberg.org/andyg/leap.nvim',
-  'https://github.com/ahmedkhalf/project.nvim',
+  'https://github.com/DrKJeff16/project.nvim',
   'https://github.com/folke/snacks.nvim',
   'https://github.com/folke/tokyonight.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
@@ -44,7 +44,7 @@ require('mini.trailspace').setup()
 
 --
 -- project: auto-detect project root
-require('project_nvim').setup()
+require('project').setup()
 
 
 --
