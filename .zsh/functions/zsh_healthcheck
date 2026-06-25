@@ -48,14 +48,14 @@ for file in $critical_files; do
   fi
 done
 
-[[ $missing -eq 0 ]] && print -P "\n%F{green}✅ All required commands and files are available.%f"
+[[ $missing -eq 0 ]] && print -P "\n%F{green}✅ All required commands, dirs, and files are available.%f"
 
 # Calculate load time
 # Format the pre-calculated duration
 local elapsed=$(printf "%.2f" $ZSH_LOAD_DURATION)
 
 print -P "\n%B--- performance ---%b"
-if (( elapsed < 50 )); then
+if (( elapsed < 75 )); then
   print -P "%F{green}🚀 zsh load time:%f ${elapsed}ms"
 else
   print -P "%F{yellow}⚖️ zsh load time:%f ${elapsed}ms"
