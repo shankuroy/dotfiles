@@ -1,9 +1,5 @@
 # zshrc -- loads after ~/.zprofile
 
-# --- profiling ---
-# zmodload zsh/zprof # uncomment this line to enable profiling
-zmodload zsh/datetime; ZSH_START_TIME=$EPOCHREALTIME # capture start time for zsh_healthcheck
-
 typeset -U path fpath # ensure unique path/fpath entries
 path=($HOME/.local/bin(\N) $HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
 fpath+=($ZDIR/functions(\N) $BREW_PREFIX/share/zsh/site-functions(\N))
@@ -64,7 +60,7 @@ p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[
 # --- aliases ---
 [[ -f ~/.zsh/aliases ]] && source ~/.zsh/aliases
 
-# --- profiling ---
+# --- profiling (see top of ~/.zprofile) ---
 export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for zsh_healthcheck
 # zprof # uncomment this line to enable profiling
 
