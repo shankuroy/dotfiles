@@ -17,14 +17,13 @@ export SAVEHIST=$HISTSIZE
 
 # --- cached tools ---
 _zcache() {
-  # given a binary name $1, e.g. `zoxide`,
-  # cache its init command $2, e.g. `zoxide init zsh`,
-  # regenerating the cache if the binary is newer than it, i.e. it has been updated.
-  # Usage: _zcache <binary_name> "<command_to_cache>"
+  # Cache the output of an init command, keyed to the binary's mtime.
+  # Regenerates if the cache is missing or the binary has been updated.
+  # Usage: _zcache <binary> "<init command>"
   (( $+commands[$1] )) || return 0
-  local t=$ZCACHE/$1.zsh m=$(command -v $1)
-  [[ -n $t(#qN) && $t -nt $m ]] || { eval "$2" >| $t; zcompile $t }
-    source $t
+  local cmd_cache=$ZCACHE/$1.zsh cmd_mtime=$(command -v $1)
+  [[ -n $cmd_cache(#qN) && $cmd_cache -nt $cmd_mtime ]] || { eval "$2" >| $cmd_cache; zcompile $cmd_cache }
+  source $cmd_cache
 }
 
 _zcache fzf    "fzf --zsh"
