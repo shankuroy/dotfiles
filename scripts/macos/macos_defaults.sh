@@ -25,6 +25,12 @@ defaults write 'com.apple.AppleMultitouchTrackpad' 'DragLock' -bool 'false'
 # Appearance > Appearance
 defaults write 'Apple Global Domain' 'AppleInterfaceStyle' -string 'Dark'
 
+# Appearance > Show scroll bars
+defaults write 'Apple Global Domain' 'AppleShowScrollBars' -string 'Always'
+
+# Appearance > Click in the scroll bar to
+defaults write 'Apple Global Domain' 'AppleScrollerPagingBehavior' -boolean 'true'
+
 # Dock
 # Autohide the Dock when the mouse is out
 defaults write com.apple.dock 'autohide' -bool 'true'
