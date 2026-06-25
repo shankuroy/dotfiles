@@ -2,5 +2,6 @@
 
 brew "mise"                             # dev env manager (https://mise.jdx.dev/)
 
+cask "intellij-idea"                    # IDE (https://www.jetbrains.com/idea/)
 cask "slack"                            # team communication (https://slack.com/)
 
