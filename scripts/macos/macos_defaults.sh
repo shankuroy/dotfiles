@@ -63,6 +63,12 @@ defaults write com.apple.finder 'FXEnableExtensionChangeWarning' -bool 'false'
 # Set home directory as default for saving new documents (instead of iCloud)
 defaults write NSGlobalDomain 'NSDocumentSaveNewDocumentsToCloud' -bool 'false'
 
+# Keyboard > Key repeat rate (lower is faster)
+defaults write 'Apple Global Domain' 'KeyRepeat' -float '2'
+
+# Keyboard > Delay until repeat (lower is faster)
+defaults write 'Apple Global Domain' 'InitialKeyRepeat' -float '15'
+
 # Trackpad > Point & Click > Tracking speed
 defaults write 'Apple Global Domain' 'com.apple.trackpad.scaling' -float '2.5'
 # Trackpad > Point & Click > Tap to click
