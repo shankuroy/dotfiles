@@ -15,31 +15,6 @@ export HISTFILE=$ZCACHE/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
 
-# --- cached completions ---
-autoload -U compinit
-local zcd=$ZCACHE/.zcompdump
-
-if [[ -f $zcd ]]; then
-  for dir in "${fpath[@]}"; do
-    if [[ $dir -nt $zcd ]]; then
-      echo "[~/.zshrc][DEBUG] dir is newer than zcompdump: $dir"
-      rm -f "$zcd" "$zcd.zwc" 2>/dev/null
-      break
-    fi
-  done
-fi
-
-if [[ -f $zcd ]]; then
-  compinit -C -d $zcd
-else
-  compinit -d $zcd
-  zcompile $zcd
-fi
-
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
-zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
-
 # --- cached tools ---
 _zcache() {
   # given a binary name $1, e.g. `zoxide`,
@@ -58,9 +33,23 @@ _zcache mise   "mise activate zsh"
 
 unfunction _zcache
 
+# --- cached completions ---
+autoload -U compinit
+local zcd=$ZCACHE/.zcompdump
+
+for dir in "${fpath[@]}"; do
+  [[ $dir -nt $zcd ]] && { rm -f "$zcd"; break; } # updates to fpath clears the cache
+done
+
+[[ -f $zcd ]] && compinit -C -d $zcd || compinit -d $zcd
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive completions
+zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
+
 # --- prompt ---
 autoload -U promptinit; promptinit
-(( $+functions[prompt_pure_setup] || $fpath[(I)*/pure] )) && prompt pure || prompt default
+prompt pure || prompt default
 
 # --- bindings ---
 bindkey -e
