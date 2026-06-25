@@ -61,21 +61,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive compl
 zstyle ':completion:*' menu select                      # navigate completions with tab or arrows
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 
-# --- prompt ---
-autoload -U promptinit; promptinit
-prompt pure || prompt default
-
-# --- bindings ---
-bindkey -e
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^x^e' edit-command-line
-
-# --- plugins ---
-p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p
-p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]] && source $p
-p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
-
 # --- aliases ---
 if (( $+commands[eza] )); then
   export EZA_CONFIG_DIR=$XDG_CONFIG_HOME/eza
@@ -93,6 +78,21 @@ else
 fi
 
 alias tmuxx="tmux new -As $(hostname)" # attach to existing or create new session
+
+# --- prompt ---
+autoload -U promptinit; promptinit
+prompt pure || prompt default
+
+# --- bindings ---
+bindkey -e
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+# --- plugins ---
+p="${HOME}/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh"; [[ -f $p ]] && source $p
+p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]] && source $p
+p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
 
 # --- profiling ---
 export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for ~/.zsh/functions/zsh_healthcheck
