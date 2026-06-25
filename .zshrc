@@ -1,5 +1,24 @@
-# zshrc -- loads after ~/.zprofile
+# zshrc
 
+# --- profiling ---
+# zmodload zsh/zprof # uncomment this line to enable profiling
+zmodload zsh/datetime
+ZSH_START_TIME=$EPOCHREALTIME # capture start time for ~/.zsh/functions/zsh_healthcheck
+
+# --- exports ---
+export ZDIR=$HOME/.zsh
+export ZCACHE=$ZDIR/cache
+mkdir -p $ZCACHE
+
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
+
+export BREW_PREFIX=/opt/homebrew
+export MANPAGER='less -R --use-color -Dd+r -Du+b' # use colours in man pager
+
+# --- paths ---
 typeset -U path fpath # ensure unique path/fpath entries
 path=($HOME/.local/bin(\N) $HOME/scripts/bin(\N) $BREW_PREFIX/bin(\N) $path)
 fpath+=($ZDIR/functions(\N) $BREW_PREFIX/share/zsh/site-functions(\N))
@@ -58,9 +77,24 @@ p="${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; [[ -f $p ]
 p="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; [[ -f $p ]] && source $p # syntax highlighting must be the last loaded plugin
 
 # --- aliases ---
-[[ -f ~/.zsh/aliases ]] && source ~/.zsh/aliases
+if (( $+commands[eza] )); then
+  export EZA_CONFIG_DIR=$XDG_CONFIG_HOME/eza
+  alias ls='eza --icons'
+  alias la='eza -la --icons --git'
+else
+  alias la='ls -lah'
+fi
 
-# --- profiling (see top of ~/.zprofile) ---
-export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for zsh_healthcheck
+if (( $+commands[nvim] )); then
+  export EDITOR='nvim'
+  alias vim='nvim'
+else
+  export EDITOR='vim'
+fi
+
+alias tmuxx="tmux new -As $(hostname)" # attach to existing or create new session
+
+# --- profiling ---
+export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for ~/.zsh/functions/zsh_healthcheck
 # zprof # uncomment this line to enable profiling
 
