@@ -37,8 +37,8 @@ unfunction _zcache
 autoload -U compinit
 local zcd=$ZCACHE/.zcompdump
 
-for dir in "${fpath[@]}"; do
-  [[ $dir -nt $zcd ]] && { rm -f "$zcd"; break; } # updates to fpath clears the cache
+for dir in $HOME/.zsh/functions /opt/homebrew/share/zsh/site-functions; do
+  [[ $dir -nt $zcd ]] && { rm -f "$zcd"; break; }
 done
 
 [[ -f $zcd ]] && compinit -C -d $zcd || compinit -d $zcd
