@@ -9,6 +9,7 @@ brew "bat"                              # cat with colours (https://github.com/s
 brew "cloc"                             # count lines of code (https://github.com/aldanial/cloc)
 brew "container"                        # linux containers on macOS (https://github.com/apple/container)
 brew "eza"                              # ls with nicer defaults (https://github.com/eza-community/eza)
+brew "fd"                               # find filesystem entries (https://github.com/sharkdp/fd)
 brew "fzf"                              # command line fuzzy finder (https://github.com/junegunn/fzf)
 brew "git-delta"                        # git pager (https://dandavison.github.io/delta/)
 brew "lazygit"                          # git TUI (https://github.com/jesseduffield/lazygit/)
