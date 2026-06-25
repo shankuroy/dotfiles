@@ -9,5 +9,4 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
 export BREW_PREFIX=/opt/homebrew
-export MANPAGER='less -R --use-color -Dd+r -Du+b'
-export EZA_CONFIG_DIR=$XDG_CONFIG_HOME/eza
+
