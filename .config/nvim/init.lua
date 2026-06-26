@@ -87,7 +87,7 @@ vim.keymap.set('n', '<leader>gx', function() Snacks.gitbrowse() end,      { desc
 
 --
 -- colorscheme
-vim.cmd [[colorscheme tokyonight-night]]
+vim.cmd.colorscheme("tokyonight-night")
 
 
 --
