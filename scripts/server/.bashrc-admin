@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# .bashrc-admin
+#
+# add this to your main .bashrc:
+# grep -qxF '~/.bashrc-admin' ~/.bashrc || echo '[[ -f ~/.bashrc-admin ]] && source ~/.bashrc-admin' >> ~/.bashrc
+
+alias la='ls -lah'
+export EDITOR=vim
+
+# ensure interactive ssh sessions start in tmux
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
+
