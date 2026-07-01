@@ -3,7 +3,7 @@
 # .bashrc-dev
 #
 # add this to your main .bashrc:
-# [[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev
+# grep -qxF '~/.bashrc-dev' ~/.bashrc || echo '[[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev' >> ~/.bashrc
 
 alias la='ls -lah'
 export EDITOR=vim
@@ -30,6 +30,21 @@ if ! command -v claude >/dev/null 2>&1; then
   curl -fsSL https://claude.ai/install.sh | bash -xv
 fi
 
+# dev packages
+_ensure_package() {
+  cmd_name=$1
+  apt_package="${2:-$cmd_name}"
+  if ! command -v "$cmd_name" >/dev/null 2>&1; then
+    echo "WARN: missing command '$cmd_name'. Installing '$apt_package' via apt." >&2
+    sudo apt-get install -y "$apt_package"
+  fi
+}
+
+_ensure_package 'fdfind' 'fd-find'
+alias fd='fdfind'
+_ensure_package 'jq'
+_ensure_package 'rg' 'ripgrep'
+
 # ensure interactive ssh sessions start in tmux
-[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname)"
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
 
