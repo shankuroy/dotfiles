@@ -78,7 +78,7 @@ else
   export EDITOR='vim'
 fi
 
-alias tmuxx='tmux new -As $(hostname)' # attach to existing or create new session
+alias tmuxx='tmux new -As "$(hostname | tr "." "-")"' # attach to existing or create new session
 
 # --- prompt ---
 autoload -U promptinit; promptinit
