@@ -5,6 +5,7 @@
 cask_args appdir: "/Applications/Homebrew"
 
 # formulae
+brew "aria2"                              # download utility (https://aria2.github.io/)
 brew "bat"                                # cat with colours (https://github.com/sharkdp/bat)
 brew "cloc"                               # count lines of code (https://github.com/aldanial/cloc)
 brew "container"                          # linux containers on macOS (https://github.com/apple/container)
