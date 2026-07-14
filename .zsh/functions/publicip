@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # prints the public IP address
-local public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n')"
+local public_ip="$(curl -s -4 ifconfig.me | tr -d '\n')"
 echo "$public_ip"
 
 # if interactive session (not piped/redirected), copy public IP to macOS system clipboard
