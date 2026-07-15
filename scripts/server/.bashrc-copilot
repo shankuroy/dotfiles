@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# .bashrc-copilot
+#
+# add this to your main .bashrc:
+# grep -qxF '~/.bashrc-copilot' ~/.bashrc || echo '[[ -f ~/.bashrc-copilot ]] && source ~/.bashrc-copilot' >> ~/.bashrc
+
+alias la='ls -lah'
+export EDITOR=vim
+
+# starship prompt (https://starship.rs/)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+else
+  echo "installing starship prompt"
+  sudo apt-get update
+  sudo apt-get install -y starship
+fi
+
+# mise dev environments (https://mise.jdx.dev/getting-started.html)
+if [[ -f ~/.local/bin/mise ]]; then
+  eval "$(~/.local/bin/mise activate bash)"
+else
+  curl https://mise.run | sh
+fi
+
+# claude code (https://code.claude.com/docs)
+if ! command -v copilot >/dev/null 2>&1; then
+  echo "installing copilot CLI"
+  curl -fsSL https://gh.io/copilot-install | bash
+fi
+
+# dev packages
+_ensure_package() {
+  cmd_name=$1
+  apt_package="${2:-$cmd_name}"
+  if ! command -v "$cmd_name" >/dev/null 2>&1; then
+    echo "WARN: missing command '$cmd_name'. Installing '$apt_package' via apt." >&2
+    sudo apt-get install -y "$apt_package"
+  fi
+}
+
+_ensure_package 'fdfind' 'fd-find'
+alias fd='fdfind'
+_ensure_package 'jq'
+_ensure_package 'rg' 'ripgrep'
+
+# ensure interactive ssh sessions start in tmux
+[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
+
