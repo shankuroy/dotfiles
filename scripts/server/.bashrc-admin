@@ -6,8 +6,9 @@
 # grep -qxF '~/.bashrc-admin' ~/.bashrc || echo '[[ -f ~/.bashrc-admin ]] && source ~/.bashrc-admin' >> ~/.bashrc
 
 alias la='ls -lah'
+alias tmuxx='tmux new -As "$(hostname | tr "." "-")"' # attach to existing or create new session
 export EDITOR=vim
 
 # ensure interactive ssh sessions start in tmux
-[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
+# [[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
 
