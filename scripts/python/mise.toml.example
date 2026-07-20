@@ -1,0 +1,16 @@
+[tools]
+python = "3.14"
+uv = "latest"
+
+[settings]
+# Auto-create the .venv (if missing) and activate it whenever a uv.lock is present
+python.uv_venv_auto = "create|source"
+
+[env]
+# Force uv to use mise's managed Python interpreter (not a system/uv-downloaded one);
+# `tools = true` re-evaluates this whenever the active mise tools change
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
+
+[tasks.install]
+run = "uv sync"
+
