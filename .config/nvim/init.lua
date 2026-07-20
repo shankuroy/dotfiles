@@ -7,14 +7,19 @@ vim.g.mapleader = ' '
 --
 -- plugins
 vim.pack.add({
+  -- sort by repo name with `:sort /.*\// i`
+  'https://github.com/lewis6991/gitsigns.nvim',
   'https://codeberg.org/andyg/leap.nvim',
+  'https://github.com/nvim-lualine/lualine.nvim',
+  'https://github.com/mason-org/mason-lspconfig.nvim.git',
+  'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git',
+  'https://github.com/mason-org/mason.nvim.git',
+  'https://github.com/nvim-mini/mini.nvim',
+  'https://github.com/neovim/nvim-lspconfig.git',
+  'https://github.com/nvim-tree/nvim-web-devicons',
   'https://github.com/DrKJeff16/project.nvim',
   'https://github.com/folke/snacks.nvim',
   'https://github.com/folke/tokyonight.nvim',
-  'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/nvim-lualine/lualine.nvim',
-  'https://github.com/nvim-mini/mini.nvim',
-  'https://github.com/nvim-tree/nvim-web-devicons',
 })
 
 --
@@ -84,6 +89,54 @@ vim.keymap.set('n', '<leader>fp', function() Snacks.picker() end,         { desc
 vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end,        { desc = 'lazygit' })
 vim.keymap.set('n', '<leader>gx', function() Snacks.gitbrowse() end,      { desc = 'open line in browser' })
 
+
+--
+-- LSP
+require("mason").setup()
+
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "lua_ls",
+    "pyright",
+    "ts_ls",
+  },
+  automatic_enable = true,
+})
+
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    "stylua",     -- lua formatter
+    "prettier",   -- js/ts/css/html formatter
+    "black",      -- python formatter
+    "eslint_d",   -- js/ts linter
+  },
+  auto_update = false,
+  run_on_start = true,
+})
+
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+    },
+  },
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local opts = { buffer = bufnr }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set({ "n", "x" }, "<leader>fo", function()
+      local mode = vim.api.nvim_get_mode().mode
+      vim.lsp.buf.format({ async = mode == "n" })
+    end, opts)
+  end,
+})
 
 --
 -- colorscheme
