@@ -8,6 +8,7 @@ vim.g.mapleader = ' '
 -- plugins
 vim.pack.add({
   -- sort by repo name with `:sort /.*\// i`
+  { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://codeberg.org/andyg/leap.nvim',
   'https://github.com/nvim-lualine/lualine.nvim',
@@ -137,6 +138,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, opts)
   end,
 })
+
+
+--
+-- autocompletion
+require("blink.cmp").setup({
+  keymap = { preset = "super-tab" },
+  appearance = {
+    nerd_font_variant = "mono",
+  },
+  completion = {
+    documentation = { auto_show = true },
+  },
+  sources = {
+    default = { "lsp", "path", "snippets", "buffer" },
+  },
+  fuzzy = { implementation = "prefer_rust_with_warning" },
+})
+
 
 --
 -- colorscheme
