@@ -97,8 +97,9 @@ require("mason").setup()
 
 require("mason-lspconfig").setup({
   ensure_installed = {
+    "basedpyright",
     "lua_ls",
-    "pyright",
+    "ruff",
     "ts_ls",
   },
   automatic_enable = true,
@@ -106,10 +107,10 @@ require("mason-lspconfig").setup({
 
 require("mason-tool-installer").setup({
   ensure_installed = {
-    "stylua",     -- lua formatter
-    "prettier",   -- js/ts/css/html formatter
-    "black",      -- python formatter
     "eslint_d",   -- js/ts linter
+    "prettier",   -- js/ts/css/html formatter
+    "ruff",       -- python formatter
+    "stylua",     -- lua formatter
   },
   auto_update = false,
   run_on_start = true,
