@@ -79,6 +79,7 @@ else
 fi
 
 alias tmuxx='tmux new -As "$(hostname | tr "." "-")"' # attach to existing or create new session
+alias git_root='cd "$(git rev-parse --show-toplevel)"' # Jump to git root directory
 
 # --- prompt ---
 autoload -U promptinit; promptinit
