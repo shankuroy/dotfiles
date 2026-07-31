@@ -83,12 +83,12 @@ Snacks.setup({
   },
 })
 
-vim.keymap.set('n', '<leader>e',  function() Snacks.explorer() end,       { desc = 'file explorer' })
-vim.keymap.set('n', '<leader>ff', function() Snacks.picker.smart() end,   { desc = 'smart picker' })
-vim.keymap.set('n', '<leader>fk', function() Snacks.picker.keymaps() end, { desc = 'keymaps' })
-vim.keymap.set('n', '<leader>fp', function() Snacks.picker() end,         { desc = 'choose picker' })
-vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end,        { desc = 'lazygit' })
-vim.keymap.set('n', '<leader>gx', function() Snacks.gitbrowse() end,      { desc = 'open line in browser' })
+vim.keymap.set('n', '<leader>e',        function() Snacks.explorer() end,       { desc = 'file explorer' })
+vim.keymap.set('n', '<leader>ff',       function() Snacks.picker.smart() end,   { desc = 'smart picker' })
+vim.keymap.set('n', '<leader>fk',       function() Snacks.picker.keymaps() end, { desc = 'keymaps' })
+vim.keymap.set('n', '<leader><leader>', function() Snacks.picker() end,         { desc = 'choose picker' })
+vim.keymap.set('n', '<leader>gg',       function() Snacks.lazygit() end,        { desc = 'lazygit' })
+vim.keymap.set('n', '<leader>gx',       function() Snacks.gitbrowse() end,      { desc = 'open line in browser' })
 
 
 --
