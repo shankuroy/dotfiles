@@ -98,6 +98,7 @@ require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
     "basedpyright",
+    "kotlin_language_server",
     "lua_ls",
     "ruff",
     "ts_ls",
@@ -108,6 +109,7 @@ require("mason-lspconfig").setup({
 require("mason-tool-installer").setup({
   ensure_installed = {
     "eslint_d",   -- js/ts linter
+    "ktlint",     -- kotlin formatter/linter
     "prettier",   -- js/ts/css/html formatter
     "ruff",       -- python formatter
     "stylua",     -- lua formatter
@@ -124,15 +126,18 @@ vim.lsp.config("lua_ls", {
   },
 })
 
+vim.lsp.config("kotlin_language_server", {
+  init_options = {
+    -- This redirects the database and cache files to ~/.cache/nvim/kotlin_language_server
+    storagePath = vim.fn.stdpath("cache") .. "/kotlin_language_server",
+  },
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     local opts = { buffer = bufnr }
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
     vim.keymap.set({ "n", "x" }, "<leader>fo", function()
       local mode = vim.api.nvim_get_mode().mode
       vim.lsp.buf.format({ async = mode == "n" })
