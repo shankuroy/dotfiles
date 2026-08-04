@@ -1,0 +1,29 @@
+minimumLimaVersion: 2.1.1
+
+images:
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-arm64.img
+    arch: aarch64
+
+cpus: 4
+memory: "8GiB"
+disk: "20GiB"
+
+mounts:
+  - location: "~/repo"
+    mountPoint: "/sync/repo"
+    writable: true
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: ubuntu
+
+provision:
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+    [[ -L ~/repo ]] || ln -s /sync/repo ~/repo
+    grep -qxF '~/.bashrc-dev' ~/.bashrc || echo '[[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev' >> ~/.bashrc
+

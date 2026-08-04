@@ -1,0 +1,28 @@
+minimumLimaVersion: 2.1.1
+
+images:
+  - location: https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-arm64.qcow2
+    arch: aarch64
+
+cpus: 4
+memory: "8GiB"
+disk: "20GiB"
+
+mounts:
+  - location: "~/repo"
+    mountPoint: "/sync/repo"
+    writable: true
+
+containerd:
+  system: false
+  user: false
+
+user:
+  name: dev
+
+provision:
+- mode: user
+  script: |
+    #!/usr/bin/env bash
+    [[ -L ~/repo ]] || ln -s /sync/repo ~/repo
+
