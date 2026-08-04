@@ -4,6 +4,7 @@
 # https://github.com/microsoft/markitdown
 #
 # git clone git@github.com:microsoft/markitdown.git
+# docker build -t <image_tag> .
 
 INPUT_FILE="${1}"
 OUTPUT_FILE="${2}"
