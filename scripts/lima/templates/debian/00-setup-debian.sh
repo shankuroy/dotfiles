@@ -66,5 +66,14 @@ cat <<EOF > /etc/needrestart/conf.d/99-auto-restart.conf
 };
 EOF
 
+echo "Configuring ssh..."
+cat <<EOF > /etc/ssh/sshd_config.d/01-hardening.conf
+PermitRootLogin no
+PasswordAuthentication no
+EOF
+sshd -t
+systemctl reload ssh
+sshd -T | grep -Ei '^(permitrootlogin|passwordauthentication) '
+
 echo "✅ Configuration complete. Security updates will install automatically."
 

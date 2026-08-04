@@ -2,49 +2,41 @@
 #
 # .bashrc-dev
 #
-# add this to your main .bashrc:
+# run the following to source this in ~/.bashrc:
 # grep -qxF '~/.bashrc-dev' ~/.bashrc || echo '[[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev' >> ~/.bashrc
 
-alias la='ls -lah'
-export EDITOR=vim
+# dev packages
+missing=()
+command -v fdfind >/dev/null 2>&1 || missing+=("fd-find")
+command -v htop >/dev/null 2>&1 || missing+=("htop")
+command -v rg >/dev/null 2>&1 || missing+=("ripgrep")
+command -v starship >/dev/null 2>&1 || missing+=("starship")
+command -v tmux >/dev/null 2>&1 || missing+=("tmux")
 
-# starship prompt (https://starship.rs/)
-if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init bash)"
-else
-  echo "installing starship prompt"
-  sudo apt-get update
-  sudo apt-get install -y starship
+if [[ ${#missing[@]} -gt 0 ]]; then
+  echo "installing missing packages: ${missing[@]}"
+  sudo apt-get update && sudo apt-get install -y "${missing[@]}"
 fi
 
-# mise dev environments (https://mise.jdx.dev/getting-started.html)
 if [[ -f ~/.local/bin/mise ]]; then
   eval "$(~/.local/bin/mise activate bash)"
 else
+  echo "installing mise dev environments (https://mise.jdx.dev/getting-started.html)..."
   curl https://mise.run | sh
 fi
 
 # claude code (https://code.claude.com/docs)
 if ! command -v claude >/dev/null 2>&1; then
-  echo "installing claude code (verbose mode)"
+  echo "installing claude code (https://code.claude.com/docs)..."
   curl -fsSL https://claude.ai/install.sh | bash -xv
 fi
 
-# dev packages
-_ensure_package() {
-  cmd_name=$1
-  apt_package="${2:-$cmd_name}"
-  if ! command -v "$cmd_name" >/dev/null 2>&1; then
-    echo "WARN: missing command '$cmd_name'. Installing '$apt_package' via apt." >&2
-    sudo apt-get install -y "$apt_package"
-  fi
-}
-
-_ensure_package 'fdfind' 'fd-find'
 alias fd='fdfind'
-_ensure_package 'jq'
-_ensure_package 'rg' 'ripgrep'
+alias la='ls -lah'
+alias tmuxx='tmux new -As "$(hostname | tr "." "-")"'
 
-# ensure interactive ssh sessions start in tmux
-[[ -z "$TMUX" && -n "$SSH_TTY" ]] && exec tmux new -As "$(hostname | tr '.' '-')"
+export EDITOR=vim
+
+# startship prompt (https://starship.rs)
+eval "$(starship init bash)"
 
