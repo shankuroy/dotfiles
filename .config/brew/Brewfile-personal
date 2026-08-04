@@ -1,7 +1,6 @@
 # Brewfile-personal
 
 # formulae
-brew "agavra/tap/tuicr", tap: "agavra/tap", trusted: true   # code review tui (https://github.com/agavra/tuicr)
 brew "b2-tools"                         # Backblaze B2 CLI (https://www.backblaze.com/docs/cloud-storage-command-line-interface)
 brew "cloudflared"                      # Cloudflare tunnel client (https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/)
 brew "colima"                           # container runtime (https://colima.run/)

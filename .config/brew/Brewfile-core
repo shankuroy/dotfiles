@@ -5,6 +5,7 @@
 cask_args appdir: "/Applications/Homebrew"
 
 # formulae
+brew "agavra/tap/tuicr", tap: "agavra/tap", trusted: true   # code review tui (https://github.com/agavra/tuicr)
 brew "aria2"                              # download utility (https://aria2.github.io/)
 brew "bat"                                # cat with colours (https://github.com/sharkdp/bat)
 brew "cloc"                               # count lines of code (https://github.com/aldanial/cloc)
