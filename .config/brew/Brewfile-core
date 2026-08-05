@@ -4,38 +4,55 @@
 # Install casks to a separate folder
 cask_args appdir: "/Applications/Homebrew"
 
+# taps
+tap "Arthur-Ficial/tap", trusted: true
+tap "modem-dev/tap", trusted: true
+tap "agavra/tap", trusted: true
+
 # formulae
-brew "agavra/tap/tuicr", tap: "agavra/tap", trusted: true   # code review tui (https://github.com/agavra/tuicr)
+brew "Arthur-Ficial/tap/apfel"            # CLI access to Apple's on-device LLM (https://apfel.franzai.com/)
+brew "agavra/tap/tuicr"                   # code review tui (https://github.com/agavra/tuicr)
 brew "aria2"                              # download utility (https://aria2.github.io/)
 brew "bat"                                # cat with colours (https://github.com/sharkdp/bat)
 brew "cloc"                               # count lines of code (https://github.com/aldanial/cloc)
+brew "colima"                             # container runtime (https://colima.run/)
 brew "container"                          # linux containers on macOS (https://github.com/apple/container)
+brew "docker"                             # container engine (https://docs.docker.com/engine/)
+brew "docker-buildx"                      # BuildKit for Docker (https://github.com/docker/buildx)
+brew "docker-compose"                     # multi-container plugin for Docker (https://docs.docker.com/compose/)
 brew "eza"                                # ls with nicer defaults (https://github.com/eza-community/eza)
 brew "fd"                                 # find filesystem entries (https://github.com/sharkdp/fd)
 brew "fzf"                                # command line fuzzy finder (https://github.com/junegunn/fzf)
 brew "git-delta"                          # git pager (https://dandavison.github.io/delta/)
+brew "jq"                                 # JSON processor (https://jqlang.github.io/jq/)
+brew "lazydocker"                         # docker TUI (https://github.com/jesseduffield/lazydocker)
 brew "lazygit"                            # git TUI (https://github.com/jesseduffield/lazygit/)
+brew "mise"                               # dev env manager (https://mise.jdx.dev/)
+brew "modem-dev/tap/hunk"                 # nicer diffs (https://www.hunk.dev/)
 brew "mole"                               # mac deep clean/optimise (https://github.com/tw93/Mole)
-brew "modem-dev/tap/hunk", trusted: true  # nicer diffs (https://www.hunk.dev/)
 brew "neovim"                             # better vim (https://github.com/neovim/neovim)
 brew "pure"                               # clean zsh prompt (https://github.com/sindresorhus/pure)
 brew "ripgrep"                            # faster grep (https://github.com/BurntSushi/ripgrep)
 brew "stow"                               # dotfiles/symlink manager (https://www.gnu.org/software/stow/manual/)
 brew "tmux"                               # terminal multiplexer (https://github.com/tmux/tmux/wiki)
+brew "yq"                                 # YAML processor (https://github.com/mikefarah/yq)
 brew "zoxide"                             # smarter cd (https://github.com/ajeetdsouza/zoxide)
 brew "zsh-autosuggestions"                # zsh autosuggestions (https://github.com/zsh-users/zsh-autosuggestions)
 brew "zsh-syntax-highlighting"            # zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
 
+# tapped formulae
+
 # casks
+cask "font-jetbrains-mono-nerd-font"      # monospace font with nerd font support (https://www.nerdfonts.com/font-downloads)
 cask "ghostty"                            # terminal emulator (https://github.com/ghostty-org/ghostty)
 cask "google-chrome"                      # web browser (https://www.google.com/intl/en_au/chrome/)
 cask "iina"                               # video player (https://github.com/iina/iina)
-cask "font-jetbrains-mono-nerd-font"      # monospace font with nerd font support (https://www.nerdfonts.com/font-downloads)
 cask "keka"                               # archive tool (https://www.keka.io/en/)
+cask "middleclick"                        # trackpad 3-finger tap to middle click (https://github.com/artginzburg/MiddleClick)
+cask "monitorcontrol"                     # control brightness/sound on ext monitors (https://github.com/MonitorControl/MonitorControl)
+cask "obsidian"                           # markdown notes (https://obsidian.md/)
 cask "raycast"                            # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                          # window management (https://github.com/rxhanson/Rectangle)
 cask "shottr"                             # screenshot tool (https://shottr.cc/)
-cask "middleclick"                        # trackpad 3-finger tap to middle click (https://github.com/artginzburg/MiddleClick)
-cask "monitorcontrol"                     # control brightness/sound on ext monitors (https://github.com/MonitorControl/MonitorControl)
 cask "visual-studio-code"                 # IDE (https://code.visualstudio.com/)
 

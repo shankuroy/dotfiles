@@ -3,13 +3,7 @@
 # formulae
 brew "b2-tools"                         # Backblaze B2 CLI (https://www.backblaze.com/docs/cloud-storage-command-line-interface)
 brew "cloudflared"                      # Cloudflare tunnel client (https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/)
-brew "colima"                           # container runtime (https://colima.run/)
-brew "docker"                           # container engine (https://docs.docker.com/engine/)
-brew "docker-buildx"                    # BuildKit for Docker (https://github.com/docker/buildx)
-brew "docker-compose"                   # multi-container plugin for Docker (https://docs.docker.com/compose/)
-brew "lazydocker"                       # docker TUI (https://github.com/jesseduffield/lazydocker)
 brew "lume"                             # macOS VM CLI and framework (https://cua.ai/docs/lume/guide/getting-started/introduction)
-brew "mise"                             # dev env manager (https://mise.jdx.dev/)
 brew "mas"                              # Mac App Store CLI (https://github.com/mas-cli/mas)
 
 # casks
@@ -17,7 +11,6 @@ cask "affinity"                         # photo editing & vector drawing (https:
 cask "ilok-license-manager"             # iLok plugin license manager (https://www.ilok.com/#!license-manager)
 cask "localsend"                        # share files on local network (https://localsend.org/)
 cask "logi-options+"                    # Logitech mouse config (https://www.logitech.com/en-au/software/logi-options-plus.html)
-cask "obsidian"                         # markdown notes (https://obsidian.md/)
 cask "reaper"                           # DAW (https://www.reaper.fm/)
 cask "stremio"                          # video streaming (https://www.stremio.com/)
 
