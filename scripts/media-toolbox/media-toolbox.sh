@@ -1,71 +1,86 @@
 #!/usr/bin/env bash
+#
+# mt (media toolbox) - run a containerized command (yt-dlp, ffmpeg, ffprobe, ...)
+# against the current directory, as if it were installed locally.
+#
+#   mt yt-dlp '<link>'
+#   mt ffmpeg -i in.mp4 out.mkv
 
-# Show usage if no args or -h/--help
-if [ $# -eq 0 ] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
-  cat <<EOF
-===============================================================================
-MEDIA TOOLBOX (mt)
-===============================================================================
-A containerized environment for media processing.
+set -euo pipefail
 
-USAGE:
-  mt < -h | --help >        Show this help message
-  mt --rebuild              Rebuild the image
-  mt yt-dlp [args] '<url>'  Download video from URL using yt-dlp
-  mt <command> [args]       Run other commands in the Alpine base, e.g.:
-  mt ffmpeg [args]          Run ffmpeg
+CMD_NAME='mt'
+BUILD_DIR="$HOME/repo/personal/dotfiles/scripts/media-toolbox"
+IMAGE_NAME="media-toolbox:latest"
+CPUS="${CPUS:-4}"
+MEMORY="${MEMORY:-8g}"
 
-===============================================================================
+if [[ "${1:-}" == "--help" ]]; then
+  cat <<'EOF'
+Usage: mt [--rebuild] <command> [args...]
+       mt --help
+
+Run a containerized command (yt-dlp, ffmpeg, ffprobe, ...) against the
+current directory, as if it were installed locally.
+
+Options:
+  --rebuild     Force a cache-busted rebuild of the media-toolbox image
+                before running (picks up yt-dlp/dependency updates).
+  --help        Show this help and exit.
+
+Setup:
+  Nothing to do - the first invocation builds the image automatically.
+  Put mt on your $PATH (or symlink it) to use it from anywhere. Run it
+  from the directory you want output written to - it bind-mounts $PWD
+  into the container and runs as your host UID/GID, so files land
+  owned by you.
+
+Examples:
+  Download video/audio
+    mt yt-dlp '<link>'
+    mt yt-dlp -x --audio-format mp3 '<link>'    audio only
+    mt yt-dlp -f 'bv*+ba/best' '<link>'         best video+audio
+    mt yt-dlp --downloader aria2c '<link>'      faster, multi-connection
+
+  Convert/inspect media
+    mt ffmpeg -i in.mp4 out.mkv
+    mt ffprobe -show_format -show_streams in.mp4
+    mt mediainfo in.mp4
+
+  Images/thumbnails
+    mt convert thumb.webp thumb.jpg
+    mt convert cover.jpg -resize 500x500 cover-small.jpg
+
+  Embed cover art (m4a/mp4)
+    mt AtomicParsley song.m4a --artwork cover.jpg --overWrite
 EOF
   exit 0
 fi
 
-# Configuration
-IMAGE_NAME="media-toolbox"
-CPU_LIMIT="4"
-MEM_LIMIT="8g"
+rebuild=false
+if [[ "${1:-}" == "--rebuild" ]]; then
+  rebuild=true
+  shift
+fi
 
-# Detect container engine
-if docker info >/dev/null 2>&1; then
-    ENGINE="docker"
-elif podman info >/dev/null 2>&1; then
-    ENGINE="podman"
-else
-    echo "ERROR: requires docker or podman to be running"
+if $rebuild || ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
+  if [[ ! -f "$BUILD_DIR/Dockerfile" ]]; then
+    echo "$CMD_NAME: ERROR: could not find $BUILD_DIR/Dockerfile" >&2
     exit 1
+  fi
+  echo "$CMD_NAME: building '$IMAGE_NAME'..."
+  build_flags=()
+  $rebuild && build_flags+=(--no-cache)
+  docker build "${build_flags[@]}" -t "$IMAGE_NAME" "$BUILD_DIR"
 fi
 
-# Handle rebuild flag (or rebuild if the image is missing)
-if [[ "$1" == "--rebuild" ]] || [[ -z $($ENGINE images -q "$IMAGE_NAME" 2>/dev/null) ]]; then
-  echo "🚧 Rebuilding $IMAGE_NAME image with $ENGINE..."
-  cat <<EOF | $ENGINE build -t $IMAGE_NAME -f - .
-FROM alpine:latest
-LABEL app="$IMAGE_NAME"
-RUN apk add --no-cache \
-    ca-certificates \
-    dumb-init \
-    yt-dlp
-WORKDIR /work
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-EOF
-
-  BUILD_STATUS="$?"
-  if [[ "$BUILD_STATUS" -eq 0 ]]; then
-    echo "Build successful. Pruning old layers..."
-    $ENGINE image prune -f --filter "label=app=$IMAGE_NAME"
-  else
-    echo "Build failed. Check the output above."
-  fi
-
-  if [[ "$1" == "--rebuild" ]]; then
-    exit $BUILD_STATUS
-  fi
+tty_flags=(-i)
+if [ -t 0 ] && [ -t 1 ]; then
+  tty_flags+=(-t)
 fi
 
-# Run container, passing through arguments
-$ENGINE run --rm -it \
-  --cpus="$CPU_LIMIT" --memory="$MEM_LIMIT" \
-  -u "$(id -u):$(id -g)" \
-  -v "$(pwd):/work:rw" \
-  $IMAGE_NAME "$@"
-
+exec docker run --rm "${tty_flags[@]}" \
+  --cpus "$CPUS" \
+  --memory "$MEMORY" \
+  --user "$(id -u):$(id -g)" \
+  -v "$PWD:/data" \
+  "$IMAGE_NAME" "$@"
