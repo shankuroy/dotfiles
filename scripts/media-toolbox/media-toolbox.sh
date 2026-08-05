@@ -19,39 +19,29 @@ if [[ "${1:-}" == "--help" ]]; then
 Usage: mt [--rebuild] <command> [args...]
        mt --help
 
-Run a containerized command (yt-dlp, ffmpeg, ffprobe, ...) against the
+Run a containerized command (yt-dlp, ffmpeg, imagemagick, ...) against the
 current directory, as if it were installed locally.
 
 Options:
-  --rebuild     Force a cache-busted rebuild of the media-toolbox image
-                before running (picks up yt-dlp/dependency updates).
+  --rebuild     Force a cache-busted rebuild of the image (picks up updates).
   --help        Show this help and exit.
 
+Env vars:
+  CPUS, MEMORY  Container resource limits (default: 4, 8g).
+
 Setup:
-  Nothing to do - the first invocation builds the image automatically.
-  Put mt on your $PATH (or symlink it) to use it from anywhere. Run it
-  from the directory you want output written to - it bind-mounts $PWD
-  into the container and runs as your host UID/GID, so files land
-  owned by you.
+  Nothing to do - the first invocation builds the image automatically. Put
+  mt on your $PATH to use it from anywhere. Run it from the directory you
+  want output written to - it bind-mounts $PWD and runs as your host UID/GID.
 
 Examples:
-  Download video/audio
-    mt yt-dlp '<link>'
-    mt yt-dlp -x --audio-format mp3 '<link>'    audio only
-    mt yt-dlp -f 'bv*+ba/best' '<link>'         best video+audio
-    mt yt-dlp --downloader aria2c '<link>'      faster, multi-connection
-
-  Convert/inspect media
-    mt ffmpeg -i in.mp4 out.mkv
-    mt ffprobe -show_format -show_streams in.mp4
-    mt mediainfo in.mp4
-
-  Images/thumbnails
-    mt convert thumb.webp thumb.jpg
-    mt convert cover.jpg -resize 500x500 cover-small.jpg
-
-  Embed cover art (m4a/mp4)
-    mt AtomicParsley song.m4a --artwork cover.jpg --overWrite
+  mt yt-dlp '<link>'
+  mt yt-dlp -x --audio-format mp3 '<link>'    audio only
+  mt yt-dlp --downloader aria2c '<link>'      faster, multi-connection
+  mt ffmpeg -i in.mp4 out.mkv
+  mt ffprobe -show_format -show_streams in.mp4
+  mt mediainfo in.mp4
+  mt magick cover.jpg -resize 500x500 cover-small.jpg
 EOF
   exit 0
 fi
