@@ -5,17 +5,27 @@
 # run the following to source this in ~/.bashrc:
 # grep -qxF '~/.bashrc-dev' ~/.bashrc || echo '[[ -f ~/.bashrc-dev ]] && source ~/.bashrc-dev' >> ~/.bashrc
 
-# dev packages
-missing=()
-command -v fdfind >/dev/null 2>&1 || missing+=("fd-find")
-command -v htop >/dev/null 2>&1 || missing+=("htop")
-command -v rg >/dev/null 2>&1 || missing+=("ripgrep")
-command -v starship >/dev/null 2>&1 || missing+=("starship")
-command -v tmux >/dev/null 2>&1 || missing+=("tmux")
 
-if [[ ${#missing[@]} -gt 0 ]]; then
-  echo "installing missing packages: ${missing[@]}"
-  sudo apt-get update && sudo apt-get install -y "${missing[@]}"
+# dev packages
+missing_packages=()
+
+# Usage: check_cmd <command> [package_name]
+check_cmd() {
+    # If a second argument isn't provided, use the first argument as the package name
+    command -v "$1" >/dev/null 2>&1 || missing_packages+=("${2:-$1}")
+}
+
+check_cmd fdfind fd-find
+check_cmd htop
+check_cmd jq
+check_cmd rg ripgrep
+check_cmd starship
+check_cmd tmux
+check_cmd yq
+
+if [[ ${#missing_packages[@]} -gt 0 ]]; then
+  echo "installing missing packages: ${missing_packages[@]}"
+  sudo apt-get update && sudo apt-get install -y "${missing_packages[@]}"
 fi
 
 if [[ -f ~/.local/bin/mise ]]; then
