@@ -2,21 +2,22 @@
 
 set -euo pipefail
 
-CMD_NAME='alpine'
-BUILD_DIR="$HOME/repo/personal/dotfiles/scripts/alpine-toolbox"
-IMAGE_NAME="alpine-toolbox:latest"
+CMD_NAME='linux-toolbox'
+BUILD_DIR="$HOME/repo/personal/dotfiles/scripts/linux-toolbox"
 CPUS="${CPUS:-4}"
 MEMORY="${MEMORY:-8g}"
 
 if [[ "${1:-}" == "--help" ]]; then
   cat <<EOF
-Usage: $CMD_NAME [--rebuild] <command> [args...]
+Usage: $CMD_NAME [--alpine|--debian] [--rebuild] <command> [args...]
        $CMD_NAME --help
 
 Run a containerized command (yt-dlp, ffmpeg, imagemagick, ...) against the
 current directory, as if it were installed locally.
 
 Options:
+  --alpine      Use the musl/Alpine image.
+  --debian      Use the glibc/Debian image (default).
   --rebuild     Force a cache-busted rebuild of the image (picks up updates).
   --help        Show this help and exit.
 
@@ -41,22 +42,30 @@ EOF
   exit 0
 fi
 
+variant=debian
 rebuild=false
-if [[ "${1:-}" == "--rebuild" ]]; then
-  rebuild=true
-  shift
-fi
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --alpine) variant=alpine; shift ;;
+    --debian) variant=debian; shift ;;
+    --rebuild) rebuild=true; shift ;;
+    *) break ;;
+  esac
+done
+
+IMAGE_NAME="toolbox-$variant:latest"
+DOCKERFILE="$BUILD_DIR/Dockerfile-$variant"
 
 if $rebuild || ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
-  if [[ ! -f "$BUILD_DIR/Dockerfile" ]]; then
-    echo "$CMD_NAME: ERROR: could not find $BUILD_DIR/Dockerfile" >&2
+  if [[ ! -f "$DOCKERFILE" ]]; then
+    echo "$CMD_NAME: ERROR: could not find $DOCKERFILE" >&2
     exit 1
   fi
   echo "$CMD_NAME: building '$IMAGE_NAME'..."
   if $rebuild; then
-    docker build --no-cache -t "$IMAGE_NAME" "$BUILD_DIR"
+    docker build --no-cache -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
   else
-    docker build -t "$IMAGE_NAME" "$BUILD_DIR"
+    docker build -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
   fi
 fi
 

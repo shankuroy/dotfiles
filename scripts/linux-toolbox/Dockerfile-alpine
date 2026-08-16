@@ -13,4 +13,4 @@ ENV HOME=/tmp
 WORKDIR /data
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["uname", "-a"]
+CMD ["cat", "/etc/os-release"]

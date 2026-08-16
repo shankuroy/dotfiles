@@ -1,0 +1,18 @@
+FROM debian:trixie-slim
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        aria2 \
+        dumb-init \
+        ffmpeg \
+        imagemagick \
+        mediainfo \
+        yt-dlp \
+    && rm -rf /var/lib/apt/lists/* \
+    && printf '%s\n' '--no-cache-dir' > /etc/yt-dlp.conf
+
+ENV HOME=/tmp
+WORKDIR /data
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["cat", "/etc/os-release"]
