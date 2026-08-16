@@ -89,7 +89,7 @@ echo "Syncing brew packages with ${OUTPUT_FILE}"
 brew update
 brew bundle install --verbose --file="${OUTPUT_FILE}"
 brew bundle cleanup --verbose --force --file="${OUTPUT_FILE}"
-brew upgrade
+brew upgrade --no-ask
 brew cleanup
 brew autoremove
 
