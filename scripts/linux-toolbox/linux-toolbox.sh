@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-CMD_NAME='linux-toolbox'
+CMD_NAME="$(basename "${0:-linux-toolbox}")"
 BUILD_DIR="$HOME/repo/personal/dotfiles/scripts/linux-toolbox"
 CPUS="${CPUS:-4}"
 MEMORY="${MEMORY:-8g}"
