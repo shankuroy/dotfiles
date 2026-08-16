@@ -10,6 +10,7 @@ MEMORY="${MEMORY:-8g}"
 if [[ "${1:-}" == "--help" ]]; then
   cat <<EOF
 Usage: $CMD_NAME [--alpine|--debian] [--docker|--container] [--rebuild] <command> [args...]
+       $CMD_NAME --rebuild-all
        $CMD_NAME --help
 
 Run a containerized command (yt-dlp, ffmpeg, imagemagick, ...) against the
@@ -21,6 +22,9 @@ Options:
   --docker      Use Docker as the container runtime (default).
   --container   Use Apple's \`container\` CLI as the container runtime.
   --rebuild     Force a cache-busted rebuild of the image (picks up updates).
+  --rebuild-all Force a cache-busted rebuild of every variant (alpine, debian)
+                across every installed runtime (docker, container). Skips
+                runtimes that aren't installed. Runs with no command needed.
   --help        Show this help and exit.
 
 Env vars:
@@ -47,6 +51,7 @@ fi
 variant=debian
 runtime=docker
 rebuild=false
+rebuild_all=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --alpine) variant=alpine; shift ;;
@@ -54,9 +59,31 @@ while [[ $# -gt 0 ]]; do
     --docker) runtime=docker; shift ;;
     --container) runtime=container; shift ;;
     --rebuild) rebuild=true; shift ;;
+    --rebuild-all) rebuild_all=true; shift ;;
     *) break ;;
   esac
 done
+
+if $rebuild_all; then
+  for v in debian alpine; do
+    df="$BUILD_DIR/Dockerfile-$v"
+    if [[ ! -f "$df" ]]; then
+      echo "$CMD_NAME: ERROR: could not find $df" >&2
+      exit 1
+    fi
+    for r in docker container; do
+      if ! command -v "$r" >/dev/null 2>&1; then
+        echo "$CMD_NAME: skipping $r variant=$v (runtime not installed)"
+        continue
+      fi
+      echo "$CMD_NAME: building 'toolbox-$v:latest' ($r)..."
+      "$r" build --no-cache -f "$df" -t "toolbox-$v:latest" "$BUILD_DIR"
+    done
+  done
+  if [[ $# -eq 0 ]]; then
+    exit 0
+  fi
+fi
 
 IMAGE_NAME="toolbox-$variant:latest"
 DOCKERFILE="$BUILD_DIR/Dockerfile-$variant"
