@@ -9,7 +9,7 @@ MEMORY="${MEMORY:-8g}"
 
 if [[ "${1:-}" == "--help" ]]; then
   cat <<EOF
-Usage: $CMD_NAME [--alpine|--debian] [--rebuild] <command> [args...]
+Usage: $CMD_NAME [--alpine|--debian] [--docker|--container] [--rebuild] <command> [args...]
        $CMD_NAME --help
 
 Run a containerized command (yt-dlp, ffmpeg, imagemagick, ...) against the
@@ -18,6 +18,8 @@ current directory, as if it were installed locally.
 Options:
   --alpine      Use the musl/Alpine image.
   --debian      Use the glibc/Debian image (default).
+  --docker      Use Docker as the container runtime (default).
+  --container   Use Apple's \`container\` CLI as the container runtime.
   --rebuild     Force a cache-busted rebuild of the image (picks up updates).
   --help        Show this help and exit.
 
@@ -43,11 +45,14 @@ EOF
 fi
 
 variant=debian
+runtime=docker
 rebuild=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --alpine) variant=alpine; shift ;;
     --debian) variant=debian; shift ;;
+    --docker) runtime=docker; shift ;;
+    --container) runtime=container; shift ;;
     --rebuild) rebuild=true; shift ;;
     *) break ;;
   esac
@@ -56,16 +61,16 @@ done
 IMAGE_NAME="toolbox-$variant:latest"
 DOCKERFILE="$BUILD_DIR/Dockerfile-$variant"
 
-if $rebuild || ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
+if $rebuild || ! "$runtime" image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
   if [[ ! -f "$DOCKERFILE" ]]; then
     echo "$CMD_NAME: ERROR: could not find $DOCKERFILE" >&2
     exit 1
   fi
   echo "$CMD_NAME: building '$IMAGE_NAME'..."
   if $rebuild; then
-    docker build --no-cache -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
+    "$runtime" build --no-cache -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
   else
-    docker build -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
+    "$runtime" build -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_DIR"
   fi
 fi
 
@@ -74,7 +79,7 @@ if [ -t 0 ] && [ -t 1 ]; then
   tty_flags+=(-t)
 fi
 
-exec docker run --rm "${tty_flags[@]}" \
+exec "$runtime" run --rm "${tty_flags[@]}" \
   --cpus "$CPUS" \
   --memory "$MEMORY" \
   --user "$(id -u):$(id -g)" \
