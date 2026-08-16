@@ -20,3 +20,10 @@ Get a list of required App Store apps for the relevant profiles and download the
 grep '^mas' Brewfile-*
 ```
 
+# Deliberately excluded apps
+
+The following apps are deliberately excluded for various reasons, e.g. auto-update clashes.
+
+- [Google Chrome](https://www.google.com/chrome/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+

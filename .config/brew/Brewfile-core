@@ -45,7 +45,6 @@ brew "zsh-syntax-highlighting"            # zsh syntax highlighting (https://git
 # casks
 cask "font-jetbrains-mono-nerd-font"      # monospace font with nerd font support (https://www.nerdfonts.com/font-downloads)
 cask "ghostty"                            # terminal emulator (https://github.com/ghostty-org/ghostty)
-cask "google-chrome"                      # web browser (https://www.google.com/intl/en_au/chrome/)
 cask "iina"                               # video player (https://github.com/iina/iina)
 cask "keka"                               # archive tool (https://www.keka.io/en/)
 cask "middleclick"                        # trackpad 3-finger tap to middle click (https://github.com/artginzburg/MiddleClick)
@@ -54,5 +53,4 @@ cask "obsidian"                           # markdown notes (https://obsidian.md/
 cask "raycast"                            # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                          # window management (https://github.com/rxhanson/Rectangle)
 cask "shottr"                             # screenshot tool (https://shottr.cc/)
-cask "visual-studio-code"                 # IDE (https://code.visualstudio.com/)
 
