@@ -5,20 +5,19 @@
 [user]
   useConfigOnly = true
 
-[alias]
-  pp = pull --prune
-  unstage = restore --staged --
-  l = !lazygit
+[include]
+  path = ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_night.gitconfig
 
 # delta (https://dandavison.github.io/delta/configuration.html)
 [core]
   pager = delta
 
-[include]
-  path = ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_night.gitconfig
-
 [interactive]
   diffFilter = delta --color-only
+
+[fetch]
+  prune = true
+  pruneTags = true
 
 [merge]
   conflictStyle = zdiff3
