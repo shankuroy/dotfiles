@@ -81,6 +81,9 @@ fi
 alias tmuxx='tmux new -As "$(hostname | tr "." "-")"' # attach to existing or create new session
 alias git_root='cd "$(git rev-parse --show-toplevel)"' # Jump to git root directory
 
+# --- custom local config ---
+[[ -f ~/.zshrc-local ]] && source ~/.zshrc-local
+
 # --- prompt ---
 autoload -U promptinit; promptinit
 prompt pure || prompt default
