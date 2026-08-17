@@ -163,28 +163,17 @@ vim.cmd.colorscheme("tokyonight-night")
 
 
 --
--- keymaps
-vim.keymap.set({'n', 'v'},  '<leader>p',  '"+p',                        { desc = 'paste from system clipboard' })
-vim.keymap.set({'n', 'v'},  '<leader>P',  '"+P',                        { desc = 'paste before from system clipboard' })
-vim.keymap.set({'n', 'v'},  '<leader>y',  '"+y',                        { desc = 'yank to system clipboard' })
-vim.keymap.set({'n'},       '<leader>bb', '<C-^>',                      { desc = 'switch to previous buffer' })
-vim.keymap.set({'v'},       '>',          '>gv',                        { desc = 'continuous indent' })
-vim.keymap.set({'v'},       '<',          '<gv',                        { desc = 'continuous dedent' })
-vim.keymap.set({'n'},       '<leader>tw', ':set wrap!<CR>',             { silent = true, desc = 'toggle line wrap' })
-vim.keymap.set({'n'},       '<A-Up>',     ':m .-2<CR>==',               { silent = true, desc = 'move line up' })
-vim.keymap.set({'n'},       '<A-Down>',   ':m .+1<CR>==',               { silent = true, desc = 'move line down' })
-vim.keymap.set({'v'},       '<A-Up>',     ":m '<-2<CR>gv=gv",           { silent = true, desc = 'move selection up' })
-vim.keymap.set({'v'},       '<A-Down>',   ":m '>+1<CR>gv=gv",           { silent = true, desc = 'move selection down' })
-vim.keymap.set({'n', 'v'},  'j',          "v:count == 0 ? 'gj' : 'j'",  { expr = true, silent = true, desc = 'move down visual line' })
-vim.keymap.set({'n', 'v'},  'k',          "v:count == 0 ? 'gk' : 'k'",  { expr = true, silent = true, desc = 'move up visual line' })
+-- local functions
 
-vim.keymap.set('n', '<leader>tc', function()
+local function toggle_colorcolumn()
   vim.wo.colorcolumn = vim.wo.colorcolumn == '' and '80,120' or ''
-end, { desc = 'toggle colorcolumn' })
+end
 
 
 --
--- auto-detect project root
+-- autocommands
+
+-- -- auto-detect project root
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(args)
     local root = vim.fs.root(args.buf, { ".git" })
@@ -193,6 +182,24 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
+
+--
+-- keymaps
+vim.keymap.set({'n', 'v'},  '<leader>p',  '"+p',                        { desc = 'paste from system clipboard' })
+vim.keymap.set({'n', 'v'},  '<leader>P',  '"+P',                        { desc = 'paste before from system clipboard' })
+vim.keymap.set({'n', 'v'},  '<leader>y',  '"+y',                        { desc = 'yank to system clipboard' })
+vim.keymap.set({'n'},       '<leader>bb', '<C-^>',                      { desc = 'switch to previous buffer' })
+vim.keymap.set({'v'},       '>',          '>gv',                        { desc = 'continuous indent' })
+vim.keymap.set({'v'},       '<',          '<gv',                        { desc = 'continuous dedent' })
+vim.keymap.set({'n'},       '<leader>tc', toggle_colorcolumn,           { desc = 'toggle colorcolumn' })
+vim.keymap.set({'n'},       '<leader>tw', ':set wrap!<CR>',             { silent = true, desc = 'toggle line wrap' })
+vim.keymap.set({'n'},       '<A-Up>',     ':m .-2<CR>==',               { silent = true, desc = 'move line up' })
+vim.keymap.set({'n'},       '<A-Down>',   ':m .+1<CR>==',               { silent = true, desc = 'move line down' })
+vim.keymap.set({'v'},       '<A-Up>',     ":m '<-2<CR>gv=gv",           { silent = true, desc = 'move selection up' })
+vim.keymap.set({'v'},       '<A-Down>',   ":m '>+1<CR>gv=gv",           { silent = true, desc = 'move selection down' })
+vim.keymap.set({'n', 'v'},  'j',          "v:count == 0 ? 'gj' : 'j'",  { expr = true, silent = true, desc = 'move down visual line' })
+vim.keymap.set({'n', 'v'},  'k',          "v:count == 0 ? 'gk' : 'k'",  { expr = true, silent = true, desc = 'move up visual line' })
 
 
 --
