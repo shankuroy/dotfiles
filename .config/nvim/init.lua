@@ -9,10 +9,9 @@ vim.g.mapleader = ' '
 vim.pack.add({
   -- sort by repo name with `:sort /.*\// i`
   { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
+  'https://github.com/stevearc/conform.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://codeberg.org/andyg/leap.nvim',
-  'https://github.com/nvim-lualine/lualine.nvim',
-  'https://github.com/mason-org/mason-lspconfig.nvim.git',
   'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git',
   'https://github.com/mason-org/mason.nvim.git',
   'https://github.com/nvim-mini/mini.nvim',
@@ -22,23 +21,10 @@ vim.pack.add({
   'https://github.com/folke/tokyonight.nvim',
 })
 
---
--- gitsigns: git info in the gutter
-local gitsigns = require('gitsigns')
-vim.keymap.set('n', '<leader>gb', gitsigns.blame_line,          { desc = 'git blame line' })
-vim.keymap.set('n', '<leader>gd', gitsigns.preview_hunk_inline, { desc = 'git diff inline' })
-vim.keymap.set('n', ']c',         gitsigns.next_hunk,           { desc = 'git next hunk' })
-vim.keymap.set('n', '[c',         gitsigns.prev_hunk,           { desc = 'git prev hunk' })
-vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk,          { desc = 'git reset hunk' })
 
 --
 -- leap: fast buffer navigation
 vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search with leap.nvim' })
-
-
---
--- lualine: nicer status line
-require('lualine').setup()
 
 
 --
@@ -89,55 +75,75 @@ vim.keymap.set('n', '<leader>gx',       function() Snacks.gitbrowse() end,      
 -- LSP
 require("mason").setup()
 
-require("mason-lspconfig").setup({
-  ensure_installed = {
-    "basedpyright",
-    "kotlin_language_server",
-    "lua_ls",
-    "ruff",
-    "ts_ls",
-  },
-  automatic_enable = true,
-})
-
 require("mason-tool-installer").setup({
   ensure_installed = {
-    "eslint_d",   -- js/ts linter
-    "ktlint",     -- kotlin formatter/linter
-    "prettier",   -- js/ts/css/html formatter
-    "ruff",       -- python formatter
-    "stylua",     -- lua formatter
+    -- servers
+    "basedpyright",
+    "eslint-lsp",
+    "kotlin-language-server",
+    "lua-language-server",
+    "ruff",
+    "typescript-language-server",
+    -- formatters
+    "ktlint",
+    "prettier",
+    "stylua",
   },
   auto_update = false,
   run_on_start = true,
 })
 
 vim.lsp.config("lua_ls", {
-  settings = {
-    Lua = {
-      diagnostics = { globals = { "vim" } },
-    },
-  },
+  settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
 
 vim.lsp.config("kotlin_language_server", {
   init_options = {
-    -- This redirects the database and cache files to ~/.cache/nvim/kotlin_language_server
     storagePath = vim.fn.stdpath("cache") .. "/kotlin_language_server",
   },
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local bufnr = args.buf
-    local opts = { buffer = bufnr }
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set({ "n", "x" }, "<leader>fo", function()
-      local mode = vim.api.nvim_get_mode().mode
-      vim.lsp.buf.format({ async = mode == "n" })
-    end, opts)
-  end,
+vim.lsp.enable({
+  "basedpyright",
+  "eslint",
+  "kotlin_language_server",
+  "lua_ls",
+  "ruff",
+  "ts_ls",
 })
+
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
+
+
+--
+-- formatting
+require("conform").setup({
+  formatters_by_ft = {
+    css = { "prettier" },
+    html = { "prettier" },
+    javascript = { "prettier" },
+    javascriptreact = { "prettier" },
+    json = { "prettier" },
+    kotlin = { "ktlint" },
+    lua = { "stylua" },
+    markdown = { "prettier" },
+    python = { "ruff_organize_imports", "ruff_format" },
+    typescript = { "prettier" },
+    typescriptreact = { "prettier" },
+    yaml = { "prettier" },
+  },
+  formatters = {
+    -- stylua defaults to tabs at width 4; match the 2-space config
+    stylua = {
+      prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+    },
+  },
+})
+
+vim.keymap.set({ "n", "x" }, "<leader>fo", function()
+  local mode = vim.api.nvim_get_mode().mode
+  require("conform").format({ async = mode == "n", lsp_format = "fallback" })
+end, { desc = "format buffer or selection" })
 
 
 --
@@ -193,6 +199,7 @@ vim.keymap.set({'n'},       '<leader>bb', '<C-^>',                      { desc =
 vim.keymap.set({'v'},       '>',          '>gv',                        { desc = 'continuous indent' })
 vim.keymap.set({'v'},       '<',          '<gv',                        { desc = 'continuous dedent' })
 vim.keymap.set({'n'},       '<leader>tc', toggle_colorcolumn,           { desc = 'toggle colorcolumn' })
+vim.keymap.set({'n'},       '<leader>tr', ':set relativenumber!<CR>',   { desc = 'toggle relative numbers' })
 vim.keymap.set({'n'},       '<leader>tw', ':set wrap!<CR>',             { silent = true, desc = 'toggle line wrap' })
 vim.keymap.set({'n'},       '<A-Up>',     ':m .-2<CR>==',               { silent = true, desc = 'move line up' })
 vim.keymap.set({'n'},       '<A-Down>',   ':m .+1<CR>==',               { silent = true, desc = 'move line down' })
@@ -210,7 +217,6 @@ vim.opt.cursorline = true       -- highlight current line
 vim.opt.expandtab = true        -- use spaces instead of tabs
 vim.opt.ignorecase = true       -- ignore case while searching
 vim.opt.number = true           -- show line number
-vim.opt.relativenumber = true   -- show relative line numbers
 vim.opt.scrolloff = 8           -- start scrolling page this many lines vertically
 vim.opt.shiftwidth = 2          -- number of cols that make up one level of indentation
 vim.opt.sidescrolloff = 8       -- start scrolling page this many chars horizontally
