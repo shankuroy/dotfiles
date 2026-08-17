@@ -65,8 +65,10 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # use colours in menu
 # --- aliases ---
 if (( $+commands[eza] )); then
   export EZA_CONFIG_DIR=$XDG_CONFIG_HOME/eza
-  alias ls='eza --icons'
+  alias ls='eza'
+  alias ll='eza -l --icons --git'
   alias la='eza -la --icons --git'
+  alias tree='eza --icons --tree'
 else
   alias la='ls -lah'
 fi
