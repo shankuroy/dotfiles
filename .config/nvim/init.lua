@@ -18,7 +18,6 @@ vim.pack.add({
   'https://github.com/nvim-mini/mini.nvim',
   'https://github.com/neovim/nvim-lspconfig.git',
   'https://github.com/nvim-tree/nvim-web-devicons',
-  'https://github.com/DrKJeff16/project.nvim',
   'https://github.com/folke/snacks.nvim',
   'https://github.com/folke/tokyonight.nvim',
 })
@@ -46,11 +45,6 @@ require('lualine').setup()
 -- mini: misc plugins
 require('mini.surround').setup()
 require('mini.trailspace').setup()
-
-
---
--- project: auto-detect project root
-require('project').setup()
 
 
 --
@@ -191,6 +185,18 @@ vim.keymap.set('n', '<leader>tc', function()
     vim.wo.colorcolumn = ''
   end
 end, { desc = 'toggle colorcolumn' })
+
+
+--
+-- auto-detect project root
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function(args)
+    local root = vim.fs.root(args.buf, { ".git" })
+    if root and root ~= vim.fn.getcwd() then
+      vim.fn.chdir(root)
+    end
+  end
+})
 
 
 --
