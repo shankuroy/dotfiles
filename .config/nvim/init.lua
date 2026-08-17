@@ -52,13 +52,7 @@ Snacks.setup({
     enabled = true,
     hidden = true,
     sources = {
-      explorer = {
-        layout = {
-          layout = {
-            position = "right",
-          },
-        },
-      },
+      explorer = { layout = { layout = { position = "right", }, }, },
     },
   },
 })
@@ -78,16 +72,9 @@ require("mason").setup()
 require("mason-tool-installer").setup({
   ensure_installed = {
     -- servers
-    "basedpyright",
-    "eslint-lsp",
-    "kotlin-language-server",
-    "lua-language-server",
-    "ruff",
-    "typescript-language-server",
+    "basedpyright", "eslint-lsp", "kotlin-language-server", "lua-language-server", "ruff", "typescript-language-server",
     -- formatters
-    "ktlint",
-    "prettier",
-    "stylua",
+    "ktlint", "prettier", "stylua",
   },
   auto_update = false,
   run_on_start = true,
@@ -104,12 +91,7 @@ vim.lsp.config("kotlin_language_server", {
 })
 
 vim.lsp.enable({
-  "basedpyright",
-  "eslint",
-  "kotlin_language_server",
-  "lua_ls",
-  "ruff",
-  "ts_ls",
+  "basedpyright", "eslint", "kotlin_language_server", "lua_ls", "ruff", "ts_ls",
 })
 
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
@@ -119,21 +101,12 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
 -- formatting
 require("conform").setup({
   formatters_by_ft = {
-    css = { "prettier" },
-    html = { "prettier" },
-    javascript = { "prettier" },
-    javascriptreact = { "prettier" },
-    json = { "prettier" },
     kotlin = { "ktlint" },
     lua = { "stylua" },
-    markdown = { "prettier" },
     python = { "ruff_organize_imports", "ruff_format" },
-    typescript = { "prettier" },
-    typescriptreact = { "prettier" },
-    yaml = { "prettier" },
+    ["_"] = { "prettier" },
   },
   formatters = {
-    -- stylua defaults to tabs at width 4; match the 2-space config
     stylua = {
       prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
     },
@@ -150,15 +123,9 @@ end, { desc = "format buffer or selection" })
 -- autocompletion
 require("blink.cmp").setup({
   keymap = { preset = "super-tab" },
-  appearance = {
-    nerd_font_variant = "mono",
-  },
-  completion = {
-    documentation = { auto_show = true },
-  },
-  sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
-  },
+  appearance = { nerd_font_variant = "mono", },
+  completion = { documentation = { auto_show = true }, },
+  sources = { default = { "lsp", "path", "snippets", "buffer" }, },
   fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
