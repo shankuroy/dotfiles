@@ -102,6 +102,7 @@ $nrconf{restart} = 'a';
 # Do not restart these specific services automatically
 $nrconf{override_rc} = {
     qr(^k3s) => 0,
+    qr(^docker) => 0,
 };
 EOF
 then
