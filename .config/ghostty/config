@@ -3,5 +3,5 @@ font-size = 14
 macos-titlebar-style = tabs
 maximize = true
 # ghostty +list-themes
-theme = Tokyonight Night
+theme = Catppuccin Mocha
 

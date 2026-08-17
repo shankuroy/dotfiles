@@ -18,7 +18,6 @@ vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig.git',
   'https://github.com/nvim-tree/nvim-web-devicons',
   'https://github.com/folke/snacks.nvim',
-  'https://github.com/folke/tokyonight.nvim',
 })
 
 
@@ -144,7 +143,7 @@ require("blink.cmp").setup({
 
 --
 -- colorscheme
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("catppuccin")
 
 
 --
