@@ -179,11 +179,7 @@ vim.keymap.set({'n', 'v'},  'j',          "v:count == 0 ? 'gj' : 'j'",  { expr =
 vim.keymap.set({'n', 'v'},  'k',          "v:count == 0 ? 'gk' : 'k'",  { expr = true, silent = true, desc = 'move up visual line' })
 
 vim.keymap.set('n', '<leader>tc', function()
-  if vim.wo.colorcolumn == '' then
-    vim.wo.colorcolumn = '80,120'
-  else
-    vim.wo.colorcolumn = ''
-  end
+  vim.wo.colorcolumn = vim.wo.colorcolumn == '' and '80,120' or ''
 end, { desc = 'toggle colorcolumn' })
 
 
