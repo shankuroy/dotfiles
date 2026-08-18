@@ -99,8 +99,16 @@ require("mason-tool-installer").setup({
     "swiftformat",
     "swiftlint",
   },
-  auto_update = false,
+  auto_update = true,
   run_on_start = true,
+})
+
+-- auto-clean tools that fall off ensure_installed
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MasonToolsUpdateCompleted",
+  callback = function()
+    vim.cmd("MasonToolsClean")
+  end,
 })
 
 vim.lsp.config("bashls", {
