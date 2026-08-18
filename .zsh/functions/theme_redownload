@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+local num_errors=0
+
+_redownload_file() {
+  local file="$1"
+  local url="$2"
+  _save_url "$url" "$file" || ((num_errors++))
+}
+
+_redownload_file ~/.config/eza/theme.yml 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
+_redownload_file ~/.config/delta/theme.gitconfig 'https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig'
+
+return $((num_errors > 0))

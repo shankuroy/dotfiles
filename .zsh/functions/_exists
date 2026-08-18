@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+local ctype="$1"
+local target="$2"
+local found=0
+
+case "$ctype" in
+  file | -f) [[ -f "$target" ]] && found=1 ;;
+  dir | -d) [[ -d "$target" ]] && found=1 ;;
+  cmd | -c) (($+commands[$target])) && found=1 ;;
+  *)
+    echo "ERROR: unknown check type '$ctype'" >&2
+    return 1
+    ;;
+esac
+
+if ((found)); then
+  echo "exists: $target"
+  return 0
+else
+  echo "missing: $target" >&2
+  return 1
+fi

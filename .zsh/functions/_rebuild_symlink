@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+local src="$1"
+local dest="$2"
+
+if [[ -f "$src" ]]; then
+  mkdir -p "${dest:h}"
+  ln -sf "$src" "$dest"
+  echo "created symlink: $dest -> $src"
+else
+  echo "missing file: $src" >&2
+fi

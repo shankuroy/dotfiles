@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+local src_url="$1"
+local dest_file="$2"
+local tmp_file="$(mktemp)"
+local dest_dir="${dest_file:h}"
+
+[[ -d "$dest_dir" ]] || mkdir -p "$dest_dir"
+
+echo "downloading: ${src_url}"
+if curl -fsSL -o "$tmp_file" "$src_url"; then
+  rm -f "$dest_file"
+  mv "$tmp_file" "$dest_file"
+  echo "saved to: ${dest_file}"
+else
+  echo "download failed: $src_url" >&2
+  rm -f "$tmp_file"
+fi

@@ -6,9 +6,24 @@
   useConfigOnly = true
 
 [include]
-  path = ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/delta/tokyonight_night.gitconfig
+  path = ~/.config/delta/theme.gitconfig
 
 # delta (https://dandavison.github.io/delta/configuration.html)
+[delta]
+  features = catppuccin-mocha
+  hyperlinks = true
+  line-numbers = true
+  navigate = true
+
+[delta "side-by-side"]
+  side-by-side = true
+
+[diff]
+  colorMoved = default
+
+[alias]
+  diff-side = "!git -c delta.features='side-by-side catppuccin-mocha' diff"
+
 [core]
   pager = delta
 
