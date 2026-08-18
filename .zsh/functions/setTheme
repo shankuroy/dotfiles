@@ -1,0 +1,56 @@
+#!/usr/bin/env zsh
+
+local missing=0
+local num_errors=0
+
+_replace_file_from_url() {
+  local dest_file="$1"
+  local src_url="$2"
+  local tmp_file="$(mktemp)"
+
+  echo "downloading: ${src_url}"
+  if curl -fsSL -o "$tmp_file" "$src_url"; then
+    rm -f "$dest_file"
+    mv "$tmp_file" "$dest_file"
+    echo "saved to: ${dest_file}"
+  else
+    echo "download failed: $src_url" >&2
+    rm -f "$tmp_file"
+    (( num_errors++ ))
+  fi
+}
+
+_exists() {
+  local ctype="$1"
+  local target="$2"
+  local found=0
+
+  case "$ctype" in
+    file|-f) [[ -f "$target" ]] && found=1 ;;
+    dir|-d)  [[ -d "$target" ]] && found=1 ;;
+    cmd|-c)  (( $+commands[$target] )) && found=1 ;;
+    *) 
+      echo "ERROR: unknown check type '$ctype'" >&2
+      (( num_errors++ ))
+      return 1 
+      ;;
+  esac
+
+  if (( found )); then
+    echo "exists: $target"
+    return 0
+  else
+    echo "missing: $target" >&2
+    return 1
+  fi
+}
+
+EZA_THEME_FILE=~/.config/eza/theme.yml
+_exists -f "$EZA_THEME_FILE" || _replace_file_from_url "$EZA_THEME_FILE" 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
+
+if [[ $num_errors -gt 0 ]]; then
+  return 1
+else
+  return 0
+fi
+
