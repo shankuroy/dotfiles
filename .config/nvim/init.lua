@@ -32,6 +32,18 @@ vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 
+local function toggle_trailing_whitespace()
+  vim.g.minitrailspace_disable = not vim.g.minitrailspace_disable
+  if vim.g.minitrailspace_disable then
+    MiniTrailspace.unhighlight()
+  else
+    MiniTrailspace.highlight()
+  end
+end
+
+vim.keymap.set({'n'}, '<leader>tt', toggle_trailing_whitespace, { desc = 'toggle trailing whitespace highlights' })
+vim.keymap.set({'n'}, '<leader>ts', MiniTrailspace.trim, { desc = 'trim trailing whitespace' })
+
 
 --
 -- snacks.nvim -- see examples at: https://tduyng.com/blog/vim-pack-and-snacks/
