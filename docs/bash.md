@@ -91,3 +91,47 @@ echo "Positional arguments: $@"
 
 So this check passes if the shell is running interactively and the output is not being piped/redirected.
 
+## colorized output
+
+Bash:
+
+```bash
+# Print standard 8 colors
+for i in {0..7}; do printf "\033[4${i}m \033[0m \033[3${i}mColor 3${i}\033[0m  "; done; echo
+
+# Print bright/high-intensity 8 colors
+for i in {0..7}; do printf "\033[10${i}m \033[0m \033[9${i}mColor 9${i}\033[0m  "; done; echo
+
+RED='\033[31m'
+BLUE='\033[34m'
+RESET='\033[0m'
+
+_info() {
+    printf "${BLUE}[INFO]${RESET} ${@}\n"
+}
+
+_error() {
+    printf "${RED}[ERROR]${RESET} ${@}\n"
+}
+```
+
+zsh:
+
+```zsh
+_info() {
+  print -P "%F{blue}[INFO]%f ${@}"
+}
+
+_error() {
+  print -P "%F{red}[ERROR]%f ${@}" >&2
+}
+
+_green_checkmark() {
+  print -P "\t%F{green}✔%f ${@}"
+}
+
+_red_cross() {
+  print -P "\t%F{red}✘ ${@}%f"
+}
+
+```
