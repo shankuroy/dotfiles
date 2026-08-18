@@ -11,6 +11,7 @@
 # include the following
 !/bat/**
 !/brew/**
+!/delta/**
 !/eza/**
 !/ghostty/**
 !/lazydocker/**
