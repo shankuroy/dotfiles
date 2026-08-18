@@ -30,6 +30,7 @@ vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search
 --
 -- mini: misc plugins
 require('mini.surround').setup()
+require('mini.statusline').setup()
 require('mini.trailspace').setup()
 
 local function toggle_trailing_whitespace()
