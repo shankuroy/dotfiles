@@ -96,6 +96,8 @@ require("mason-tool-installer").setup({
     "prettier",
     "shfmt",
     "stylua",
+    "swiftformat",
+    "swiftlint",
   },
   auto_update = false,
   run_on_start = true,
@@ -122,6 +124,7 @@ vim.lsp.enable({
   "kotlin_language_server",
   "lua_ls",
   "ruff",
+  "sourcekit",
   "ts_ls",
 })
 
@@ -138,6 +141,7 @@ require("conform").setup({
     sh = { "shfmt" },
     bash = { "shfmt" },
     zsh = { "shfmt" },
+    swift = { "swiftlint", "swiftformat" },
     ["_"] = { "prettier" },
   },
   formatters = {
