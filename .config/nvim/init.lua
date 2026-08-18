@@ -137,7 +137,13 @@ vim.lsp.enable({
   "ts_ls",
 })
 
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
+-- use snacks picker (with preview) instead of the quickfix list
+vim.keymap.set("n", "gD",  function() Snacks.picker.lsp_declarations() end,     { desc = "go to declaration" })
+vim.keymap.set("n", "gO",  function() Snacks.picker.lsp_symbols() end,          { desc = "document symbols" })
+vim.keymap.set("n", "gd",  function() Snacks.picker.lsp_definitions() end,      { desc = "go to definition" })
+vim.keymap.set("n", "gri", function() Snacks.picker.lsp_implementations() end,  { desc = "implementations" })
+vim.keymap.set("n", "grr", function() Snacks.picker.lsp_references() end,       { desc = "references" })
+vim.keymap.set("n", "grt", function() Snacks.picker.lsp_type_definitions() end, { desc = "go to type definition" })
 
 
 --
