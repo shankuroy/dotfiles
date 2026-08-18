@@ -8,7 +8,8 @@ _redownload_file() {
   _save_url "$url" "$file" || ((num_errors++))
 }
 
-_redownload_file ~/.config/eza/theme.yml 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
 _redownload_file ~/.config/delta/theme.gitconfig 'https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig'
+_redownload_file ~/.config/eza/theme.yml 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
+_redownload_file ~/.config/fzf/theme.sh 'https://raw.githubusercontent.com/catppuccin/fzf/refs/heads/main/themes/catppuccin-fzf-mocha.sh'
 
 return $((num_errors > 0))

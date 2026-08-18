@@ -13,6 +13,7 @@
 !/brew/**
 !/delta/**
 !/eza/**
+!/fzf/**
 !/ghostty/**
 !/lazydocker/**
 !/lazygit/**

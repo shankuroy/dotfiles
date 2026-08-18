@@ -97,13 +97,13 @@ zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
 # --- plugins ---
-source ~/.local/share/nvim/site/pack/core/opt/tokyonight.nvim/extras/fzf/tokyonight_night.sh
+source $XDG_CONFIG_HOME/fzf/theme.sh
 source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # syntax highlighting must be sourced last
 source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # --- profiling ---
-export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 )) # capture load time for ~/.zsh/functions/zsh_healthcheck
+export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 ))
 # zprof # uncomment this line to enable profiling
 
