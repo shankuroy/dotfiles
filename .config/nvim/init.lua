@@ -83,12 +83,25 @@ require("mason").setup()
 require("mason-tool-installer").setup({
   ensure_installed = {
     -- servers
-    "basedpyright", "eslint-lsp", "kotlin-language-server", "lua-language-server", "ruff", "typescript-language-server",
+    "basedpyright",
+    "bash-language-server",
+    "eslint-lsp",
+    "kotlin-language-server",
+    "lua-language-server",
+    "ruff",
+    "typescript-language-server",
     -- formatters
-    "ktlint", "prettier", "stylua",
+    "ktlint",
+    "prettier",
+    "shfmt",
+    "stylua",
   },
   auto_update = false,
   run_on_start = true,
+})
+
+vim.lsp.config("bashls", {
+  filetypes = { "sh", "bash", "zsh" },
 })
 
 vim.lsp.config("lua_ls", {
@@ -102,7 +115,13 @@ vim.lsp.config("kotlin_language_server", {
 })
 
 vim.lsp.enable({
-  "basedpyright", "eslint", "kotlin_language_server", "lua_ls", "ruff", "ts_ls",
+  "basedpyright",
+  "bashls",
+  "eslint",
+  "kotlin_language_server",
+  "lua_ls",
+  "ruff",
+  "ts_ls",
 })
 
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
@@ -115,11 +134,17 @@ require("conform").setup({
     kotlin = { "ktlint" },
     lua = { "stylua" },
     python = { "ruff_organize_imports", "ruff_format" },
+    sh = { "shfmt" },
+    bash = { "shfmt" },
+    zsh = { "shfmt" },
     ["_"] = { "prettier" },
   },
   formatters = {
     stylua = {
       prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+    },
+    shfmt = {
+      prepend_args = { "-i", "2", "-ci" },
     },
   },
 })
