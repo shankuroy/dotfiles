@@ -1,12 +1,14 @@
 #!/usr/bin/env zsh
 
-local missing=0
 local num_errors=0
 
-_replace_file_from_url() {
-  local dest_file="$1"
-  local src_url="$2"
+_save_url() {
+  local src_url="$1"
+  local dest_file="$2"
   local tmp_file="$(mktemp)"
+  local dest_dir="${dest_file:h}"
+
+  [[ -d "$dest_dir" ]] || mkdir -p "$dest_dir"
 
   echo "downloading: ${src_url}"
   if curl -fsSL -o "$tmp_file" "$src_url"; then
@@ -16,7 +18,7 @@ _replace_file_from_url() {
   else
     echo "download failed: $src_url" >&2
     rm -f "$tmp_file"
-    (( num_errors++ ))
+    ((num_errors++))
   fi
 }
 
@@ -26,17 +28,17 @@ _exists() {
   local found=0
 
   case "$ctype" in
-    file|-f) [[ -f "$target" ]] && found=1 ;;
-    dir|-d)  [[ -d "$target" ]] && found=1 ;;
-    cmd|-c)  (( $+commands[$target] )) && found=1 ;;
-    *) 
+    file | -f) [[ -f "$target" ]] && found=1 ;;
+    dir | -d) [[ -d "$target" ]] && found=1 ;;
+    cmd | -c) (($+commands[$target])) && found=1 ;;
+    *)
       echo "ERROR: unknown check type '$ctype'" >&2
-      (( num_errors++ ))
-      return 1 
+      ((num_errors++))
+      return 1
       ;;
   esac
 
-  if (( found )); then
+  if ((found)); then
     echo "exists: $target"
     return 0
   else
@@ -45,12 +47,17 @@ _exists() {
   fi
 }
 
-EZA_THEME_FILE=~/.config/eza/theme.yml
-_exists -f "$EZA_THEME_FILE" || _replace_file_from_url "$EZA_THEME_FILE" 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
+_download_file_if_missing() {
+  local theme_file="$1"
+  local theme_url="$2"
+  _exists -f "$theme_file" || _save_url "$theme_url" "$theme_file"
+}
+
+_download_file_if_missing ~/.config/eza/theme.yml 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
+_download_file_if_missing ~/.config/delta/theme.gitconfig 'https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig'
 
 if [[ $num_errors -gt 0 ]]; then
   return 1
 else
   return 0
 fi
-
