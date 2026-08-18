@@ -9,15 +9,7 @@
 !README.md
 
 # include the following
-!/bat/**
-!/brew/**
-!/delta/**
-!/eza/**
-!/fzf/**
-!/ghostty/**
-!/hunk/**
-!/lazygit/**
-!/nvim/**
+!config.toml
 
 # always ignore these
 **/.DS_Store
