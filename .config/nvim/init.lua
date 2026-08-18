@@ -9,6 +9,7 @@ vim.g.mapleader = ' '
 vim.pack.add({
   -- sort by repo name with `:sort /.*\// i`
   { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
+  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   'https://github.com/stevearc/conform.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://codeberg.org/andyg/leap.nvim',
@@ -168,7 +169,7 @@ require("blink.cmp").setup({
 
 --
 -- colorscheme
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin-mocha")
 
 
 --
