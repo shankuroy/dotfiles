@@ -2,6 +2,20 @@
 
 local num_errors=0
 
+_rebuild_symlink() {
+  local src="$1"
+  local dest="$2"
+
+  if [[ -f "$src" ]]; then
+    mkdir -p "${dest:h}"
+    ln -sf "$src" "$dest"
+    echo "created symlink: $dest -> $src"
+  else
+    echo "missing file: $src" >&2
+    ((num_errors++))
+  fi
+}
+
 _save_url() {
   local src_url="$1"
   local dest_file="$2"
@@ -56,8 +70,4 @@ _download_file_if_missing() {
 _download_file_if_missing ~/.config/eza/theme.yml 'https://raw.githubusercontent.com/eza-community/eza-themes/main/themes/catppuccin-mocha.yml'
 _download_file_if_missing ~/.config/delta/theme.gitconfig 'https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig'
 
-if [[ $num_errors -gt 0 ]]; then
-  return 1
-else
-  return 0
-fi
+return $((num_errors > 0))
