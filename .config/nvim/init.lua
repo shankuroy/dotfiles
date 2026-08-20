@@ -11,7 +11,6 @@ vim.pack.add({
   { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   'https://github.com/stevearc/conform.nvim',
-  'https://github.com/lewis6991/gitsigns.nvim',
   'https://codeberg.org/andyg/leap.nvim',
   'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git',
   'https://github.com/mason-org/mason.nvim.git',
@@ -29,18 +28,19 @@ vim.keymap.set({'n', 'x', 'o'}, '<leader>s', '<Plug>(leap)',    { desc = 'search
 
 --
 -- mini: misc plugins
+local mini_diff = require("mini.diff")
+mini_diff.setup()
+require('mini.git').setup()
 require('mini.surround').setup()
 require('mini.statusline').setup()
 require('mini.trailspace').setup()
 
 local function toggle_trailing_whitespace()
   vim.g.minitrailspace_disable = not vim.g.minitrailspace_disable
-  if vim.g.minitrailspace_disable then
-    MiniTrailspace.unhighlight()
-  else
-    MiniTrailspace.highlight()
-  end
+  MiniTrailspace[vim.g.minitrailspace_disable and 'unhighlight' or 'highlight']()
 end
+
+vim.keymap.set({'n'}, '<leader>td', mini_diff.toggle_overlay, { desc = 'toggle git diff' })
 
 vim.keymap.set({'n'}, '<leader>tt', toggle_trailing_whitespace, { desc = 'toggle trailing whitespace highlights' })
 vim.keymap.set({'n'}, '<leader>ts', MiniTrailspace.trim, { desc = 'trim trailing whitespace' })
