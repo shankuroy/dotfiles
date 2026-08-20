@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# .bashrc-debian
+#
+# run the following to source this in ~/.bashrc:
+# grep -qxF '~/.bashrc-debian' ~/.bashrc || echo '[[ -f ~/.bashrc-debian ]] && source ~/.bashrc-debian' >> ~/.bashrc
+
+
+# dev packages
+missing_packages=()
+
+# Usage: check_cmd <command> [package_name]
+check_cmd() {
+    # If a second argument isn't provided, use the first argument as the package name
+    command -v "$1" >/dev/null 2>&1 || missing_packages+=("${2:-$1}")
+}
+
+check_cmd fdfind fd-find
+check_cmd htop
+check_cmd jq
+check_cmd rg ripgrep
+check_cmd starship
+check_cmd tmux
+check_cmd yq
+
+if [[ ${#missing_packages[@]} -gt 0 ]]; then
+  echo "installing missing packages: ${missing_packages[@]}"
+  sudo apt-get update && sudo apt-get install -y "${missing_packages[@]}"
+fi
+
+if [[ -f ~/.local/bin/mise ]]; then
+  eval "$(~/.local/bin/mise activate bash)"
+else
+  echo "installing mise dev environments (https://mise.jdx.dev/getting-started.html)..."
+  curl https://mise.run | sh
+fi
+
+alias fd='fdfind'
+alias la='ls -lah'
+alias tmuxx='tmux new -As "$(hostname | tr "." "-")"'
+
+export EDITOR=vim
+
+# startship prompt (https://starship.rs)
+eval "$(starship init bash)"
+

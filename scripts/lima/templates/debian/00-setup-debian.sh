@@ -153,5 +153,5 @@ fi
 
 sshd -T | grep -Ei '^(permitrootlogin|passwordauthentication) '
 
-echo -e "\e[32m✅ Configuration complete. Security updates will install automatically.\e[0m"
+echo -e "\e[32m✔︎ Configuration complete. Security updates will install automatically.\e[0m"
 

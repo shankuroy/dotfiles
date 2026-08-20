@@ -27,4 +27,5 @@ provision:
   script: |
     #!/usr/bin/env bash
     [[ -L ~/repo ]] || ln -s /sync/repo ~/repo
+    grep -qxF '~/.bashrc-debian' ~/.bashrc || echo '[[ -f ~/.bashrc-debian ]] && source ~/.bashrc-debian' >> ~/.bashrc
 
