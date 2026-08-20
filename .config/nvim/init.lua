@@ -7,17 +7,20 @@ vim.g.mapleader = ' '
 --
 -- plugins
 vim.pack.add({
-  -- sort by repo name with `:sort /.*\// i`
-  { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
-  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-  'https://github.com/stevearc/conform.nvim',
-  'https://codeberg.org/andyg/leap.nvim',
-  'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git',
-  'https://github.com/mason-org/mason.nvim.git',
-  'https://github.com/nvim-mini/mini.nvim',
+  -- LSP
   'https://github.com/neovim/nvim-lspconfig.git',
+  'https://github.com/mason-org/mason.nvim.git',
+  'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git',
+  { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("^1") },
+  'https://github.com/stevearc/conform.nvim',
+  -- theme
+  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   'https://github.com/nvim-tree/nvim-web-devicons',
+  -- plugin collections
+  'https://github.com/nvim-mini/mini.nvim',
   'https://github.com/folke/snacks.nvim',
+  -- navigation
+  'https://codeberg.org/andyg/leap.nvim',
 })
 
 
