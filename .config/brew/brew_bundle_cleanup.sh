@@ -28,6 +28,12 @@ BASE_DIR="${HOME}/.config/brew"
 # Files
 CORE_FILE="${BASE_DIR}/Brewfile-core"
 OUTPUT_FILE="${BASE_DIR}/Brewfile"
+LAST_RUN_FILE="${BASE_DIR}/.last_run_epoch"
+
+if [[ -f "${LAST_RUN_FILE}" ]]; then
+  printf 'Last run: '
+  date -r "$(cat $LAST_RUN_FILE)"
+fi
 
 if [ "$1" == "--skip-mas" ]; then
   SKIP_MAS=1
@@ -92,6 +98,8 @@ brew bundle cleanup --verbose --force --file="${OUTPUT_FILE}"
 brew upgrade --no-ask
 brew cleanup
 brew autoremove
+
+date "+%s" > "${LAST_RUN_FILE}"
 
 echo "⭐️ DONE!"
 
