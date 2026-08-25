@@ -104,6 +104,6 @@ source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # --- profiling ---
-export ZSH_LOAD_DURATION=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 ))
+export ZSH_LOAD_DURATION_MS=$(( (EPOCHREALTIME - ZSH_START_TIME) * 1000 ))
 # zprof # uncomment this line to enable profiling
 
