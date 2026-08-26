@@ -18,6 +18,7 @@
 !/hunk/**
 !/lazygit/**
 !/nvim/**
+!/vicinae/**
 
 # always ignore these
 **/.DS_Store
