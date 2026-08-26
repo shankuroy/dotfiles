@@ -1,5 +1,8 @@
 # Brewfile-personal
 
+# taps
+tap "joshlin2201/itspaint", trusted: true
+
 # formulae
 brew "b2-tools"                         # Backblaze B2 CLI (https://www.backblaze.com/docs/cloud-storage-command-line-interface)
 brew "cloudflared"                      # Cloudflare tunnel client (https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/)
@@ -9,6 +12,7 @@ brew "mas"                              # Mac App Store CLI (https://github.com/
 # casks
 cask "affinity"                         # photo editing & vector drawing (https://www.affinity.studio/)
 cask "ilok-license-manager"             # iLok plugin license manager (https://www.ilok.com/#!license-manager)
+cask "joshlin2201/itspaint/itspaint"    # MS Paint for mac (https://github.com/joshlin2201/itspaint)
 cask "localsend"                        # share files on local network (https://localsend.org/)
 cask "logi-options+"                    # Logitech mouse config (https://www.logitech.com/en-au/software/logi-options-plus.html)
 cask "reaper"                           # DAW (https://www.reaper.fm/)
