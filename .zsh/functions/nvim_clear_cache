@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
-print -n "Deleting Neovim cache and state..."
-rm -rf "${HOME}/.cache/nvim" "${HOME}/.local/state/nvim" "${HOME}/.local/share/nvim"
-print "DONE"
+for p in \
+  "${HOME}/.cache/nvim" \
+  "${HOME}/.local/share/nvim" \
+  "${HOME}/.local/state/nvim" \
+  "${HOME}/.config/nvim/nvim-pack-lock.json"; do
+  rm -rf "$p"
+  echo "removed $p"
+done
