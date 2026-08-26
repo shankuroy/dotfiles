@@ -53,4 +53,5 @@ cask "obsidian"                           # markdown notes (https://obsidian.md/
 cask "raycast"                            # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                          # window management (https://github.com/rxhanson/Rectangle)
 cask "shottr"                             # screenshot tool (https://shottr.cc/)
+cask "vicinae"                            # spotlight replacement (https://www.vicinae.com/)
 
