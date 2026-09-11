@@ -6,8 +6,9 @@ cask_args appdir: "/Applications/Homebrew"
 
 # taps
 tap "Arthur-Ficial/tap", trusted: true
-tap "modem-dev/tap", trusted: true
 tap "agavra/tap", trusted: true
+tap "chang-07/tap", trusted: true
+tap "modem-dev/tap", trusted: true
 
 # formulae
 brew "Arthur-Ficial/tap/apfel"            # CLI access to Apple's on-device LLM (https://apfel.franzai.com/)
@@ -50,6 +51,7 @@ cask "keka"                               # archive tool (https://www.keka.io/en
 cask "middleclick"                        # trackpad 3-finger tap to middle click (https://github.com/artginzburg/MiddleClick)
 cask "monitorcontrol"                     # control brightness/sound on ext monitors (https://github.com/MonitorControl/MonitorControl)
 cask "obsidian"                           # markdown notes (https://obsidian.md/)
+cask "chang-07/tap/rascal"                # keyboard-centric finder alternative (https://tryrascal.org/)
 cask "raycast"                            # MacOS Spotlight replacement (https://www.raycast.com/)
 cask "rectangle"                          # window management (https://github.com/rxhanson/Rectangle)
 cask "shottr"                             # screenshot tool (https://shottr.cc/)

@@ -30,10 +30,14 @@ CORE_FILE="${BASE_DIR}/Brewfile-core"
 OUTPUT_FILE="${BASE_DIR}/Brewfile"
 LAST_RUN_FILE="${BASE_DIR}/.last_run_epoch"
 
-if [[ -f "${LAST_RUN_FILE}" ]]; then
-  printf 'Last run: '
-  date -r "$(cat $LAST_RUN_FILE)"
-fi
+print_last_run() {
+  if [[ -f "${LAST_RUN_FILE}" ]]; then
+    printf 'Last run: '
+    date -r "$(tail -1 $LAST_RUN_FILE)"
+  fi
+}
+
+print_last_run
 
 if [ "$1" == "--skip-mas" ]; then
   SKIP_MAS=1
@@ -99,7 +103,9 @@ brew upgrade --no-ask
 brew cleanup
 brew autoremove
 
-date "+%s" > "${LAST_RUN_FILE}"
+print_last_run
+date "+%s" >> "${LAST_RUN_FILE}"
+print_last_run
 
 echo "⭐️ DONE!"
 
