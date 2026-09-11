@@ -104,7 +104,7 @@ require("mason-tool-installer").setup({
     "swiftlint",
   },
   auto_update = true,
-  run_on_start = true,
+  run_on_start = false,
 })
 
 -- auto-clean tools that fall off ensure_installed
